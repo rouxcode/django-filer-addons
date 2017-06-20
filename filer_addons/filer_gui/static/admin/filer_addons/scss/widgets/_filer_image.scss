@@ -1,0 +1,49 @@
+.filer-gui-file-widget {
+
+    .preview {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        width: 160px;
+        height: 100px;
+        margin: 0 20px 0 0;
+        text-align: center;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 1px;
+            height: 100%;
+            margin-left: -1px;
+        }
+    }
+
+    .info {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        width: 300px;
+        margin: 0 20px 0 0;
+    }
+
+    .tools {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        margin: 0 40px 0 0;
+
+        .label {
+            display: none;
+        }
+    }
+
+    .uploader {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: top;
+        width: 160px;
+        height: 100px;
+        margin: 0 20px 0 0;
+    }
+}
