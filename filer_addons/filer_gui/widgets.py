@@ -8,9 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from filer import settings as filer_settings
 from filer.fields.file import AdminFileWidget
-from filer.models import File
 
 
 logger = logging.getLogger(__name__)
@@ -18,20 +16,12 @@ logger = logging.getLogger(__name__)
 
 class FilerGuiFileWidget(AdminFileWidget):
 
-    template_name = 'admin/filer_gui/widgets/admin_file.html'
+    template_name = 'admin/filer_gui/widgets/admin_file_original.html'
 
     class Media:
         css = {
             'all': [
-                'admin/filer_addons/css/filer_gui.css',
-            ]
-        }
-
-        """
-        css = {
-            'all': [
-                'filer/css/admin_filer.css',
-                'admin/filer_addons/css/filer_gui.css',
+                'admin/filer_gui/css/filer_gui.css',
             ]
         }
         js = (
@@ -40,7 +30,6 @@ class FilerGuiFileWidget(AdminFileWidget):
             'filer/js/addons/popup_handling.js',
             'filer/js/addons/widget.js',
         )
-        """
 
     def get_url_params(self):
         params = self.url_parameters()
@@ -83,4 +72,4 @@ class FilerGuiFileWidget(AdminFileWidget):
 
 
 class FilerGuiImageWidget(FilerGuiFileWidget):
-    template_name = 'admin/filer_gui/widgets/admin_image.html'
+    template_name = 'admin/filer_gui/widgets/admin_image_original.html'

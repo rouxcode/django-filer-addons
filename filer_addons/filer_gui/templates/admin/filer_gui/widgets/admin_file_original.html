@@ -31,19 +31,17 @@
                 &nbsp;<span class="description_text"></span>
             {% endif %}
 
-            <img class="filerClearer {% if not object %}hidden{% endif %}" src="{% static admin_icon_delete %}"
-                 width="10" height="10" alt="{% trans 'Clear' %}" title="{% trans 'Clear' %}"
-                 data-no-icon-file="{% static 'filer/icons/nofile_48x48.png' %}">
+            <span class="filerClearer {% if not object %}hidden{% endif %}" title="{% trans 'Clear' %}">{% include 'admin/filer_gui/svg/icon-close.svg' %}</span>
 
             <a href="{{ lookup_url }}" class="js-related-lookup related-lookup {% if object %}related-lookup-change{% endif %} lookup" id="{{ id }}_lookup"
                title="{% trans 'Lookup' %}"{% if LTE_DJANGO_1_7 %} onclick="return showRelatedObjectLookupPopup(this);"{% endif %}>
                 <span class="choose-file"><span class="fa fa-picture-o"></span>{% trans 'Choose File' %}</span>
-                <span class="edit-file"><span class="fa fa-pencil"></span></span>
+                <span class="edit-file"><span class="fa fa-search"></span></span>
             </a>
 
             <br>
 
-            {{ hidden_input }}
+            {{ rawid_input }}
             <script type="text/javascript" id="{{id}}_javascript">
                 django.jQuery(document).ready(function(){
                     var plus = django.jQuery('#add_{{ id }}');
