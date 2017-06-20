@@ -12,10 +12,19 @@ from django.utils.safestring import mark_safe
 logger = logging.getLogger(__name__)
 
 
-# TODO get rid of filer code and implement rawid field
 class FilerGuiFileWidget(ForeignKeyRawIdWidget):
     """
     Adwanced ForeignKeyRawIdWidget with preview and nice select
+    new version
+    """
+    template_name = 'admin/filer_gui/widgets/admin_file.html'
+
+
+# TODO get rid of filer code and implement rawid field
+class FilerGuiFileWidgetOld(ForeignKeyRawIdWidget):
+    """
+    Adwanced ForeignKeyRawIdWidget with preview and nice select
+    old version based und django-filer
     """
 
     template_name = 'admin/filer_gui/widgets/admin_file.html'
