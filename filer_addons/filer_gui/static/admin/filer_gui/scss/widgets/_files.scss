@@ -1,0 +1,45 @@
+.filer-gui-file-widget {
+    position: relative;
+    box-sizing: border-box;
+
+    .widget-column {
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+
+    .preview {
+        width: auto;
+        margin: 0;
+        padding: 0 20px 0 0;
+
+        .label {
+            margin: 0 0 0 10px;
+        }
+    }
+
+    .icon-img {
+        height: 35px;
+        width: auto;
+    }
+
+    .info {
+        width: 300px;
+        margin: 0;
+        padding: 0 20px;
+    }
+
+    .tools {
+        margin: 0;
+        padding: 0 10px;
+
+        .label {
+            display: none;
+        }
+    }
+
+    .uploader {
+        margin: 0;
+        padding: 0 20px;
+    }
+}

@@ -1,0 +1,14 @@
+.fg-button,
+a.fg-button {
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    height: 35px;
+    padding: 8px 10px;
+    line-height: 15px;
+    margin: 0 10px;
+
+    .svg-icon {
+        fill: #fff;
+    }
+}

@@ -1,28 +1,41 @@
 {% spaceless %}
 {% load i18n filer_admin_tags staticfiles thumbnail %}
     <div class="filer-gui-file-widget">
-        {{ rawid_input }}
-        <div class="preview">
-            {% if object %}
-                {% if object.file_type == 'Image' and object.icons.32 %}
-                    {% thumbnail object 160x100 as thumb %}
-                    <img class="thumbnail-img" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
-                {% elif object.icons.32 %}
-                    <img class="icon-img" src="{{ object.icons.48 }}" alt="{{ object.label }}">
+        <div class="rawid-field">{{ rawid_input }}</div>
+        <div class="widget-column preview">
+            {% block preview %}
+                {% if object %}
+                    {% if object.icons.32 %}
+                        <img class="icon-img" src="{{ object.icons.48 }}" alt="{{ object.label }}">
+                        <span class="label">{{ object.label }}</span>
+                    {% else %}
+                        <span class="missing-file">{% trans 'File is missing' %}</span>
+                    {% endif %}
                 {% else %}
-                    <span class="missing-file">{% trans 'File is missing' %}</span>
+                    <span class="no-file">{% trans 'No file' %}</span>
                 {% endif %}
-            {% else %}
-                <span class="no-file">{% trans 'No file' %}</span>
-            {% endif %}
+            {% endblock %}
         </div>
-        <div class="tools">
-            <a class="button tool" href="{{ lookup_url }}" target="_blank">
+        <div class="widget-column tools">
+            <a class="button fg-button" href="{{ lookup_url }}" target="_blank">
                 {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
                 <span class="label">{% trans 'Choose File' %}</span>
             </a>
+            <a class="button fg-button" target="_blank">
+                {% include 'admin/filer_gui/svg/icon-upload.svg' %}
+                <span class="label">{% trans 'Upload File' %}</span>
+            </a>
+            {% comment %}
+            <a class="button fg-button related-widget-wrapper-link change-related" id="change_id_{{ name }}" data-href-template="{{ change_related_template_url }}?{{ url_params }}" title="{% blocktrans %}Change selected {{ model }}{% endblocktrans %}">
+                {% include 'admin/filer_gui/svg/icon-edit.svg' %}
+                <span class="label">{% trans 'Edit File' %}</span>
+            </a>
+            {% endcomment %}
         </div>
-        <div class="uploader">
+
+
+        {% comment %}
+        <div class="widget-column uploader">
             <div class="filergui-widget-dropzone">
                 <div class="dz-default dz-message">
                     <span>{% trans "drop your file here" %}</span>
@@ -36,7 +49,8 @@
                 </span>
             </div>
         </div>
-        <div class="info">
+
+        <div class="widget-column info">
             {% if object %}
                 <div class="name">
                     <span class="label">{% trans 'Name' %}: </span>
@@ -50,5 +64,6 @@
                 {% endif %}
             {% endif %}
         </div>
+        {% endcomment %}
     </div>
 {% endspaceless %}
