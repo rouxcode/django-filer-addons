@@ -33,23 +33,23 @@
 
             <span class="filerClearer {% if not object %}hidden{% endif %}" title="{% trans 'Clear' %}">{% include 'admin/filer_gui/svg/icon-close.svg' %}</span>
 
-            <a href="{{ lookup_url }}" class="js-related-lookup related-lookup {% if object %}related-lookup-change{% endif %} lookup" id="{{ id }}_lookup"
+            <a href="{{ lookup_url }}" class="js-related-lookup related-lookup {% if object %}related-lookup-change{% endif %} lookup" id="{{ css_id }}_lookup"
                title="{% trans 'Lookup' %}"{% if LTE_DJANGO_1_7 %} onclick="return showRelatedObjectLookupPopup(this);"{% endif %}>
-                <span class="choose-file"><span class="fa fa-picture-o"></span>{% trans 'Choose File' %}</span>
+                <span class="choose-file"><span class="fa fa-search"></span>{% trans 'Choose File' %}</span>
                 <span class="edit-file"><span class="fa fa-search"></span></span>
             </a>
 
             <br>
 
             {{ rawid_input }}
-            <script type="text/javascript" id="{{id}}_javascript">
+            <script type="text/javascript" id="{{ css_id }}_javascript">
                 django.jQuery(document).ready(function(){
-                    var plus = django.jQuery('#add_{{ id }}');
+                    var plus = django.jQuery('#add_{{ css_id }}');
                     if (plus.length){
                         plus.remove();
                     }
                     // Delete this javascript once loaded to avoid the "add new" link duplicates it
-                    django.jQuery('#{{id}}_javascript').remove();
+                    django.jQuery('#{{ css_id }}_javascript').remove();
                 });
             </script>
         </span>
