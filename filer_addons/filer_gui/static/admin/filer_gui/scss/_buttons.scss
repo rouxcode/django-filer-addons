@@ -3,13 +3,30 @@ a.fg-button {
     display: inline-block;
     vertical-align: middle;
     box-sizing: border-box;
-    width: auto;
-    height: 35px;
+    width: 16px;
+    height: 16px;
     padding: 8px 10px;
     line-height: 15px;
     margin: 0 10px;
+    border: none;
+    background: none;
+    background-position: center;
+    background-repeat: no-repeat;
 
     .svg-icon {
+        display: none;
         fill: #fff;
+    }
+
+    &.related-lookup {
+        background-image: url(../../img/selector-search.gif);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &.related-lookup {
+        background-image: url(../../img/selector-search.gif);
+        background-position: center;
+        background-repeat: no-repeat;
     }
 }

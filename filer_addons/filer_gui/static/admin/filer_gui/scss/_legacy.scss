@@ -1,9 +1,23 @@
 .fg-button,
 a.fg-button {
-    height: 31px;
-    padding: 4px 6px;
+    width: 16px;
+    height: 16px;
+    padding: 8px 4px;
+    cursor: pointer;
 
     .svg-icon {
         fill: #000;
+    }
+
+    &.add-related {
+        background-image: url(../../img/icon_addlink.gif);
+    }
+
+    &.change-related {
+        background-image: url(../../img/icon_changelink.gif);
+    }
+
+    &.related-lookup {
+        background-image: url(../../img/selector-search.gif);
     }
 }

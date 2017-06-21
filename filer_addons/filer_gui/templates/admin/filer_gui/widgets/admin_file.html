@@ -17,11 +17,15 @@
             {% endblock %}
         </div>
         <div class="widget-column tools">
-            <a id="lookup_id_{{ widget.name }}" class="related-lookup button fg-button" href="{{ related_url }}" title="{{ link_title }}">
+            <a id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup" href="{{ related_url }}" title="{{ link_title }}">
                 {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
                 <span class="label">{% trans 'Choose File' %}</span>
             </a>
-            <a class="button fg-button" target="_blank">
+            <a class="button fg-button change-related">
+                {% include 'admin/filer_gui/svg/icon-upload.svg' %}
+                <span class="label">{% trans 'Edit File' %}</span>
+            </a>
+            <a class="button fg-button add-related">
                 {% include 'admin/filer_gui/svg/icon-upload.svg' %}
                 <span class="label">{% trans 'Upload File' %}</span>
             </a>
