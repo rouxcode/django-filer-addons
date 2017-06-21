@@ -1,11 +1,17 @@
 .filer-gui-file-widget {
     position: relative;
+    display: inline-block;
+    vertical-align: middle;
     box-sizing: border-box;
 
     .widget-column {
         display: inline-block;
         box-sizing: border-box;
         vertical-align: middle;
+    }
+
+    .rawid-field {
+        padding: 0 20px 0 0;
     }
 
     .preview {
