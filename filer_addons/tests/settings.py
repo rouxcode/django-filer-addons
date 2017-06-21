@@ -60,6 +60,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     'django.contrib.staticfiles',
+    'easy_thumbnails',
+    'filer',
+    'mptt',
+    'polymorphic',
     'filer_addons',
     'filer_addons.filer_gui',
     'filer_addons.filer_signals',
@@ -71,3 +75,29 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
+
+
+# =============================================================================
+# DJANGO FILER settings
+# =============================================================================
+
+FILER_IS_PUBLIC_DEFAULT = True
+FILER_PAGINATE_BY = 200
+FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
+FILER_STORAGES = {
+    'public': {
+        'main': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {},
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
+            'UPLOAD_TO_PREFIX': 'filer',
+        },
+        'thumbnails': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {},
+            'THUMBNAIL_OPTIONS': {
+                'base_dir': 'filer_thumbnails',
+            },
+        },
+    },
+}
