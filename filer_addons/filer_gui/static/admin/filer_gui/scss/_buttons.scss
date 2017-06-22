@@ -22,6 +22,11 @@ a.fg-button {
         background-repeat: no-repeat;
     }
 
+    &.inactive {
+        opacity: 0.5;
+        cursor: default;
+    }
+
     &.add-related-filer {
         background-image: url(../../img/icon-addlink.svg);
     }

@@ -61,20 +61,41 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
         )
         file_object = self.file_object_for_value(value)
         rawid_input = self.get_rawid_input(name, value, attrs)
-        params = self.get_url_parameters(params={'_pick': 'file'})
-        if params:
-            url = '?' + '&amp;'.join(
-                '{}={}'.format(k, v) for k, v in params.items()
-            )
-        else:
-            url = ''
+
         context.update({
             'file_type': self.file_type,
             'file_object': file_object,
             'rawid_input': rawid_input,
-            'lookup_url': '{}{}'.format(self.get_lookup_url(file_object), url),
+            'lookup_url': '{}{}'.format(
+                self.get_lookup_url(file_object),
+                self.get_lookup_url_params_as_str()
+            ),
+            'edit_url_template': '{}{}'.format(
+                self.get_edit_url_template(),
+                self.get_edit_url_params_as_str()
+            ),
         })
         return context
+
+    def get_edit_url_template(self):
+        opts = self.rel.model._meta
+        url = reverse(
+            "admin:{}_{}_{}".format(opts.app_label, self.file_type, 'change'),
+            current_app=self.admin_site.name,
+            args=['__fk__']
+        )
+        return url
+
+    def get_edit_url_params_as_str(self):
+        params = self.url_parameters()
+        params['_popup'] = 1
+        if params:
+            url = '?' + '&'.join(
+                '{}={}'.format(k, v) for k, v in params.items()
+            )
+        else:
+            url = ''
+        return url
 
     def get_lookup_url(self, obj=None):
         # TODO check what file list display we need to show
@@ -82,6 +103,17 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             url = obj.logical_folder.get_admin_directory_listing_url_path()
         else:
             url = reverse('admin:filer-directory_listing-last')
+        return url
+
+    def get_lookup_url_params_as_str(self):
+        params = self.url_parameters()
+        params['_pick'] = 'file'
+        if params:
+            url = '?' + '&'.join(
+                '{}={}'.format(k, v) for k, v in params.items()
+            )
+        else:
+            url = ''
         return url
 
     def get_rawid_input(self, name, value, attrs):
@@ -102,37 +134,22 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             obj = None
         return obj
 
-    def get_url_parameters(self, params):
-        default = self.url_parameters()
-        default.update(params)
-        return default
-
     def legacy_render(self, name, value, attrs=None):
-        rel_to = self.rel.to
         file_object = self.file_object_for_value(value)
         if attrs is None:
             attrs = {}
-        if rel_to in self.admin_site._registry:
-            related_url = reverse(
-                'admin:{}_{}_changelist'.format(
-                    rel_to._meta.app_label,
-                    rel_to._meta.model_name,
-                ),
-                current_app=self.admin_site.name,
-            )
-            params = self.get_url_parameters(params={'_pick': 'file'})
-            if params:
-                url = '?' + '&amp;'.join(
-                    '{}={}'.format(k, v) for k, v in params.items()
-                )
-            else:
-                url = ''
         context = {
             'file_object': file_object,
             'file_type': self.file_type,
             'rawid_input': self.get_rawid_input(name, value, attrs),
-            'related_url': '{}{}'.format(related_url, url),
-            'lookup_url': '{}{}'.format(self.get_lookup_url(file_object), url),
+            'lookup_url': '{}{}'.format(
+                self.get_lookup_url(file_object),
+                self.get_lookup_url_params_as_str()
+            ),
+            'edit_url_template': '{}{}'.format(
+                self.get_edit_url_template(),
+                self.get_edit_url_params_as_str()
+            ),
             'widget': {
                 'name': name,
             },

@@ -1,6 +1,6 @@
 {% spaceless %}
 {% load i18n filer_admin_tags staticfiles thumbnail %}
-    <div class="filer-gui-file-widget" data-file-type="{{ file_type }}" data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}">
+    <div class="filer-gui-file-widget" data-file-type="{{ file_type }}" data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}" data-text-no-file="{% trans 'No file' %}">
         <div class="widget-column rawid-field">{{ rawid_input }}</div>
         <div class="widget-column preview">
             {% block preview %}
@@ -17,13 +17,13 @@
             {% endblock %}
         </div>
         <div class="widget-column tools">
+            <a class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
+                {% include 'admin/filer_gui/svg/icon-upload.svg' %}
+                <span class="label">{% trans 'Edit File' %}</span>
+            </a>
             <a id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}" title="{{ link_title }}">
                 {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
                 <span class="label">{% trans 'Choose File' %}</span>
-            </a>
-            <a class="button fg-button edit-related-filer">
-                {% include 'admin/filer_gui/svg/icon-upload.svg' %}
-                <span class="label">{% trans 'Edit File' %}</span>
             </a>
             <a class="button fg-button add-related-filer">
                 {% include 'admin/filer_gui/svg/icon-upload.svg' %}

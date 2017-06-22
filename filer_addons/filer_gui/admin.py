@@ -42,6 +42,7 @@ class FilerGuiAdmin(admin.ModelAdmin):
             data = {
                 'message': 'ok',
                 'file': {
+                    'file_id': obj.id,
                     'thumb_url': thumb_url,
                     'file_url': obj.url,
                     'label': obj.label

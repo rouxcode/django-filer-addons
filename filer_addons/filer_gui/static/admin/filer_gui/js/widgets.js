@@ -7,6 +7,9 @@ var FilerGuiWidgets = (function($){
     var $body;
     var $doc = $(document);
     var widget_map = {};
+    var events = {
+        lookup_changed: $.Event('filer-gui:lookup-changed')
+    };
 
     $.fn.filer_gui_file_widget = plugin;
 
@@ -27,6 +30,9 @@ var FilerGuiWidgets = (function($){
         var widget = this;
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
+        widget._text = {
+            'no_file': widget.$.data('text-no-file')
+        }
         widget._urls = {
             file_detail: widget.$.data('file-detail-url')
         }
@@ -41,11 +47,32 @@ var FilerGuiWidgets = (function($){
         // remove django default related links
         $('> .related-widget-wrapper-link', widget.$parent).remove();
 
+        // setup links initialy
+        update_links(widget);
+
+        // catch events
+        widget.$.on('filer-gui:lookup-changed', on_lookup_changed);
         widget.$add.on('click', add);
         widget.$edit.on('click', edit);
         widget.$lookup.on('click', lookup);
 
         return widget;
+    };
+
+    function on_lookup_changed(e) {
+        update_links(this);
+    };
+
+    function update_links(widget) {
+        var value = widget.$rawid.val();
+        var tmpl = widget.$edit.data('href-template');
+        if(value) {
+            console.log(value)
+            widget.$edit.attr('href', tmpl.replace('__fk__', value)).removeClass('inactive');
+        } else {
+            widget.$edit.removeAttr('href').addClass('inactive');
+            widget.$preview.html('<span class="no-file">' + widget._text.no_file + '</span>');
+        }
     };
 
     function add(e) {
@@ -55,15 +82,35 @@ var FilerGuiWidgets = (function($){
 
     function edit(e) {
         e.preventDefault();
-        console.log('edschit')
+        var event = $.Event('django:change-related');
+        $(this).trigger(event);
+        show_related_object_popup(this);
     };
 
     function lookup(e) {
         e.preventDefault();
         var event = $.Event('django:lookup-related');
         $(this).trigger(event);
-        showRelatedObjectLookupPopup(this)
+        showRelatedObjectLookupPopup(this);
     };
+
+    function show_related_object_popup(link) {
+        var href = link.href;
+        var name = id_to_windowname(link.id.replace(/^lookup_/, ''));
+        var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+        win.focus();
+
+        // TODO find a proper way to close the file change popup
+        win.onunload = dissmiss_related_window;
+
+        function dissmiss_related_window(e) {
+            if(e.target.URL !== 'about:blank') {
+                win.close()
+            }
+        }
+    };
+
+
 
     function dissmiss_lookup_window(win, obj_id, thumb_url, file_name) {
         var conf;
@@ -71,40 +118,40 @@ var FilerGuiWidgets = (function($){
         var id = window.windowname_to_id(win.name);
         var widget = widget_map[id];
 
-        win.close();
-
         if(widget) {
             widget.$rawid.val(obj_id);
-            if(widget._file_type === 'file') {
-                widget.$preview.html(
-                    '<img class="icon-img" src="' + thumb_url + '" alt="' + file_name + '">'
-                  + '<span class="label">' + file_name + '</span>'
-                )
-            } else if(widget._file_type === 'image') {
-                conf = {
-                    url: widget._urls.file_detail,
-                    method: 'POST',
-                    success: on_success,
-                    data: {
-                        filer_file: obj_id,
-                        csrfmiddlewaretoken: csrf,
-                    }
+            conf = {
+                url: widget._urls.file_detail,
+                method: 'POST',
+                success: update_preview,
+                data: {
+                    filer_file: obj_id,
+                    csrfmiddlewaretoken: csrf,
                 }
-                request = $.ajax(conf);
             }
+            request = $.ajax(conf);
         }
 
-        function on_success(data, status, xhr) {
+        win.close();
+
+        function update_preview(data, status, xhr) {
+            var html;
             if(data.message === 'ok') {
-                widget.$preview.html(
-                    '<img class="thumbnail-img" src="'
-                    + data.file.thumb_url
-                    + '" alt="' + data.file.label
-                    + '">'
-                    + '<span class="label">'
-                    + data.file.label
-                    + '</span>'
-                )
+                if(widget._file_type === 'image') {
+                    html = '<img class="thumbnail-img"'
+                         + ' src="' + data.file.thumb_url + '"'
+                         + ' alt="' + data.file.label + '">'
+                         + '<span class="label">'
+                         + data.file.label
+                         + '</span>';
+                } else {
+                    html = '<img class="icon-img"'
+                         + ' src="' + thumb_url + '"'
+                         + ' alt="' + file_name + '">'
+                         + '<span class="label">' + file_name + '</span>'
+                }
+                widget.$preview.html(html);
+                widget.$.trigger(events.lookup_changed);
             } else {
                 console.error(data.error);
             }
