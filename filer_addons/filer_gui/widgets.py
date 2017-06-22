@@ -10,7 +10,8 @@ from django.utils.safestring import mark_safe
 
 
 logger = logging.getLogger(__name__)
-django_legacy = django.VERSION < (1, 9)
+DJANGO_LEGACY = django.VERSION < (1, 9)
+THUMBNAIL_SIZE = (192, 144)
 
 
 class FilerGuiFileWidget(ForeignKeyRawIdWidget):
@@ -19,10 +20,12 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
     new version
     """
 
+    # TODO find a better way do determin the file_type
+    file_type = 'file'  # needet for widget html data and js
     template_name = 'admin/filer_gui/widgets/admin_file.html'
 
     class Media:
-        if django_legacy:
+        if DJANGO_LEGACY:
             css = {
                 'all': [
                     'admin/filer_gui/css/filer_gui_legacy.css',
@@ -58,9 +61,18 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
         )
         file_object = self.file_object_for_value(value)
         rawid_input = self.get_rawid_input(name, value, attrs)
+        params = self.get_url_parameters(params={'_pick': 'file'})
+        if params:
+            url = '?' + '&amp;'.join(
+                '{}={}'.format(k, v) for k, v in params.items()
+            )
+        else:
+            url = ''
         context.update({
+            'file_type': self.file_type,
             'file_object': file_object,
             'rawid_input': rawid_input,
+            'lookup_url': '{}{}'.format(self.get_lookup_url(file_object), url),
         })
         return context
 
@@ -73,7 +85,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
         return url
 
     def get_rawid_input(self, name, value, attrs):
-        attrs.setdefault('class', 'vForeignKeyRawIdAdminField')
+        attrs.setdefault('class', 'rawid-input')
         attrs_str = ' '.join('{}="{}"'.format(k, v) for k, v in attrs.items())
         html = '<input type="text" name="{}" value="{}" {}/>'.format(
             name,
@@ -90,6 +102,11 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             obj = None
         return obj
 
+    def get_url_parameters(self, params):
+        default = self.url_parameters()
+        default.update(params)
+        return default
+
     def legacy_render(self, name, value, attrs=None):
         rel_to = self.rel.to
         file_object = self.file_object_for_value(value)
@@ -103,8 +120,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
                 ),
                 current_app=self.admin_site.name,
             )
-
-            params = self.url_parameters()
+            params = self.get_url_parameters(params={'_pick': 'file'})
             if params:
                 url = '?' + '&amp;'.join(
                     '{}={}'.format(k, v) for k, v in params.items()
@@ -113,6 +129,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
                 url = ''
         context = {
             'file_object': file_object,
+            'file_type': self.file_type,
             'rawid_input': self.get_rawid_input(name, value, attrs),
             'related_url': '{}{}'.format(related_url, url),
             'lookup_url': '{}{}'.format(self.get_lookup_url(file_object), url),
@@ -124,4 +141,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
 
 
 class FilerGuiImageWidget(FilerGuiFileWidget):
+
+    # TODO find a better way do determin the file_type
+    file_type = 'image'  # needet for widget html data and js
     template_name = 'admin/filer_gui/widgets/admin_image.html'

@@ -9,15 +9,15 @@ a.fg-button {
         fill: #000;
     }
 
-    &.add-related {
+    &.add-related-filer {
         background-image: url(../../img/icon_addlink.gif);
     }
 
-    &.change-related {
+    &.edit-related-filer {
         background-image: url(../../img/icon_changelink.gif);
     }
 
-    &.related-lookup {
+    &.related-lookup-filer {
         background-image: url(../../img/selector-search.gif);
     }
 }

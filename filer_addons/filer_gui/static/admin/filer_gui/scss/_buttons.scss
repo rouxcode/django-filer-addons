@@ -10,23 +10,32 @@ a.fg-button {
     margin: 0 10px;
     border: none;
     background: none;
+    background-color: transparent;
     background-position: center;
     background-repeat: no-repeat;
+
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: transparent;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    &.add-related-filer {
+        background-image: url(../../img/icon-addlink.svg);
+    }
+
+    &.edit-related-filer {
+        background-image: url(../../img/icon-changelink.svg);
+    }
+
+    &.related-lookup-filer {
+        background-image: url(../../img/search.svg);
+    }
 
     .svg-icon {
         display: none;
         fill: #fff;
-    }
-
-    &.related-lookup {
-        background-image: url(../../img/selector-search.gif);
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    &.related-lookup {
-        background-image: url(../../img/selector-search.gif);
-        background-position: center;
-        background-repeat: no-repeat;
     }
 }

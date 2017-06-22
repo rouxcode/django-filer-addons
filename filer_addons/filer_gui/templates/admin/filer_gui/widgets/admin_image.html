@@ -5,6 +5,7 @@
         {% if file_object.file_type == 'Image' and file_object.icons.32 %}
             {% thumbnail file_object 192x144 as thumb %}
             <img class="thumbnail-img" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            <span class="label">{{ file_object.label }}</span>
         {% elif file_object.icons.32 %}
             <img class="icon-img" src="{{ file_object.icons.48 }}" alt="{{ file_object.label }}">
         {% else %}
