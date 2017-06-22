@@ -17,7 +17,7 @@
             {% endblock %}
         </div>
         <div class="widget-column tools">
-            <a class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
+            <a id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
                 {% include 'admin/filer_gui/svg/icon-upload.svg' %}
                 <span class="label">{% trans 'Edit File' %}</span>
             </a>

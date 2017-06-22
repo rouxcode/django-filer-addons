@@ -31,21 +31,26 @@ class FilerGuiAdmin(admin.ModelAdmin):
 
     def file_detail_json_view(self, request):
         form = FilerGuiFileSelectForm(request.POST)
+        print form.is_valid(), form.errors
         if form.is_valid():
             obj = form.cleaned_data.get('filer_file')
+            print obj.file_type
             if obj.file_type == 'Image':
+                print getattr(obj, 'easy_thumbnails_thumbnailer', 'blupper')
                 th = obj.easy_thumbnails_thumbnailer
                 thumb = th.get_thumbnail({'size': THUMBNAIL_SIZE})
+                print thumb, thumb.url
                 thumb_url = thumb.url
             else:
                 thumb_url = obj.icons['48']
             data = {
                 'message': 'ok',
                 'file': {
+                    'label': obj.label,
                     'file_id': obj.id,
-                    'thumb_url': thumb_url,
                     'file_url': obj.url,
-                    'label': obj.label
+                    'icon_url': obj.icons['48'],
+                    'thumb_url': thumb_url,
                 },
             }
         else:
