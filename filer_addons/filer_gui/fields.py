@@ -24,7 +24,6 @@ logger = logging.getLogger(__name__)
 
 
 class AdminFileFormField(BaseFileFormField):
-    # TODO accept instance
     widget = FilerGuiFileWidget
 
     def __init__(self, rel, queryset, to_field_name, *args, **kwargs):

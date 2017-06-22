@@ -98,7 +98,6 @@ var FilerGuiWidgets = (function($){
         // TODO find a proper way to close the file change popup
         win.onunload = dissmiss_related_window;
 
-        // TODO implement an update for the icon/thumbnail and label
         function dissmiss_related_window(e) {
             if(e.target.URL !== 'about:blank') {
                 win.close();
@@ -142,12 +141,14 @@ var FilerGuiWidgets = (function($){
             var url;
             if(data.message === 'ok') {
                 if(widget._file_type === 'image') {
+                    css = 'thumbnail-img'
                     url = data.file.thumb_url;
                 } else {
+                    css = 'icon-img'
                     url = data.file.icon_url;
                 }
                 widget.$preview.html(
-                    '<img class="thumbnail-img" src="' + url + '" alt="' + data.file.label + '">'
+                    '<img class="' + css + '" src="' + url + '" alt="' + data.file.label + '">'
                   + '<span class="label">' + data.file.label + '</span>'
                 );
                 update_links(widget);
