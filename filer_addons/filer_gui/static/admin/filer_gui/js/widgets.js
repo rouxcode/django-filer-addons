@@ -103,14 +103,13 @@ var FilerGuiWidgets = (function($){
         // TODO find a proper way to close the file change popup
         win.onunload = dissmiss_related_window;
 
+        // TODO implement an update for the icon/thumbnail and label
         function dissmiss_related_window(e) {
             if(e.target.URL !== 'about:blank') {
                 win.close()
             }
         }
     };
-
-
 
     function dissmiss_lookup_window(win, obj_id, thumb_url, file_name) {
         var conf;
