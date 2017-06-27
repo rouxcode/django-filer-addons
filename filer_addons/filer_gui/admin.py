@@ -26,6 +26,11 @@ class FilerGuiAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(self.file_detail_json_view),
                 name='file_detail_json_for_id'
             ),
+            url(
+                r'^file-upload/$',
+                self.admin_site.admin_view(self.file_upload_view),
+                name='file_upload'
+            ),
         ]
         return urls
 
@@ -54,6 +59,18 @@ class FilerGuiAdmin(admin.ModelAdmin):
                 'message': 'error',
                 'error': 'no valid file id',
             }
+        return JsonResponse(data=data)
+
+    def file_upload_view(self, request):
+        data = {}
+        files = getattr(request, 'FILES')
+        if not files:
+            data = {
+                'message': 'error',
+                'error': 'no file'
+            }
+        else:
+            print files
         return JsonResponse(data=data)
 
     def get_model_perms(self, *args, **kwargs):

@@ -14,6 +14,7 @@ DJANGO_LEGACY = django.VERSION < (1, 9)
 THUMBNAIL_SIZE = (192, 144)
 
 
+# TODO remove all file_type related code
 class FilerGuiFileWidget(ForeignKeyRawIdWidget):
     """
     Advanced ForeignKeyRawIdWidget with preview and nice select
@@ -38,6 +39,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
                 ]
             }
         js = [
+            'admin/filer_gui/js/dropzone.js',
             'admin/filer_gui/js/widgets.js',
         ]
 
@@ -143,7 +145,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             'file_type': self.file_type,
             'rawid_input': self.get_rawid_input(name, value, attrs),
             'lookup_url': '{}{}'.format(
-                self.get_lookup_url(file_object),
+                self.get_lookup_url(),
                 self.get_lookup_url_params_as_str()
             ),
             'edit_url_template': '{}{}'.format(

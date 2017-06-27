@@ -37,7 +37,8 @@ var FilerGuiWidgets = (function($){
             'no_file': widget.$.data('text-no-file')
         }
         widget._urls = {
-            file_detail: widget.$.data('file-detail-url')
+            file_detail: widget.$.data('file-detail-url'),
+            file_upload: widget.$.data('file-upload-url')
         }
         widget.$parent = widget.$.parent();
         widget.$rawid = $('.rawid-input', widget.$);
@@ -45,6 +46,8 @@ var FilerGuiWidgets = (function($){
         widget.$edit = $('.edit-related-filer', widget.$);
         widget.$lookup = $('.related-lookup-filer', widget.$);
         widget.$preview = $('.preview', widget.$);
+        widget.$dz = $('.uploader', widget.$);
+
         widget_map[widget.$rawid.attr('id')] = widget;
 
         // remove django default related links
@@ -54,27 +57,66 @@ var FilerGuiWidgets = (function($){
         update_links(widget);
 
         // catch events
-        widget.$add.on('click', add);
         widget.$edit.on('click', edit);
         widget.$lookup.on('click', lookup);
+
+        // setup dropzonejs uploader
+        if(widget.$dz.length > 0) {
+            setup_uploader(widget);
+        } else {
+            widget.$add.remove();
+        }
 
         return widget;
     };
 
-    function update_links(widget) {
-        var value = widget.$rawid.val();
-        var tmpl = widget.$edit.data('href-template');
-        if(value) {
-            widget.$edit.attr('href', tmpl.replace('__fk__', value)).removeClass('inactive');
-        } else {
-            widget.$edit.removeAttr('href').addClass('inactive');
-            widget.$preview.html('<span class="no-file">' + widget._text.no_file + '</span>');
+    function setup_uploader(widget) {
+        widget._dz_template = $('.dz-preview-template', widget.$).remove().html();
+        console.log(widget._urls.file_upload)
+        widget._dz_conf = {
+            url: widget._urls.file_upload,
+            paramName: 'file',
+            //parallelUploads: false,
+            //uploadMultiple: false,
+            params: {csrfmiddlewaretoken: csrf},
+            maxFiles: 1,
+            previewTemplate: widget._dz_template,
+            accept: on_accept,
+            drop: on_drop,
+            error: on_error,
+            success: on_success
         }
-    };
+        if(widget._file_type === 'image') {
+            widget._dz_conf.acceptedFiles = 'image/*';
+        }
+        widget._dz = new Dropzone(widget.$dz[0], widget._dz_conf);
+        widget.$add.on('click', add);
 
-    function add(e) {
-        e.preventDefault();
-        console.log('hop derzue')
+        function add(e) {
+            e.preventDefault();
+            widget.$dz.trigger('click');
+        };
+
+        function on_drop(e) {
+            widget.$dz.removeClass('file-type-error');
+        }
+
+        function on_accept(file, done) {
+            console.log('huiiiiiiiii')
+            widget.$dz.addClass('dz-accepted');
+            done();
+        };
+
+        function on_error(file, done) {
+            widget.$dz.addClass('file-type-error');
+            widget._dz.removeAllFiles();
+        };
+
+        function on_success(file, data) {
+            widget.$dz.removeClass('dz-accepted');
+            console.log(file, data)
+            //widget._dz.removeAllFiles();
+        };
     };
 
     function edit(e) {
@@ -92,7 +134,11 @@ var FilerGuiWidgets = (function($){
     function show_edit_popup(link) {
         var href = link.href;
         var name = id_to_windowname(link.id.replace(/^edit_/, ''));
-        var win = window.open(href, name, 'height=500,width=800,resizable=yes,scrollbars=yes');
+        var win = window.open(
+            href,
+            name,
+            'height=500,width=800,resizable=yes,scrollbars=yes'
+        );
         win.focus();
 
         // TODO find a proper way to close the file change popup
@@ -152,12 +198,21 @@ var FilerGuiWidgets = (function($){
                   + '<span class="label">' + data.file.label + '</span>'
                 );
                 update_links(widget);
-
             } else {
                 console.error(data.error);
             }
         }
     };
 
+    function update_links(widget) {
+        var value = widget.$rawid.val();
+        var tmpl = widget.$edit.data('href-template');
+        if(value) {
+            widget.$edit.attr('href', tmpl.replace('__fk__', value)).removeClass('inactive');
+        } else {
+            widget.$edit.removeAttr('href').addClass('inactive');
+            widget.$preview.html('<span class="no-file">' + widget._text.no_file + '</span>');
+        }
+    };
 
 })(django.jQuery);

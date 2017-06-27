@@ -1,6 +1,10 @@
 {% spaceless %}
 {% load i18n filer_admin_tags staticfiles thumbnail %}
-    <div class="filer-gui-file-widget" data-file-type="{{ file_type }}" data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}" data-text-no-file="{% trans 'No file' %}">
+    <div class="filer-gui-file-widget"
+            data-file-type="{{ file_type }}"
+            data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}"
+            data-file-upload-url="{% url 'admin:file_upload' %}"
+            data-text-no-file="{% trans 'No file' %}">
         <div class="widget-column rawid-field">{{ rawid_input }}</div>
         <div class="widget-column preview">
             {% block preview %}
@@ -29,6 +33,21 @@
                 {% include 'admin/filer_gui/svg/icon-upload.svg' %}
                 <span class="label">{% trans 'Upload File' %}</span>
             </a>
+        </div>
+        <div id="upload_id_{{ widget.name }}" class="widget-column uploader widget-uploader">
+            <div class="dz-messages">
+                <div class="dz-message">{% trans 'Drop files here to upload' %}</div>
+                <div class="dz-file-type-error">{% trans 'Wrong file type, drop another file' %}</div>
+            </div>
+        </div>
+        <div class="dz-preview-template">
+            <div class="dz-preview dz-file-preview hidden">
+                <span class="dz-file-preview">
+                    <div class="dz-thumbnail"></div>
+                    <span data-dz-name class="dz-name"></span>
+                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                </span>
+            </div>
         </div>
     </div>
 {% endspaceless %}
