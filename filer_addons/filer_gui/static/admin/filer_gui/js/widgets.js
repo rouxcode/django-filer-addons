@@ -72,23 +72,26 @@ var FilerGuiWidgets = (function($){
 
     function setup_uploader(widget) {
         widget._dz_template = $('.dz-preview-template', widget.$).remove().html();
-        console.log(widget._urls.file_upload)
         widget._dz_conf = {
             url: widget._urls.file_upload,
             paramName: 'file',
-            //parallelUploads: false,
-            //uploadMultiple: false,
-            params: {csrfmiddlewaretoken: csrf},
+            uploadMultiple: false,
+            params: {
+                file_type: widget._file_type,
+                csrfmiddlewaretoken: csrf
+            },
             maxFiles: 1,
             previewTemplate: widget._dz_template,
             accept: on_accept,
             drop: on_drop,
             error: on_error,
             success: on_success
-        }
+        };
+
         if(widget._file_type === 'image') {
             widget._dz_conf.acceptedFiles = 'image/*';
         }
+
         widget._dz = new Dropzone(widget.$dz[0], widget._dz_conf);
         widget.$add.on('click', add);
 
@@ -102,20 +105,20 @@ var FilerGuiWidgets = (function($){
         }
 
         function on_accept(file, done) {
-            console.log('huiiiiiiiii')
             widget.$dz.addClass('dz-accepted');
             done();
         };
 
-        function on_error(file, done) {
+        function on_error(file, msg) {
             widget.$dz.addClass('file-type-error');
-            widget._dz.removeAllFiles();
+            widget._dz.removeFile(file);
         };
 
         function on_success(file, data) {
             widget.$dz.removeClass('dz-accepted');
-            console.log(file, data)
-            //widget._dz.removeAllFiles();
+            widget._dz.removeAllFiles();
+            widget.$rawid.val(data.file.file_id);
+            update_widget_elements(widget, data.file)
         };
     };
 
@@ -183,25 +186,30 @@ var FilerGuiWidgets = (function($){
         var request = $.ajax(conf);
 
         function on_success(data, status, xhr) {
-            var html;
-            var url;
             if(data.message === 'ok') {
-                if(widget._file_type === 'image') {
-                    css = 'thumbnail-img'
-                    url = data.file.thumb_url;
-                } else {
-                    css = 'icon-img'
-                    url = data.file.icon_url;
-                }
-                widget.$preview.html(
-                    '<img class="' + css + '" src="' + url + '" alt="' + data.file.label + '">'
-                  + '<span class="label">' + data.file.label + '</span>'
-                );
-                update_links(widget);
+                update_widget_elements(widget, data.file)
             } else {
                 console.error(data.error);
             }
         }
+    };
+
+    function update_widget_elements(widget, data) {
+        var css;
+        var html;
+        var url;
+        if(widget._file_type === 'image') {
+            css = 'thumbnail-img'
+            url = data.thumb_url;
+        } else {
+            css = 'icon-img'
+            url = data.icon_url;
+        }
+        widget.$preview.html(
+            '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
+          + '<span class="label">' + data.label + '</span>'
+        );
+        update_links(widget);
     };
 
     function update_links(widget) {

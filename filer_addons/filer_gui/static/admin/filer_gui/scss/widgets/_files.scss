@@ -57,7 +57,7 @@
         min-height: 35px;
         margin: 0;
         padding: 0 0;
-        background-color: #c4dce8;
+        background-color: #ccc;
         transition: width 0.5s;
 
         &:before {
@@ -86,6 +86,8 @@
         display: inline-block;
         width: 100%;
         vertical-align: middle;
+        color: #fff;
+        font-weight: bold;
         text-align: center;
     }
 

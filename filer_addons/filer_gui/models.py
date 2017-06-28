@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from filer.models import File
+from filer.models import File, Image  # NOQA
 
 
 class FilerGuiFile(File):

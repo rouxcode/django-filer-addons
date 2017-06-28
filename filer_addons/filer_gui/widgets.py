@@ -11,7 +11,13 @@ from django.utils.safestring import mark_safe
 
 logger = logging.getLogger(__name__)
 DJANGO_LEGACY = django.VERSION < (1, 9)
-THUMBNAIL_SIZE = (192, 144)
+THUMBNAIL_SIZE = (300, 100)
+
+# TODO get rid of coded file types
+FILE_TYPE_CHOICES = [
+    ('file', 'File'),
+    ('image', 'Image'),
+]
 
 
 # TODO remove all file_type related code
