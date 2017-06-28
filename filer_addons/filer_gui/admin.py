@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.http.response import JsonResponse
 
 from .models import File, Image, FilerGuiFile
+from .utils import file_is_image_by_name
 # TODO get it from settings
 from .widgets import FILE_TYPE_CHOICES, THUMBNAIL_SIZE
 
@@ -121,13 +122,13 @@ class FilerGuiAdmin(admin.ModelAdmin):
         else:
             form = FilerGuiUploadForm(request.POST, request.FILES)
             if form.is_valid():
-                # TODO get rid of this distinction
-                # FIXME Check how divio does that and adapt it.
-                if form.cleaned_data['file_type'].lower() == 'image':
+                upload = request.FILES.values()[0]
+                # TODO get rid of this distinction and find a proper way
+                # to get the correct model form
+                if file_is_image_by_name(upload.name):
                     form_class = FilerImageForm
                 else:
                     form_class = FilerFileForm
-                upload = request.FILES.values()[0]
                 filer_form = form_class(
                     {
                         'owner': request.user.pk,
