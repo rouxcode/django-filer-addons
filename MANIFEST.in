@@ -1,0 +1,7 @@
+include LICENSE
+include README.rst
+global-exclude *.orig *.pyc *.log *.swp
+
+recursive-include filer_addons/filer_gui *
+recursive-include filer_addons/filer_signals *
+recursive-include filer_addons/filer_utils *

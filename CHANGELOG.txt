@@ -1,0 +1,12 @@
+
+==== (ongoing) ===
+
+- ...
+
+
+==== 0.0.1 ===
+
+- initial release
+- improved filer fields
+- basic signals (prevent duplicates, manage unfiled, rename)
+- utils: generate filename methods

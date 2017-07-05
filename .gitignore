@@ -1,4 +1,5 @@
 *.pyc
+*.sqlite
 *.pyo
 .installed.cfg
 bin

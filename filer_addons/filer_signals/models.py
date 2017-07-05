@@ -19,7 +19,7 @@ def check_rename(instance, old_name=None):
     """
     # print "check rename"
     if instance.id and instance.file:
-        if old_name is  ..None:
+        if old_name is None:
             old_instance = File.objects.get(pk=instance.id)
             old_name = old_instance.file.name
         old_name = os.path.basename(old_name)
