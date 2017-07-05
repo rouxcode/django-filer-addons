@@ -17,10 +17,10 @@ This package provides sub applications, that can be installed individually, to o
 needed features.
 
 - `filer_addons.filer_gui` - an improved filer file and filer image field, a multiupload inline.
-- `filer_addons.filer_signals` - can help avoid duplicates, will rename files on the filesystem if \
-said to do so, and can put unfiled files in a default folder, to prevent permission issues.
-- `filer_addons.filer_utils` - various helpers: for now, generate folder/filenames for uploaded \
-files (without folder/8-char simple uuid4/use db folder/year/year-month)
+- `filer_addons.filer_signals` - can help avoid duplicates, will rename files on the filesystem if
+  said to do so, and can put unfiled files in a default folder, to prevent permission issues.
+- `filer_addons.filer_utils` - various helpers: for now, generate folder/filenames for uploaded
+  files (without folder/8-char simple uuid4/use db folder/year/year-month)
 
 Install
 -------
