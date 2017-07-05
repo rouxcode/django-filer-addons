@@ -3,7 +3,24 @@ from __future__ import unicode_literals
 from django import forms
 from django.contrib import admin
 
-from .models import FilerTest
+from .models import FilerTest, FilerTestInlineModel
+from filer_addons.filer_gui.inlines import FilerMultiUploadInlineMixin
+
+
+class MultiUploadStackedInline(
+    FilerMultiUploadInlineMixin,
+    admin.StackedInline
+):
+    model = FilerTestInlineModel
+    file_field = 'filer_image'
+
+
+class MultiUploadTabularInline(
+    FilerMultiUploadInlineMixin,
+    admin.TabularInline
+):
+    model = FilerTestInlineModel
+    file_field = 'filer_image'
 
 
 class FilerTestAdminForm(forms.ModelForm):
@@ -13,15 +30,10 @@ class FilerTestAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-class FilerTestInline(admin.StackedInline):
-    model = FilerTest
-    form = FilerTestAdminForm
-
-
 @admin.register(FilerTest)
 class FilerTestAdmin(admin.ModelAdmin):
     form = FilerTestAdminForm
-    # inlines = [FilerTestInline]
+    inlines = [MultiUploadStackedInline, MultiUploadTabularInline]
     readonly_fields = [
         # 'parent',
     ]

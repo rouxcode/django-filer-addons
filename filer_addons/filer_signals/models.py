@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 import os
 
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.files.base import File as DjangoFile
 from filer.models import File, Folder
 from filer.utils.files import get_valid_filename
-
 
 from . import conf
 
@@ -30,7 +29,7 @@ def check_rename(instance, old_name=None):
             new_file = DjangoFile(open(instance.file.path, mode='rb'))
             instance.file.delete(False)  # remove including thumbs
             instance.file.save(new_name, new_file, save=False)
-            # do it here, original_filename doesnt seem to be updated correctly else!
+            # do it here, original_filename is not updated correctly else!
             instance.save()
 
 
@@ -38,12 +37,15 @@ def check_rename(instance, old_name=None):
 def filer_duplicates_and_rename(sender, instance, **kwargs):
     """
     check for duplicates, dont allow them!
-    as this is post save, it will ELIMINATE ALL DUPLICATES of a file, if there are!
-    this can be quite dangerous, but also be wonderfull ;-)
+    as this is post save, it will ELIMINATE ALL DUPLICATES of a file,
+    if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
     # print "check duplicates"
     file_obj = instance
-    duplicates = File.objects.filter(sha1=file_obj.sha1, folder=file_obj.folder)
+    duplicates = File.objects.filter(
+        sha1=file_obj.sha1,
+        folder=file_obj.folder
+    )
     duplicates = duplicates.exclude(pk=file_obj.id)
     if len(duplicates):
         # print "duplicates found (post save):"
@@ -72,8 +74,11 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         instance.save()
         check_rename(instance, old_name=old_name)
     else:
-        # when updating a file in a files detail view, it already has the new, correct name
-        # leaving this here, for example when manipulating files (and original_filename) programmatically.
+        """
+        when updating a file in a files detail view, it already has the new,
+        correct name leaving this here, for example when manipulating files
+        (and original_filename) programmatically.
+        """
         check_rename(instance)
 
 
@@ -97,5 +102,3 @@ def filer_unfiled_to_folder(sender, instance, **kwargs):
             default_folder.save()
         instance.folder = default_folder
         instance.save()
-
-
