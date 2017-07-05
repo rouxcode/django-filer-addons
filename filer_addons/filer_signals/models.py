@@ -16,7 +16,7 @@ def check_rename(instance, old_name=None):
     :param instance: filer file instance
     :return:
     """
-    # print "check rename"
+    print "check rename"
     if instance.id and instance.file:
         if old_name is None:
             old_instance = File.objects.get(pk=instance.id)
@@ -25,7 +25,7 @@ def check_rename(instance, old_name=None):
         new_name = get_valid_filename(instance.original_filename)
         if not old_name == new_name:
             # rename!
-            # print "do rename: %s to %s" % (old_name, new_name)
+            print "do rename: %s to %s" % (old_name, new_name)
             new_file = DjangoFile(open(instance.file.path, mode='rb'))
             instance.file.delete(False)  # remove including thumbs
             instance.file.save(new_name, new_file, save=False)
@@ -33,14 +33,23 @@ def check_rename(instance, old_name=None):
             instance.save()
 
 
-@receiver(post_save, sender='filer.File')
+@receiver(
+    post_save,
+    sender='filer.File',
+    dispatch_uid="filer_addons_prevent_duplicates_image",
+)
+@receiver(
+    post_save,
+    sender='filer.Image',
+    dispatch_uid="filer_addons_prevent_duplicates_file",
+)
 def filer_duplicates_and_rename(sender, instance, **kwargs):
     """
     check for duplicates, dont allow them!
     as this is post save, it will ELIMINATE ALL DUPLICATES of a file,
     if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
-    # print "check duplicates"
+    print "check duplicates"
     file_obj = instance
     duplicates = File.objects.filter(
         sha1=file_obj.sha1,
@@ -82,13 +91,23 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         check_rename(instance)
 
 
-@receiver(post_save, sender='filer.File')
+@receiver(
+    post_save,
+    sender='filer.File',
+    dispatch_uid="filer_addons_unfiled_to_folder",
+)
+@receiver(
+    post_save,
+    sender='filer.Image',
+    dispatch_uid="filer_addons_unfiled_to_folder",
+)
 def filer_unfiled_to_folder(sender, instance, **kwargs):
     """
     check if a file is unfiled, if yes, put into default folder.
     """
     if not conf.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
         return
+    print "unfiled to folder?"
     if not instance.folder:
         default_folder_name = conf.FILER_ADDONS_UNFILED_HANDLING.get(
             'default_folder_name',
