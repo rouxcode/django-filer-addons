@@ -1,6 +1,8 @@
 import os
 import uuid
+import datetime
 
+from django.utils.text import slugify
 from filer.utils.files import get_valid_filename
 
 
@@ -22,3 +24,32 @@ def short_uuid4(instance, filename):
     """
     filename = get_valid_filename(filename)
     return os.path.join(uuid.uuid4()[:8], filename)
+
+
+def db_folder(instance, filename):
+    """
+    tries to get the db folder's name, and use this.
+    """
+    foldername = ''
+    if instance.folder:
+        foldername = slugify(instance.folder.name)
+    filename = get_valid_filename(filename)
+    return os.path.join(foldername, filename)
+
+
+def year(instance, filename):
+    """
+    yyyy/filename.jpg
+    """
+    foldername = datetime.date.today().strftime('%Ys')
+    filename = get_valid_filename(filename)
+    return os.path.join(foldername, filename)
+
+
+def year_month(instance, filename):
+    """
+    yyyy-mm/filename.jpg
+    """
+    foldername = datetime.date.today().strftime('%Y-%m')
+    filename = get_valid_filename(filename)
+    return os.path.join(foldername, filename)
