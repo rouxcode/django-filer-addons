@@ -49,12 +49,22 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     as this is post save, it will ELIMINATE ALL DUPLICATES of a file,
     if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
+    if not conf.FILER_ADDONS_DUPLICATE_HANDLING.get('prevent'):
+        return
+    created_only = conf.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
+    if created_only and not kwargs.get('created', None):
+        return
     print "check duplicates"
     file_obj = instance
-    duplicates = File.objects.filter(
-        sha1=file_obj.sha1,
-        folder=file_obj.folder
-    )
+    duplicates = File.objects.filter(sha1=file_obj.sha1)
+    # narrow down? depends.
+    if conf.FILER_ADDONS_UNFILED_HANDLING.get('same_folder_required', None):
+        duplicates = duplicates.filter(folder=file_obj.folder)
+    if conf.FILER_ADDONS_UNFILED_HANDLING.get('same_filename_required', None):
+        duplicates = duplicates.filter(
+            original_filename=file_obj.original_filename
+        )
+    # myself is not a duplicate
     duplicates = duplicates.exclude(pk=file_obj.id)
     if len(duplicates):
         # print "duplicates found (post save):"
@@ -76,7 +86,7 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         instance.description = duplicate.description
         if hasattr(duplicate, 'subject_location'):
             instance.subject_location = duplicate.subject_location
-        # set some more fields from duplicate, if they are filled?!
+        # to be defined: set some more fields from duplicate, if filled?!
         # arf dont touch django magic
         # instance._uncommitted_filefields = []
         # instance._state = duplicate._state
@@ -107,7 +117,9 @@ def filer_unfiled_to_folder(sender, instance, **kwargs):
     """
     if not conf.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
         return
-    print "unfiled to folder?"
+    created_only = conf.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
+    if created_only and not kwargs.get('created', None):
+        return
     if not instance.folder:
         default_folder_name = conf.FILER_ADDONS_UNFILED_HANDLING.get(
             'default_folder_name',
