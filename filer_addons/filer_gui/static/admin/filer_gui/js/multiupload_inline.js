@@ -1,4 +1,4 @@
-var FilerMultiUploadInline = ( function ( $ ) {
+var FilerMultiUploadInline = (function ($) {
     'use strict';
 
     var $plugins;
@@ -11,7 +11,7 @@ var FilerMultiUploadInline = ( function ( $ ) {
 
     $.fn.filer_multiupload_inline = filer_multiupload_inline;
 
-    $(document).ready( init );
+    $(document).ready(init);
 
     function init() {
         $('.filer-gui-multiupload-inline').filer_multiupload_inline();
@@ -20,7 +20,7 @@ var FilerMultiUploadInline = ( function ( $ ) {
     function filer_multiupload_inline(custom_options) {
         $plugins = this;
         var i;
-        for (i=0; i<$plugins.length; i++) {
+        for (i = 0; i < $plugins.length; i++) {
             init_plugin($plugins[i], custom_options);
         }
         return this;
@@ -40,15 +40,17 @@ var FilerMultiUploadInline = ( function ( $ ) {
         var $dropzone = plugin.$.find('.filer-gui-multiupload-dropzone');
         console.log($dropzone);
         plugin.$.find(".inline-group h2").after($dropzone);
-        $dropzone.dropzone({
+        var dropzone_conf = {
             url: plugin.$.attr('data-upload-url'),
             'createImageThumbnails': false,
             'clickable': [plugin.$.find('.select-file')[0]],
-            init: function() {
+            init: function () {
                 // this.on("uploadprogress", file_upload_complete });
-                this.on("success", file_upload_complete );
+                this.on("success", file_upload_complete);
             }
-        });
+        }
+        var dropzone = new Dropzone($dropzone[0], dropzone_conf);
+        // $dropzone.dropzone(dropzone_conf);
 
         function file_upload_complete(file, response) {
             $(file.previewElement).delay(2000).fadeOut(1000);
@@ -66,9 +68,7 @@ var FilerMultiUploadInline = ( function ( $ ) {
             $field_wrap.find('.js-file-selector .filerClearer').removeClass('hidden');
             $field_wrap.find('.dz-message').addClass('hidden');
         };
-
         return this;
-
     };
 
     // global methods!
@@ -77,11 +77,11 @@ var FilerMultiUploadInline = ( function ( $ ) {
 
     };
 
-    function reset_by_selector( selector ) {
-        var plugin = $plugins.filter( selector );
+    function reset_by_selector(selector) {
+        var plugin = $plugins.filter(selector);
         // plugin._active;
     };
 
     return api;
 
-})( django.jQuery );
+})(django.jQuery);

@@ -11,22 +11,17 @@ from filer_addons.filer_gui.fields import FilerFileField, FilerImageField
 
 @python_2_unicode_compatible
 class FilerTest(models.Model):
-    parent = models.ForeignKey(
-        'self',
-        null=True,
-        blank=True,
-    )
     name = models.CharField(
         max_length=150,
     )
     filer_file_raw = models.ForeignKey(
         File,
         null=True,
-        blank=False,
+        blank=True,
     )
     filer_file = FilerFileField(
         null=True,
-        blank=False,
+        blank=True,
         default=None,
         on_delete=models.SET_NULL,
         related_name='file_filertest',
@@ -40,7 +35,7 @@ class FilerTest(models.Model):
     )
     filer_file_ugly = UglyFilerFileField(
         null=True,
-        blank=False,
+        blank=True,
         default=None,
         on_delete=models.SET_NULL,
         related_name='file_ugly_filertest',
@@ -58,17 +53,40 @@ class FilerTest(models.Model):
 
 
 @python_2_unicode_compatible
-class FilerTestInlineModel(models.Model):
+class FilerUglyImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
         FilerTest
     )
     name = models.CharField(
         max_length=150,
+        default='',
+        blank=True,
     )
-    filer_image = FilerImageField(
+    filer_image_ugly = UglyFilerImageField(
         null=True,
         default=None,
         blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+@python_2_unicode_compatible
+class FilerUglyFileInlineModel(models.Model):
+    filer_test = models.ForeignKey(
+        FilerTest
+    )
+    name = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+    )
+    filer_file_ugly = UglyFilerFileField(
+        null=True,
+        blank=True,
+        default=None,
         on_delete=models.SET_NULL,
     )
 

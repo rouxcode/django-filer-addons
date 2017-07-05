@@ -18,21 +18,22 @@ ROOT_URLCONF = 'filer_addons.tests.testapp.urls'
 SECRET_KEY = 'secret'
 
 APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", '..'))
 
 sys.path.insert(0, APP_ROOT + "/../")
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'public', 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory that holds static files.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public', 'static')
 
 # URL that handles the static files served from STATIC_ROOT.
 # Example: "http://media.lawrence.com/static/"
@@ -66,7 +67,7 @@ INSTALLED_APPS = (
     'polymorphic',
     'filer_addons',
     'filer_addons.filer_gui',
-    'filer_addons.filer_signals',
+    # 'filer_addons.filer_signals',
     'filer_addons.tests.testapp',
 )
 

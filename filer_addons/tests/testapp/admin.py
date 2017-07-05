@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from django import forms
 from django.contrib import admin
 
-from .models import FilerTest, FilerTestInlineModel
+from .models import FilerTest, FilerUglyFileInlineModel, \
+    FilerUglyImageInlineModel
 from filer_addons.filer_gui.inlines import FilerMultiUploadInlineMixin
 
 
@@ -11,16 +12,18 @@ class MultiUploadStackedInline(
     FilerMultiUploadInlineMixin,
     admin.StackedInline
 ):
-    model = FilerTestInlineModel
-    file_field = 'filer_image'
+    model = FilerUglyFileInlineModel
+    file_field = 'filer_file_ugly'
+    fields = ['name', 'filer_file_ugly', ]
 
 
 class MultiUploadTabularInline(
     FilerMultiUploadInlineMixin,
     admin.TabularInline
 ):
-    model = FilerTestInlineModel
-    file_field = 'filer_image'
+    model = FilerUglyImageInlineModel
+    file_field = 'filer_image_ugly'
+    fields = ['name', 'filer_image_ugly', ]
 
 
 class FilerTestAdminForm(forms.ModelForm):
@@ -33,7 +36,7 @@ class FilerTestAdminForm(forms.ModelForm):
 @admin.register(FilerTest)
 class FilerTestAdmin(admin.ModelAdmin):
     form = FilerTestAdminForm
-    # inlines = [MultiUploadStackedInline, MultiUploadTabularInline, ]
+    inlines = [MultiUploadStackedInline, MultiUploadTabularInline, ]
     readonly_fields = [
         # 'parent',
     ]
@@ -44,16 +47,14 @@ class FilerTestAdmin(admin.ModelAdmin):
         ('Settings', {
             'classes': ['section'],
             'fields': [
-                'parent',
                 'name',
             ],
         }),
         ('Filer default widgets', {
             'classes': ['section'],
             'fields': [
-                'filer_file_raw',
-                'filer_file',
-                'filer_image',
+                'filer_file_ugly',
+                'filer_image_ugly',
             ],
         }),
         ('Widget Test', {

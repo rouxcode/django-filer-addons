@@ -3,6 +3,7 @@
 *.pyo
 .installed.cfg
 bin
+public/
 develop-eggs
 dist
 downloads

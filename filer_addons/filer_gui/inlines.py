@@ -25,7 +25,7 @@ class FilerMultiUploadInlineMixin(object):
     def media(self):
         original_media = super(FilerMultiUploadInlineMixin, self).media
         js = (
-            # settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
+            settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
             settings.STATIC_URL + 'admin/filer_gui/js/multiupload_inline.js',
         )
         css = {
