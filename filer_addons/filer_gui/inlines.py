@@ -38,9 +38,9 @@ class FilerMultiUploadInlineMixin(object):
     @property
     def template(self):
         if isinstance(self, admin.StackedInline):
-            return 'admin/filer_gui/multiupload_stacked.html'
+            return 'admin/filer_gui/inlines/multiupload_stacked.html'
         if isinstance(self, admin.TabularInline):
-            return 'admin/filer_gui/multiupload_tabular.html'
+            return 'admin/filer_gui/inlines/multiupload_tabular.html'
         raise ImproperlyConfigured('Class {0}.{1} must also derive from'
                                    ' admin.TabularInline or'
                                    ' admin.StackedInline'
@@ -74,7 +74,7 @@ class FilerMultiUploadPluginMixin(object):
     upload_file_field = 'file'
     form = FilerMultiUploadPluginForm
     # upload_folder = get_folder_by_path('uploads', True)
-    change_form_template = 'admin/filer_gui/multiupload_plugin_changeform.html'
+    change_form_template = 'admin/filer_gui/inlines/multiupload_plugin_changeform.html'
 
     @property
     def media(self):
