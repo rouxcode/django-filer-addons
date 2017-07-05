@@ -1,0 +1,14 @@
+{% extends "admin/cms/page/plugin/change_form.html" %}
+
+{% block content %}
+    <div
+        class="filer-gui-multiupload-plugin filer-gui-multiupload-dropzone"
+        data-upload-url="/admin/filer/clipboard/operations/upload/no_folder/"
+    >
+        <span>Drop files here. Or
+            <a class="filer-gui-select-file">select files from your computer</a>
+            <!--. Or <a href="/not-yet/">browse uploaded files</a>.-->
+        </span>
+    </div>
+    {{ block.super }}
+{% endblock %}
