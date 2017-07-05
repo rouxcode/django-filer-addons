@@ -70,7 +70,6 @@ class FilerTestInlineModel(models.Model):
         default=None,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='image_filertest',
     )
 
     def __str__(self):

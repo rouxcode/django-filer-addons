@@ -4,7 +4,6 @@ from django.core.exceptions import ImproperlyConfigured
 from django.forms import widgets
 from django import forms
 from filer.models import File
-from cms.api import add_plugin
 
 
 class FilerMultiUploadInlineMixin(object):
@@ -26,11 +25,11 @@ class FilerMultiUploadInlineMixin(object):
     def media(self):
         original_media = super(FilerMultiUploadInlineMixin, self).media
         js = (
-            settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
-            settings.STATIC_URL + 'filer_gui/js/multiupload_inline.js',
+            # settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
+            settings.STATIC_URL + 'admin/filer_gui/js/multiupload_inline.js',
         )
         css = {
-            'all': (settings.STATIC_URL + 'filer_gui/css/multiupload_base.css',)
+            'all': (settings.STATIC_URL + 'admin/filer_gui/css/multiupload_base.css',)
         }
         new_media = widgets.Media(js=js, css=css)
         return original_media + new_media
@@ -80,12 +79,12 @@ class FilerMultiUploadPluginMixin(object):
     def media(self):
         original_media = super(FilerMultiUploadPluginMixin, self).media
         js = (
-            settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
+            # settings.STATIC_URL + 'filer/js/libs/dropzone.min.js',
             # settings.STATIC_URL + 'filer/js/addons/dropzone.init.js',
-            settings.STATIC_URL + 'filer_gui/js/multiupload_plugin.js',
+            settings.STATIC_URL + 'admin/filer_gui/js/multiupload_plugin.js',
         )
         css = {
-            'all': (settings.STATIC_URL + 'filer_gui/css/multiupload_base.css',)  # noqa
+            'all': (settings.STATIC_URL + 'admin/filer_gui/css/multiupload_base.css',)  # noqa
         }
         new_media = widgets.Media(js=js, css=css)
         return original_media + new_media
@@ -102,6 +101,8 @@ class FilerMultiUploadPluginMixin(object):
             plugin_data = {
                 self.upload_file_field: file,
             }
+            # cms is not a dependency, so we import locally.
+            from cms.api import add_plugin
             added_plugin = add_plugin(
                  placeholder,
                  self.upload_child_plugin,

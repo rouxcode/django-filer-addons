@@ -33,7 +33,7 @@ class FilerTestAdminForm(forms.ModelForm):
 @admin.register(FilerTest)
 class FilerTestAdmin(admin.ModelAdmin):
     form = FilerTestAdminForm
-    inlines = [MultiUploadStackedInline, MultiUploadTabularInline]
+    # inlines = [MultiUploadStackedInline, MultiUploadTabularInline, ]
     readonly_fields = [
         # 'parent',
     ]
@@ -46,6 +46,14 @@ class FilerTestAdmin(admin.ModelAdmin):
             'fields': [
                 'parent',
                 'name',
+            ],
+        }),
+        ('Filer default widgets', {
+            'classes': ['section'],
+            'fields': [
+                'filer_file_raw',
+                'filer_file',
+                'filer_image',
             ],
         }),
         ('Widget Test', {
