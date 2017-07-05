@@ -38,7 +38,6 @@ var FilerMultiUploadInline = (function ($) {
         // init dropzone
         // TODO: div goes into html? with {% trans %}
         var $dropzone = plugin.$.find('.filer-gui-multiupload-dropzone');
-        console.log($dropzone);
         plugin.$.find(".inline-group h2").after($dropzone);
         var dropzone_conf = {
             url: plugin.$.attr('data-upload-url'),
