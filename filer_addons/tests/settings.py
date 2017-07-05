@@ -18,7 +18,7 @@ ROOT_URLCONF = 'filer_addons.tests.testapp.urls'
 SECRET_KEY = 'secret'
 
 APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", '..'))  # noqa
 
 sys.path.insert(0, APP_ROOT + "/../")
 

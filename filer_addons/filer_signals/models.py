@@ -26,11 +26,15 @@ def check_rename(instance, old_name=None):
         if not old_name == new_name:
             # rename!
             print "do rename: %s to %s" % (old_name, new_name)
-            new_file = DjangoFile(open(instance.file.path, mode='rb'))
+            existing_file = open(instance.file.path, mode='rb')
+            new_file = DjangoFile(existing_file)
             instance.file.delete(False)  # remove including thumbs
             instance.file.save(new_name, new_file, save=False)
+            # print instance.file.name
+            # todo: prevent deadlock, when storagem gives the _x5sx4sd suffix!
             # do it here, original_filename is not updated correctly else!
             instance.save()
+            existing_file.close()
 
 
 @receiver(
