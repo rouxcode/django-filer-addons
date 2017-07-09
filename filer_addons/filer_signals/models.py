@@ -55,16 +55,17 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     """
     if not conf.FILER_ADDONS_DUPLICATE_HANDLING.get('prevent'):
         return
-    created_only = conf.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
+    created_only = conf.FILER_ADDONS_DUPLICATE_HANDLING.get('created_only', False)
     if created_only and not kwargs.get('created', None):
         return
     print "check duplicates"
     file_obj = instance
     duplicates = File.objects.filter(sha1=file_obj.sha1)
     # narrow down? depends.
-    if conf.FILER_ADDONS_UNFILED_HANDLING.get('same_folder_required', None):
+    if conf.FILER_ADDONS_DUPLICATE_HANDLING.get('same_folder_required', None):
+        print "same folder only!"
         duplicates = duplicates.filter(folder=file_obj.folder)
-    if conf.FILER_ADDONS_UNFILED_HANDLING.get('same_filename_required', None):
+    if conf.FILER_ADDONS_DUPLICATE_HANDLING.get('same_filename_required', None):
         duplicates = duplicates.filter(
             original_filename=file_obj.original_filename
         )

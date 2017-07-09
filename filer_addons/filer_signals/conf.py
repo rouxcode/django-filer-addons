@@ -2,21 +2,25 @@
 from django.conf import settings
 
 
-# defaults: the most greedy possible!
+# defaults: sane defaults, only new uploaded, withing same folder,
+# filename doesnt matter
 FILER_ADDONS_DUPLICATE_HANDLING = getattr(
     settings, 'FILER_ADDONS_DUPLICATE_HANDLING', {
         'prevent': True,
-        'created_only': False,
-        'same_folder_required': False,
+        'created_only': True,
+        'same_folder_required': True,
         'same_filename_required': False,
-        # TODO: as own setting/signal? 'rename_files': True,
     }
 )
 
+
+# yep, do it
 FILER_ADDONS_RENAME_FILES = getattr(
     settings, 'FILER_ADDONS_RENAME_FILES', True
 )
 
+
+# also move already existing, that are modified
 FILER_ADDONS_UNFILED_HANDLING = getattr(
     settings, 'FILER_ADDONS_UNFILED_HANDLING', {
         'move_unfiled': True,
