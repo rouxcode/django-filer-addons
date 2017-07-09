@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import os
 import uuid
 import datetime
@@ -23,7 +25,7 @@ def short_uuid4(instance, filename):
     should be safe enough for most cases
     """
     filename = get_valid_filename(filename)
-    return os.path.join(uuid.uuid4()[:8], filename)
+    return os.path.join(str(uuid.uuid4())[:8], filename)
 
 
 def db_folder(instance, filename):
