@@ -16,7 +16,6 @@ def check_rename(instance, old_name=None):
     :param instance: filer file instance
     :return:
     """
-    print "check rename"
     if instance.id and instance.file:
         if old_name is None:
             old_instance = File.objects.get(pk=instance.id)
@@ -25,7 +24,7 @@ def check_rename(instance, old_name=None):
         new_name = get_valid_filename(instance.original_filename)
         if not old_name == new_name:
             # rename!
-            print "do rename: %s to %s" % (old_name, new_name)
+            # print "do rename: %s to %s" % (old_name, new_name)
             existing_file = open(instance.file.path, mode='rb')
             new_file = DjangoFile(existing_file)
             instance.file.delete(False)  # remove including thumbs
@@ -58,14 +57,13 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     created_only = conf.FILER_ADDONS_DUPLICATE_HANDLING.get('created_only', False)
     if created_only and not kwargs.get('created', None):
         return
-    print "check duplicates"
     file_obj = instance
     duplicates = File.objects.filter(sha1=file_obj.sha1)
     # narrow down? depends.
     if conf.FILER_ADDONS_DUPLICATE_HANDLING.get('same_folder_required', None):
-        print "same folder only!"
         duplicates = duplicates.filter(folder=file_obj.folder)
     if conf.FILER_ADDONS_DUPLICATE_HANDLING.get('same_filename_required', None):
+        # TODO: is this slugified somehow??!
         duplicates = duplicates.filter(
             original_filename=file_obj.original_filename
         )
