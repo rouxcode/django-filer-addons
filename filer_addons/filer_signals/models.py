@@ -40,12 +40,12 @@ def check_rename(instance, old_name=None):
 @receiver(
     post_save,
     sender='filer.File',
-    dispatch_uid="filer_addons_prevent_duplicates_image",
+    dispatch_uid="filer_addons_prevent_duplicates_file",
 )
 @receiver(
     post_save,
     sender='filer.Image',
-    dispatch_uid="filer_addons_prevent_duplicates_file",
+    dispatch_uid="filer_addons_prevent_duplicates_image",
 )
 def filer_duplicates_and_rename(sender, instance, **kwargs):
     """
@@ -109,12 +109,12 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
 @receiver(
     post_save,
     sender='filer.File',
-    dispatch_uid="filer_addons_unfiled_to_folder",
+    dispatch_uid="filer_addons_unfiled_file_to_folder",
 )
 @receiver(
     post_save,
     sender='filer.Image',
-    dispatch_uid="filer_addons_unfiled_to_folder",
+    dispatch_uid="filer_addons_unfiled_image_to_folder",
 )
 def filer_unfiled_to_folder(sender, instance, **kwargs):
     """
