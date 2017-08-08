@@ -28,6 +28,16 @@ def short_uuid4(instance, filename):
     return os.path.join(str(uuid.uuid4())[:8], filename)
 
 
+def very_short_uuid4(instance, filename):
+    """
+    very short (2chars) uuid4 path and the filename
+    https://stackoverflow.com/a/13484764/1029469
+    at most about 1100 folders will be created, and files distributed within
+    """
+    filename = get_valid_filename(filename)
+    return os.path.join(str(uuid.uuid4())[:2], filename)
+
+
 def db_folder(instance, filename):
     """
     tries to get the db folder's name, and use this.
