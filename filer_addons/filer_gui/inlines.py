@@ -7,6 +7,7 @@ from filer.models import File
 
 
 class FilerMultiUploadInlineMixin(object):
+    # TODO: select one or multiple existing files with the file picker!
     # TODO: add at first or last position?
     # TODO: check file_field correctness!
     # TODO: connect with filer_gui enhanced file field?!!
@@ -19,7 +20,6 @@ class FilerMultiUploadInlineMixin(object):
     extra = 0
     hide_add_inline = False
     # extra_css_class = 'sortable-inline sortable-tabular-inline'
-    extra_css_class = 'sortable-inline sortable-tabular-inline'
 
     @property
     def media(self):

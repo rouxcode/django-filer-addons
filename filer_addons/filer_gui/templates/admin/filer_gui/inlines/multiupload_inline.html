@@ -4,7 +4,8 @@
     data-file-field="{{ inline_admin_formset.opts.file_field}}"
     data-csrf="{{ csrf_token }}"
     data-prefix="{{ inline_admin_formset.formset.prefix }}"
-    data-upload-url="/admin/filer/clipboard/operations/upload/no_folder/"
+    data-upload-url="{% url 'admin:filer-ajax_upload' %}"
+{#    data-upload-url="/admin/filer/clipboard/operations/upload/no_folder/"#}
 >
     <div class="filer-gui-multiupload-dropzone">
         <span>Drop files here. Or
