@@ -69,9 +69,16 @@ class FilerMultiUploadPluginForm(forms.ModelForm):
 
 
 class FilerMultiUploadPluginMixin(object):
+    """
+    config for users of this mixin
+    upload_child_plugin: plugin type to create, for example 'ImagePlugin'
+    upload_file_field: filer file field on the created plugin
+    add_first: add at first position? defaults to False
+    """
     upload_child_plugin = None
     upload_file_field = 'file'
     add_first = False
+    # end config
     form = FilerMultiUploadPluginForm
     # upload_folder = get_folder_by_path('uploads', True)
     change_form_template = 'admin/filer_gui/inlines/multiupload_plugin_changeform.html'  # noqa
