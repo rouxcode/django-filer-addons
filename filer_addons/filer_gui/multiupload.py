@@ -71,6 +71,7 @@ class FilerMultiUploadPluginForm(forms.ModelForm):
 class FilerMultiUploadPluginMixin(object):
     upload_child_plugin = None
     upload_file_field = 'file'
+    add_first = False
     form = FilerMultiUploadPluginForm
     # upload_folder = get_folder_by_path('uploads', True)
     change_form_template = 'admin/filer_gui/inlines/multiupload_plugin_changeform.html'  # noqa
@@ -103,13 +104,18 @@ class FilerMultiUploadPluginMixin(object):
             }
             # cms is not a dependency, so we import locally.
             from cms.api import add_plugin
+            tree_position = 'last-child'
+            if self.add_first:
+                tree_position = 'first-child'
             added_plugin = add_plugin(
                  placeholder,
                  self.upload_child_plugin,
-                 'de',
-                 'first-child',
+                 obj.language,
+                 tree_position,
                  parent_plugin,
                  **plugin_data
             )
-            added_plugin.move(parent_plugin, 'first-child')
+            if self.add_first:
+                added_plugin.position = 0
+                added_plugin.save()
         return response
