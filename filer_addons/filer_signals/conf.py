@@ -26,6 +26,6 @@ FILER_ADDONS_UNFILED_HANDLING = getattr(
     settings, 'FILER_ADDONS_UNFILED_HANDLING', {
         'move_unfiled': True,
         'created_only': False,
-        'default_folder_name': '0 - Direct Uploads',
+        'default_folder_name': '0 - Direct Upload',
     }
 )

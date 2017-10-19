@@ -88,16 +88,16 @@ FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 FILER_STORAGES = {
     'public': {
         'main': {
-            'ENGINE': 'filer.storage.PublicFileSystemStorage',
-            'OPTIONS': {},
+            # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            # 'OPTIONS': {},
             'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
             'UPLOAD_TO_PREFIX': 'filer',
         },
         'thumbnails': {
-            'ENGINE': 'filer.storage.PublicFileSystemStorage',
-            'OPTIONS': {},
+            # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            # 'OPTIONS': {},
             'THUMBNAIL_OPTIONS': {
-                'base_dir': 'filer_thumbnails',
+                'base_dir': 'thumb',
             },
         },
     },
