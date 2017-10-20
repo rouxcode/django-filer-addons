@@ -39,6 +39,42 @@ def check_rename(instance, old_name=None):
 @receiver(
     post_save,
     sender='filer.File',
+    dispatch_uid="filer_addons_unfiled_file_to_folder",
+)
+@receiver(
+    post_save,
+    sender='filer.Image',
+    dispatch_uid="filer_addons_unfiled_image_to_folder",
+)
+def filer_unfiled_to_folder(sender, instance, **kwargs):
+    """
+    check if a file is unfiled, if yes, put into default folder.
+    ATTENTION: this signal must be registered before the duplicate detection signal => for when only
+    duplicates in the same folder need to be detected! (put in folder first, then detect duplicate)
+    """
+    if not conf.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
+        return
+    created_only = conf.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
+    if created_only and not kwargs.get('created', None):
+        return
+    if not instance.folder:
+        default_folder_name = conf.FILER_ADDONS_UNFILED_HANDLING.get(
+            'default_folder_name',
+            'Unfiled',
+        )
+        default_folder_list = Folder.objects.filter(name=default_folder_name)
+        if default_folder_list.count() > 0:
+            default_folder = default_folder_list[0]
+        else:
+            default_folder = Folder(name=default_folder_name)
+            default_folder.save()
+        instance.folder = default_folder
+        instance.save()
+
+
+@receiver(
+    post_save,
+    sender='filer.File',
     dispatch_uid="filer_addons_prevent_duplicates_file",
 )
 @receiver(
@@ -58,7 +94,7 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     if created_only and not kwargs.get('created', None):
         return
     file_obj = instance
-    duplicates = File.objects.filter(sha1=file_obj.sha1)
+    duplicates = File.objects.exclude(pk=file_obj.id).filter(sha1=file_obj.sha1)
     # narrow down? depends.
     if conf.FILER_ADDONS_DUPLICATE_HANDLING.get('same_folder_required', None):
         duplicates = duplicates.filter(folder=file_obj.folder)
@@ -67,8 +103,6 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         duplicates = duplicates.filter(
             original_filename=file_obj.original_filename
         )
-    # myself is not a duplicate
-    duplicates = duplicates.exclude(pk=file_obj.id)
     if len(duplicates):
         # print "duplicates found (post save):"
         # print duplicates
@@ -103,36 +137,3 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         """
         check_rename(instance)
 
-
-@receiver(
-    post_save,
-    sender='filer.File',
-    dispatch_uid="filer_addons_unfiled_file_to_folder",
-)
-@receiver(
-    post_save,
-    sender='filer.Image',
-    dispatch_uid="filer_addons_unfiled_image_to_folder",
-)
-def filer_unfiled_to_folder(sender, instance, **kwargs):
-    """
-    check if a file is unfiled, if yes, put into default folder.
-    """
-    if not conf.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
-        return
-    created_only = conf.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
-    if created_only and not kwargs.get('created', None):
-        return
-    if not instance.folder:
-        default_folder_name = conf.FILER_ADDONS_UNFILED_HANDLING.get(
-            'default_folder_name',
-            'Unfiled',
-        )
-        default_folder_list = Folder.objects.filter(name=default_folder_name)
-        if default_folder_list.count() > 0:
-            default_folder = default_folder_list[0]
-        else:
-            default_folder = Folder(name=default_folder_name)
-            default_folder.save()
-        instance.folder = default_folder
-        instance.save()

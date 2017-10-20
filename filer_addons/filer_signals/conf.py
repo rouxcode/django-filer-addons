@@ -2,7 +2,7 @@
 from django.conf import settings
 
 
-# defaults: sane defaults, only new uploaded, withing same folder,
+# defaults: sane defaults, only new uploaded, within same folder,
 # filename doesnt matter
 # warning: setting created_only to False will merge all existing duplicates.
 FILER_ADDONS_DUPLICATE_HANDLING = getattr(

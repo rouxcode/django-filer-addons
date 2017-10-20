@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from .models import FilerTest, FilerUglyFileInlineModel, \
     FilerUglyImageInlineModel
-from filer_addons.filer_gui.inlines import FilerMultiUploadInlineMixin
+from filer_addons.filer_gui.multiupload import FilerMultiUploadInlineMixin
 
 
 class MultiUploadStackedInline(
