@@ -13,12 +13,14 @@ FILER_ADDONS_DUPLICATE_HANDLING = getattr(
         'same_filename_required': False,
     }
 )
+setattr(settings, 'FILER_ADDONS_DUPLICATE_HANDLING', FILER_ADDONS_DUPLICATE_HANDLING)
 
 
 # yep, do it
 FILER_ADDONS_RENAME_FILES = getattr(
     settings, 'FILER_ADDONS_RENAME_FILES', True
 )
+setattr(settings, 'FILER_ADDONS_RENAME_FILES', FILER_ADDONS_RENAME_FILES)
 
 
 # also move already existing, that are modified
@@ -29,3 +31,4 @@ FILER_ADDONS_UNFILED_HANDLING = getattr(
         'default_folder_name': '0 - Direct Upload',
     }
 )
+setattr(settings, 'FILER_ADDONS_UNFILED_HANDLING', FILER_ADDONS_UNFILED_HANDLING)

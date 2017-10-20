@@ -1,12 +1,31 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from filer.tests import create_superuser
 from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
 
 
-class SignalsTests(TestCase):
+DUPLICATE_HANDLING_DISABLED = {
+    'prevent': False,
+}
+
+DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES = {
+    'prevent': True,
+    'created_only': True,
+    'same_folder_required': False,
+    'same_filename_required': False,
+}
+
+DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING = {
+    'prevent': True,
+    'created_only': False,
+    'same_folder_required': False,
+    'same_filename_required': False,
+}
+
+
+class DuplicatesTests(TestCase):
     def setUp(self):
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')
@@ -14,10 +33,13 @@ class SignalsTests(TestCase):
         self.another_folder = Folder.objects.create(name='test')
 
     def tearDown(self):
-        for f in File.objects.all():
-            f.delete()
+        self.delete_files()
         for folder in Folder.objects.all():
             folder.delete()
+
+    def delete_files(self):
+        for f in File.objects.all():
+            f.delete()
 
     def create_two_files(self, duplicates=True, **kwargs):
         """
@@ -70,7 +92,7 @@ class SignalsTests(TestCase):
 
     def test_has_duplicate_no_folder(self):
         """
-        same filename, same folder
+        same filename, same (none) folder
         :return:
         """
         self.create_two_files(duplicates=True)
@@ -101,3 +123,59 @@ class SignalsTests(TestCase):
         self.create_two_files(duplicates=True, different_name=True)
         self.assertEquals(File.objects.all().count(), 1)
 
+    @override_settings(
+        FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_DISABLED
+    )
+    def test_duplicate_detection_disabled(self):
+        self.create_two_files(duplicates=True, )
+        self.assertEquals(File.objects.all().count(), 2)
+        # same again, dups!
+        self.create_two_files(duplicates=True, )
+        self.assertEquals(File.objects.all().count(), 4)
+
+    @override_settings(
+        FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES
+    )
+    def test_duplicates_anywhere(self):
+        self.create_two_files(duplicates=True, different_name=True, different_folder=True)
+        self.assertEquals(File.objects.all().count(), 1)
+        # same again, still dups!
+        self.create_two_files(
+            duplicates=True,
+            folder=self.folder,
+            different_name=True,
+            different_folder=True,
+        )
+        self.assertEquals(File.objects.all().count(), 1)
+
+    @override_settings(
+        FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_DISABLED
+    )
+    def test_duplicates_greedy(self):
+        """
+        test greedy mode: already existing duplicates will also be merged
+        :return:
+        """
+        self.create_two_files(duplicates=True, different_name=True)
+        self.assertEquals(File.objects.all().count(), 2)
+        with self.settings(
+            FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING
+        ):
+            self.create_two_files(duplicates=True, different_name=True)
+            self.assertEquals(File.objects.all().count(), 1)
+
+    @override_settings(
+        FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_DISABLED
+    )
+    def test_duplicates_is_not_greedy(self):
+        """
+        test that normal mode is not greedy: already existing duplicates will not be merged
+        :return:
+        """
+        self.create_two_files(duplicates=True, different_name=True)
+        self.assertEquals(File.objects.all().count(), 2)
+        with self.settings(
+                FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES
+        ):
+            self.create_two_files(duplicates=True, different_name=True)
+            self.assertEquals(File.objects.all().count(), 2)
