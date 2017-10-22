@@ -27,7 +27,8 @@ def check_rename(instance, old_name=None):
         # done with startswith instead of ==
         # prevent deadlock, when storagem gives the _x5sx4sd suffix!
         splitext = os.path.splitext
-        if not (splitext(old_name)[0].startswith(splitext(new_name)[0])):
+        if not (splitext(old_name)[0].startswith(splitext(new_name)[0]) and
+                splitext(old_name)[1] == splitext(new_name)[1]):
             # rename!
             # print "do rename: %s to %s" % (old_name, new_name)
             existing_file = open(instance.file.path, mode='rb')
