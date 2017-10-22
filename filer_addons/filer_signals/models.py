@@ -16,13 +16,18 @@ def check_rename(instance, old_name=None):
     :param instance: filer file instance
     :return:
     """
+    if not settings.FILER_ADDONS_CONSISTENT_FILENAMES:
+        return
     if instance.id and instance.file:
         if old_name is None:
             old_instance = File.objects.get(pk=instance.id)
             old_name = old_instance.file.name
         old_name = os.path.basename(old_name)
         new_name = get_valid_filename(instance.original_filename)
-        if not old_name == new_name:
+        # done with startswith instead of ==
+        # prevent deadlock, when storagem gives the _x5sx4sd suffix!
+        splitext = os.path.splitext
+        if not (splitext(old_name)[0].startswith(splitext(new_name)[0])):
             # rename!
             # print "do rename: %s to %s" % (old_name, new_name)
             existing_file = open(instance.file.path, mode='rb')
@@ -30,7 +35,6 @@ def check_rename(instance, old_name=None):
             instance.file.delete(False)  # remove including thumbs
             instance.file.save(new_name, new_file, save=False)
             # print instance.file.name
-            # todo: prevent deadlock, when storagem gives the _x5sx4sd suffix!
             # do it here, original_filename is not updated correctly else!
             instance.save()
             existing_file.close()
