@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from django.test import TestCase, override_settings
 from filer.tests import create_superuser
 from filer.models import File, Folder
@@ -45,26 +46,40 @@ class ConsistentFilenamesTests(TestCase):
         file_obj.save()
         return file_obj
 
-    def test_has_correct_filename(self):
+    def test_has_correct_filename_simple(self):
         """
         basics. if this breaks, filer has gone nuts completely!
         :return:
         """
         file_obj = self.create_file()
-        file_path_name = file_obj.file.name
-        # self.assertTrue(file_obj.file.name
-        # self.assertEquals(file_obj.file, 2)
+        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
+        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        self.assertTrue(new_name_only.startswith(original_name_only))
+        self.assertEquals(new_name_suffix, original_suffix)
 
-    def test_has_correct_name_after_update(self):
+    def test_has_correct_name_after_file_update(self):
         """
-        same filename, same (none) folder
+        change the file, filename should, too
         :return:
         """
         file_obj = self.create_file()
         new_django_file = create_django_file(filename='file_different_name.jpg')
         file_obj.file = new_django_file
         file_obj.save()
-        print file_obj.file.name
-        # self.assertEquals(File.objects.all().count(), 1)
+        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
+        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        self.assertTrue(new_name_only.startswith(original_name_only))
+        self.assertEquals(new_name_suffix, original_suffix)
 
-
+    def test_has_correct_name_after_original_name_update(self):
+        """
+        change the file, filename should, too
+        :return:
+        """
+        file_obj = self.create_file()
+        file_obj.original_filename = 'something_different.jpg'
+        file_obj.save()
+        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
+        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        self.assertTrue(new_name_only.startswith(original_name_only))
+        self.assertEquals(new_name_suffix, original_suffix)

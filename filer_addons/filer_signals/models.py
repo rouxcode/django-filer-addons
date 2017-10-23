@@ -94,9 +94,11 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
     if not settings.FILER_ADDONS_DUPLICATE_HANDLING.get('prevent'):
+        check_rename(instance)
         return
     created_only = settings.FILER_ADDONS_DUPLICATE_HANDLING.get('created_only', False)
     if created_only and not kwargs.get('created', None):
+        check_rename(instance)
         return
     file_obj = instance
     duplicates = File.objects.exclude(pk=file_obj.id).filter(sha1=file_obj.sha1)
