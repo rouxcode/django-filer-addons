@@ -9,4 +9,4 @@
 - initial release
 - improved filer fields
 - basic signals (prevent duplicates, manage unfiled, rename)
-- utils: generate filename methods
+- utils: generate filename methods, management commands
