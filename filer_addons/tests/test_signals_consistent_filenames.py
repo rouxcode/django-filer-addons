@@ -52,8 +52,12 @@ class ConsistentFilenamesTests(TestCase):
         :return:
         """
         file_obj = self.create_file()
-        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
-        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        original_name_only, original_suffix = os.path.splitext(
+            file_obj.original_filename
+        )
+        new_name_only, new_name_suffix = os.path.splitext(
+            os.path.basename(file_obj.file.name)
+        )
         self.assertTrue(new_name_only.startswith(original_name_only))
         self.assertEquals(new_name_suffix, original_suffix)
 
@@ -63,11 +67,15 @@ class ConsistentFilenamesTests(TestCase):
         :return:
         """
         file_obj = self.create_file()
-        new_django_file = create_django_file(filename='file_different_name.jpg')
+        new_django_file = create_django_file(filename='other.jpg')
         file_obj.file = new_django_file
         file_obj.save()
-        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
-        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        original_name_only, original_suffix = os.path.splitext(
+            file_obj.original_filename
+        )
+        new_name_only, new_name_suffix = os.path.splitext(
+            os.path.basename(file_obj.file.name)
+        )
         self.assertTrue(new_name_only.startswith(original_name_only))
         self.assertEquals(new_name_suffix, original_suffix)
 
@@ -79,7 +87,11 @@ class ConsistentFilenamesTests(TestCase):
         file_obj = self.create_file()
         file_obj.original_filename = 'something_different.jpg'
         file_obj.save()
-        original_name_only, original_suffix = os.path.splitext(file_obj.original_filename)
-        new_name_only, new_name_suffix = os.path.splitext(os.path.basename(file_obj.file.name))
+        original_name_only, original_suffix = os.path.splitext(
+            file_obj.original_filename
+        )
+        new_name_only, new_name_suffix = os.path.splitext(
+            os.path.basename(file_obj.file.name)
+        )
         self.assertTrue(new_name_only.startswith(original_name_only))
         self.assertEquals(new_name_suffix, original_suffix)

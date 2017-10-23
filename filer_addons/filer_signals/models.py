@@ -58,13 +58,14 @@ def filer_unfiled_to_folder(sender, instance, **kwargs):
     signal => for when only duplicates in the same folder need to be detected!
     (put in folder first, then detect duplicate)
     """
-    if not settings.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
+    UNFILED_HANDLING = settings.FILER_ADDONS_UNFILED_HANDLING
+    if not UNFILED_HANDLING.get('move_unfiled', None):
         return
-    created_only = settings.FILER_ADDONS_UNFILED_HANDLING.get('created_only', False)
+    created_only = UNFILED_HANDLING.get('created_only', False)
     if created_only and not kwargs.get('created', None):
         return
     if not instance.folder:
-        default_folder_name = settings.FILER_ADDONS_UNFILED_HANDLING.get(
+        default_folder_name = UNFILED_HANDLING.get(
             'default_folder_name',
             'Unfiled',
         )
@@ -94,19 +95,20 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     as this is post save, it will ELIMINATE ALL DUPLICATES of a file,
     if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
-    if not settings.FILER_ADDONS_DUPLICATE_HANDLING.get('prevent'):
+    DUPLICATE_HANDLING = settings.FILER_ADDONS_DUPLICATE_HANDLING
+    if not DUPLICATE_HANDLING.get('prevent'):
         check_rename(instance)
         return
-    created_only = settings.FILER_ADDONS_DUPLICATE_HANDLING.get('created_only', False)
+    created_only = DUPLICATE_HANDLING.get('created_only', False)
     if created_only and not kwargs.get('created', None):
         check_rename(instance)
         return
     file_obj = instance
     duplicates = File.objects.exclude(pk=file_obj.id).filter(sha1=file_obj.sha1)
     # narrow down? depends.
-    if settings.FILER_ADDONS_DUPLICATE_HANDLING.get('same_folder_required', None):
+    if DUPLICATE_HANDLING.get('same_folder_required', None):
         duplicates = duplicates.filter(folder=file_obj.folder)
-    if settings.FILER_ADDONS_DUPLICATE_HANDLING.get('same_filename_required', None):
+    if DUPLICATE_HANDLING.get('same_filename_required', None):
         # TODO: is this slugified somehow??!
         duplicates = duplicates.filter(
             original_filename=file_obj.original_filename
@@ -119,7 +121,7 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
             if file.file:
                 duplicate = file
         if duplicate is None:
-            # duplicate without file is nothing we can use and would corrupt data!
+            # duplicate without file is nothing we use and would corrupt data!
             return
         instance.delete()
         duplicate = duplicates[0]
