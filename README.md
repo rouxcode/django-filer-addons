@@ -1,7 +1,7 @@
 # django-filer-addons-addons
 
 
-[![Build Status](https://travis-ci.org/bnzk/django-filer-addons.svg "Build Status")](https://travis-ci.org/bnzk/django-filer-addons/)
+[![Build Status](https://travis-ci.org/rouxcode/django-filer-addons.svg "Build Status")](https://travis-ci.org/rouxcode/django-filer-addons/)
 [![PyPi Version](https://img.shields.io/pypi/v/django-filer-addons.svg "PyPi Version")](https://pypi.python.org/pypi/django-filer-addons/)
 [![Licence](https://img.shields.io/pypi/l/django-filer-addons.svg "Licence")](https://pypi.python.org/pypi/django-filer-addons/)
 
