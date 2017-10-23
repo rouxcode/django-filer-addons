@@ -137,7 +137,11 @@ class DuplicatesTests(TestCase):
         FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES
     )
     def test_duplicates_anywhere(self):
-        self.create_two_files(duplicates=True, different_name=True, different_folder=True)
+        self.create_two_files(
+            duplicates=True,
+            different_name=True,
+            different_folder=True,
+        )
         self.assertEquals(File.objects.all().count(), 1)
         # same again, still dups!
         self.create_two_files(
@@ -159,7 +163,7 @@ class DuplicatesTests(TestCase):
         self.create_two_files(duplicates=True, different_name=True)
         self.assertEquals(File.objects.all().count(), 2)
         with self.settings(
-            FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING
+            FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING  # noqa
         ):
             self.create_two_files(duplicates=True, different_name=True)
             self.assertEquals(File.objects.all().count(), 1)
@@ -169,13 +173,14 @@ class DuplicatesTests(TestCase):
     )
     def test_duplicates_is_not_greedy(self):
         """
-        test that normal mode is not greedy: already existing duplicates will not be merged
+        test that normal mode is not greedy
+        already existing duplicates will not be merged
         :return:
         """
         self.create_two_files(duplicates=True, different_name=True)
         self.assertEquals(File.objects.all().count(), 2)
         with self.settings(
-                FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES
+                FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES  # noqa
         ):
             self.create_two_files(duplicates=True, different_name=True)
             self.assertEquals(File.objects.all().count(), 2)

@@ -35,4 +35,5 @@ class UnusedFilesCommand(SubcommandsCommand):
             self.stdout.write(force_text(file))
             if options['delete']:
                 file.delete()
-        self.stdout.write(str(amount))
+        self.stdout.write("-")
+        self.stdout.write("%s unused files found." % str(amount))

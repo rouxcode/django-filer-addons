@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from filer.tests import create_superuser
 from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
 
 
-UNFILED_HANDLING_DISABLED = {
-    'move_unfiled': False,
-}
-
-
-class UnfiledHandlingTests(TestCase):
+class ManagementCommandsTests(TestCase):
     def setUp(self):
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')
@@ -38,9 +33,6 @@ class UnfiledHandlingTests(TestCase):
         filename = 'file.jpg'
         if kwargs.get('name', None):
             filename = kwargs['name']
-        folder = None
-        if kwargs.get('folder', None):
-            folder = kwargs['folder']
         size = (50, 50, )
         if kwargs.get('size', None):
             size = kwargs['size']
@@ -49,26 +41,8 @@ class UnfiledHandlingTests(TestCase):
             owner=self.superuser,
             original_filename=filename,
             file=django_file,
-            folder=folder,
         )
         file_obj.save()
         return file_obj
 
-    def test_unfiled_to_folder(self):
-        """
-        checks if it respects to be disabled
-        :return:
-        """
-        file_obj = self.create_file()
-        self.assertNotEquals(file_obj.folder, None)
-
-    @override_settings(
-        FILER_ADDONS_UNFILED_HANDLING=UNFILED_HANDLING_DISABLED
-    )
-    def test_disabled_works(self):
-        """
-        checks if it respects to be disabled
-        :return:
-        """
-        file_obj = self.create_file()
-        self.assertEquals(file_obj.folder, None)
+    # TODO: write tests!

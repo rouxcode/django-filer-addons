@@ -54,8 +54,9 @@ def check_rename(instance, old_name=None):
 def filer_unfiled_to_folder(sender, instance, **kwargs):
     """
     check if a file is unfiled, if yes, put into default folder.
-    ATTENTION: this signal must be registered before the duplicate detection signal => for when only
-    duplicates in the same folder need to be detected! (put in folder first, then detect duplicate)
+    ATTENTION: this signal must be registered before the duplicate detection
+    signal => for when only duplicates in the same folder need to be detected!
+    (put in folder first, then detect duplicate)
     """
     if not settings.FILER_ADDONS_UNFILED_HANDLING.get('move_unfiled', None):
         return
@@ -143,4 +144,3 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         (and original_filename) programmatically.
         """
         check_rename(instance)
-

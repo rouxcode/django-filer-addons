@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from filer.tests import create_superuser
 from filer.models import File, Folder
 

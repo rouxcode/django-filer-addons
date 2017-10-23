@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'filer_addons',
     'filer_addons.filer_gui',
     'filer_addons.filer_signals',
+    'filer_addons.filer_utils',
     'filer_addons.tests.testapp',
 )
 
@@ -82,7 +83,8 @@ MIDDLEWARE_CLASSES = (
 # DJANGO FILER settings
 # =============================================================================
 
-FILER_IS_PUBLIC_DEFAULT = True
+FILER_IS_PUBLIC_DEFAULT = False
+FILER_ENABLE_PERMISSIONS = True
 FILER_PAGINATE_BY = 200
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 FILER_STORAGES = {
@@ -97,7 +99,7 @@ FILER_STORAGES = {
             # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
             # 'OPTIONS': {},
             'THUMBNAIL_OPTIONS': {
-                'base_dir': 'thumb',
+                'base_dir': 'thumbs',
             },
         },
     },
