@@ -49,6 +49,22 @@ def db_folder(instance, filename):
     return os.path.join(foldername, filename)
 
 
+def complete_db_folder(instance, filename):
+    """
+    get the db folder's name, it's parents, it's parents. etc.
+    """
+    foldername = ''
+    if instance.folder:
+        folder = instance.folder
+        foldername = slugify(instance.folder.name)
+        while folder.parent:
+            foldername = os.path.join(folder.parent.name, foldername)
+            folder = folder.parent
+    print foldername
+    filename = get_valid_filename(filename)
+    return os.path.join(foldername, filename)
+
+
 def year(instance, filename):
     """
     yyyy/filename.jpg
