@@ -92,8 +92,8 @@ FILER_STORAGES = {
         'main': {
             # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
             # 'OPTIONS': {},
-            # 'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
-            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.complete_db_folder', # NOQA
+            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
+            # 'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.complete_db_folder', # NOQA
             'UPLOAD_TO_PREFIX': 'filer',
         },
         'thumbnails': {
