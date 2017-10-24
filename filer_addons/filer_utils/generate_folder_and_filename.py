@@ -5,7 +5,7 @@ import uuid
 import datetime
 
 from filer.utils.files import get_valid_filename
-
+from django.utils import text
 
 def no_subfolders(instance, filename):
     """
@@ -41,10 +41,9 @@ def db_folder(instance, filename):
     """
     tries to get the db folder's name, and use this.
     """
-    from django.utils.text import slugify
     foldername = ''
     if instance.folder:
-        foldername = slugify(instance.folder.name)
+        foldername = text.slugify(instance.folder.name)
     filename = get_valid_filename(filename)
     return os.path.join(foldername, filename)
 
@@ -53,13 +52,13 @@ def complete_db_folder(instance, filename):
     """
     get the db folder's name, it's parents, it's parents. etc.
     """
-    from django.utils.text import slugify
+
     foldername = ''
     if instance.folder:
         folder = instance.folder
-        foldername = slugify(instance.folder.name)
+        foldername = text.slugify(instance.folder.name)
         while folder.parent:
-            foldername = os.path.join(slugify(folder.parent.name), foldername)
+            foldername = os.path.join(text.slugify(folder.parent.name), foldername)
             folder = folder.parent
     filename = get_valid_filename(filename)
     return os.path.join(foldername, filename)
