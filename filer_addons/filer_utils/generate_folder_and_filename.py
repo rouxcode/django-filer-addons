@@ -58,9 +58,8 @@ def complete_db_folder(instance, filename):
         folder = instance.folder
         foldername = slugify(instance.folder.name)
         while folder.parent:
-            foldername = os.path.join(folder.parent.name, foldername)
+            foldername = os.path.join(slugify(folder.parent.name), foldername)
             folder = folder.parent
-    print foldername
     filename = get_valid_filename(filename)
     return os.path.join(foldername, filename)
 
