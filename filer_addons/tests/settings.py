@@ -83,7 +83,7 @@ MIDDLEWARE_CLASSES = (
 # DJANGO FILER settings
 # =============================================================================
 
-FILER_IS_PUBLIC_DEFAULT = False
+FILER_IS_PUBLIC_DEFAULT = True
 FILER_ENABLE_PERMISSIONS = True
 FILER_PAGINATE_BY = 200
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
@@ -92,7 +92,7 @@ FILER_STORAGES = {
         'main': {
             # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
             # 'OPTIONS': {},
-            'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
+            # 'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.no_subfolders', # NOQA
             # 'UPLOAD_TO': 'filer_addons.filer_utils.generate_folder_and_filename.complete_db_folder', # NOQA
             'UPLOAD_TO_PREFIX': 'filer',
         },

@@ -5,6 +5,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.http.response import JsonResponse
 
+from filer import settings as filer_settings
+
 from .models import File, Image, FilerGuiFile
 from .utils import file_is_image_by_name
 # TODO get it from settings
@@ -125,6 +127,7 @@ class FilerGuiAdmin(admin.ModelAdmin):
                 upload = request.FILES.values()[0]
                 # TODO get rid of this distinction and find a proper way
                 # to get the correct model form
+                form_class = None
                 if file_is_image_by_name(upload.name):
                     form_class = FilerImageForm
                 else:
@@ -133,13 +136,15 @@ class FilerGuiAdmin(admin.ModelAdmin):
                     {
                         'owner': request.user.pk,
                         'original_filename': upload.name,
-                        'is_public': True,
+                        'is_public': filer_settings.FILER_IS_PUBLIC_DEFAULT,
                     },
                     {
                         'file': upload
                     }
                 )
                 if filer_form.is_valid():
+                    # TODO check why settings.FILER_IS_PUBLIC_DEFAULT
+                    # needs to be set to True for the following to work
                     obj = filer_form.save()  # commit=False
                     data = {
                         'message': 'ok',

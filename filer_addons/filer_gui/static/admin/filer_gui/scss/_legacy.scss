@@ -10,10 +10,15 @@ a.fg-button {
     }
 
     &.add-related-filer {
+        background-color: green;
         background-image: url(../../img/icon_addlink.gif);
     }
 
     &.edit-related-filer {
+        background-image: url(../../img/icon_changelink.gif);
+    }
+
+    &.remove-related-filer {
         background-image: url(../../img/icon_changelink.gif);
     }
 

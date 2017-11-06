@@ -34,7 +34,7 @@ var FilerGuiWidgets = (function($){
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
         widget._text = {
-            'no_file': widget.$.data('text-no-file')
+            no_file: widget.$.data('text-no-file')
         }
         widget._urls = {
             file_detail: widget.$.data('file-detail-url'),
@@ -44,6 +44,8 @@ var FilerGuiWidgets = (function($){
         widget.$rawid = $('.rawid-input', widget.$);
         widget.$add = $('.add-related-filer', widget.$);
         widget.$edit = $('.edit-related-filer', widget.$);
+        widget.$remove = $('.remove-related-filer', widget.$);
+        widget.$remove[0]._widget = widget;
         widget.$lookup = $('.related-lookup-filer', widget.$);
         widget.$preview = $('.preview', widget.$);
         widget.$dz = $('.uploader', widget.$);
@@ -59,6 +61,7 @@ var FilerGuiWidgets = (function($){
         // catch events
         widget.$edit.on('click', edit);
         widget.$lookup.on('click', lookup);
+        widget.$remove.on('click', remove);
 
         // setup dropzonejs uploader
         if(widget.$dz.length > 0) {
@@ -132,6 +135,15 @@ var FilerGuiWidgets = (function($){
         e.preventDefault();
         $(this).trigger(events.lookup_start);
         showRelatedObjectLookupPopup(this);
+    };
+
+    // TODO get html from template
+    function remove(e) {
+        e.preventDefault();
+        this._widget.$rawid.val('');
+        this._widget.$preview.html(
+            '<span class="no-file">' + this._widget._text.no_file + '</span>'
+        );
     };
 
     function show_edit_popup(link) {
@@ -216,8 +228,10 @@ var FilerGuiWidgets = (function($){
         var value = widget.$rawid.val();
         var tmpl = widget.$edit.data('href-template');
         if(value) {
+            widget.$remove.removeClass('inactive');
             widget.$edit.attr('href', tmpl.replace('__fk__', value)).removeClass('inactive');
         } else {
+            widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');
             widget.$preview.html('<span class="no-file">' + widget._text.no_file + '</span>');
         }
