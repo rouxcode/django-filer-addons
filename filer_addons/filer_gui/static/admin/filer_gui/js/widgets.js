@@ -237,7 +237,7 @@ var FilerGuiWidgets = (function($){
             widget.$remove.removeClass('inactive');
             widget.$edit.removeClass('inactive');
             if(widget._edit_url) {
-                widget.$edit.attr('href', widget._temp.edit_url);
+                widget.$edit.attr('href', widget._edit_url);
             } else {
                 widget.$edit.attr('href', tmpl.replace('__fk__', value));
             }
