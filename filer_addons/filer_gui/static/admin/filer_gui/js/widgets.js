@@ -33,6 +33,7 @@ var FilerGuiWidgets = (function($){
         var widget = this;
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
+        widget._temp = {};
         widget._text = {
             no_file: widget.$.data('text-no-file')
         }
@@ -121,7 +122,7 @@ var FilerGuiWidgets = (function($){
             widget.$dz.removeClass('dz-accepted');
             widget._dz.removeAllFiles();
             widget.$rawid.val(data.file.file_id);
-            update_widget_elements(widget, data.file)
+            update_widget_elements(widget, data.file);
         };
     };
 
@@ -210,12 +211,18 @@ var FilerGuiWidgets = (function($){
         var css;
         var html;
         var url;
+        var edit_url = undefined;
         if(widget._file_type === 'image') {
             css = 'thumbnail-img'
             url = data.thumb_url;
         } else {
             css = 'icon-img'
             url = data.icon_url;
+        }
+        if(data.edit_url) {
+            widget._temp.edit_url = data.edit_url + '?_to_field=id&_popup=1';
+        } else {
+            widget._temp.edit_url = undefined;
         }
         widget.$preview.html(
             '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
@@ -229,7 +236,12 @@ var FilerGuiWidgets = (function($){
         var tmpl = widget.$edit.data('href-template');
         if(value) {
             widget.$remove.removeClass('inactive');
-            widget.$edit.attr('href', tmpl.replace('__fk__', value)).removeClass('inactive');
+            widget.$edit.removeClass('inactive');
+            if(widget._temp.edit_url) {
+                widget.$edit.attr('href', widget._temp.edit_url);
+            } else {
+                widget.$edit.attr('href', tmpl.replace('__fk__', value));
+            }
         } else {
             widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.conf.urls import url
 from django.contrib import admin
+from django.core.urlresolvers import reverse
 from django.http.response import JsonResponse
 
 from filer import settings as filer_settings
@@ -87,14 +88,17 @@ class FilerGuiAdmin(admin.ModelAdmin):
             th = obj.easy_thumbnails_thumbnailer
             thumb = th.get_thumbnail({'size': THUMBNAIL_SIZE})
             thumb_url = thumb.url
+            edit_url = reverse('admin:filer_image_change', args=[obj.id])
         else:
             thumb_url = obj.icons['48']
+            edit_url = reverse('admin:filer_file_change', args=[obj.id])
         data = {
             'label': obj.label,
             'file_id': obj.id,
             'file_url': obj.url,
             'icon_url': obj.icons['48'],
             'thumb_url': thumb_url,
+            'edit_url': edit_url,
         }
         return data
 
