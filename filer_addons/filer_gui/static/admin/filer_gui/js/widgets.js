@@ -33,7 +33,6 @@ var FilerGuiWidgets = (function($){
         var widget = this;
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
-        widget._temp = {};
         widget._text = {
             no_file: widget.$.data('text-no-file')
         }
@@ -220,9 +219,9 @@ var FilerGuiWidgets = (function($){
             url = data.icon_url;
         }
         if(data.edit_url) {
-            widget._temp.edit_url = data.edit_url + '?_to_field=id&_popup=1';
+            widget._edit_url = data.edit_url + '?_to_field=id&_popup=1';
         } else {
-            widget._temp.edit_url = undefined;
+            widget._edit_url = undefined;
         }
         widget.$preview.html(
             '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
@@ -237,7 +236,7 @@ var FilerGuiWidgets = (function($){
         if(value) {
             widget.$remove.removeClass('inactive');
             widget.$edit.removeClass('inactive');
-            if(widget._temp.edit_url) {
+            if(widget._edit_url) {
                 widget.$edit.attr('href', widget._temp.edit_url);
             } else {
                 widget.$edit.attr('href', tmpl.replace('__fk__', value));
