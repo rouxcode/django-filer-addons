@@ -40,13 +40,6 @@ class FilerTest(models.Model):
         on_delete=models.SET_NULL,
         related_name='file_ugly_filertest',
     )
-    filer_file_ugly_2 = UglyFilerFileField(
-        null=True,
-        blank=True,
-        default=None,
-        on_delete=models.SET_NULL,
-        related_name='file_ugly_2_filertest',
-    )
     filer_image_ugly = UglyFilerImageField(
         null=True,
         default=None,

@@ -81,15 +81,3 @@ class FilerTestAdmin(admin.ModelAdmin):
             ]
         })
     ]
-
-    """
-    ('Widget Test', {
-        'classes': ['section'],
-        'fields': [
-            'filer_file_raw',
-            'filer_file',
-            'filer_image',
-            'filer_image_ugly_2',
-        ],
-    }),
-    """

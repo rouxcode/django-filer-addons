@@ -22,14 +22,14 @@ FILE_TYPE_CHOICES = [
 ]
 
 
-# TODO remove all file_type related code
+# FIXME remove all file_type related code
 class FilerGuiFileWidget(ForeignKeyRawIdWidget):
     """
     Advanced ForeignKeyRawIdWidget with preview and nice select
     new version
     """
 
-    # TODO find a better way do determin the file_type
+    # FIXME find a better way do determin the file_type
     file_type = 'file'  # needet for widget html data and js
     template_name = 'admin/filer_gui/widgets/admin_file.html'
 
