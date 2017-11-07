@@ -10,7 +10,8 @@ from filer import settings as filer_settings
 
 from ..models import File, Image
 from ..utils import file_is_image_by_name
-# TODO get it from settings
+
+# FIXME get it from settings
 from ..widgets import FILE_TYPE_CHOICES, THUMBNAIL_SIZE
 
 

@@ -5,18 +5,12 @@ from django.contrib import admin
 
 from .models import (
     FilerTest,
-    FilerUglyTest,
     FilerUglyFileInlineModel,
     FilerUglyImageInlineModel,
 )
 from filer_addons.filer_gui.admin.multiupload import (
     FilerMultiUploadInlineMixin,
 )
-
-
-@admin.register(FilerUglyTest)
-class FilerUglyTestAdmin(admin.ModelAdmin):
-    pass
 
 
 class MultiUploadStackedInline(

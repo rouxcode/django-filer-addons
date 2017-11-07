@@ -87,7 +87,9 @@ class FilerMultiUploadPluginMixin(object):
     # end config
     form = FilerMultiUploadPluginForm
     # upload_folder = get_folder_by_path('uploads', True)
-    change_form_template = 'admin/filer_gui/inlines/multiupload_plugin_changeform.html'  # noqa
+    change_form_template = (
+        'admin/filer_gui/inlines/multiupload_plugin_changeform.html'
+    )
 
     @property
     def media(self):
@@ -98,7 +100,10 @@ class FilerMultiUploadPluginMixin(object):
             settings.STATIC_URL + 'admin/filer_gui/js/multiupload_plugin.js',
         )
         css = {
-            'all': (settings.STATIC_URL + 'admin/filer_gui/css/multiupload_base.css',)  # noqa
+            'all': [
+                settings.STATIC_URL
+                + 'admin/filer_gui/css/multiupload_base.css',
+            ]
         }
         new_media = widgets.Media(js=js, css=css)
         return original_media + new_media

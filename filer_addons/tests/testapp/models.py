@@ -53,30 +53,6 @@ class FilerTest(models.Model):
 
 
 @python_2_unicode_compatible
-class FilerUglyTest(models.Model):
-    name = models.CharField(
-        max_length=150,
-    )
-    filer_file_ugly = UglyFilerFileField(
-        null=True,
-        blank=True,
-        default=None,
-        on_delete=models.SET_NULL,
-        related_name='file_ugly_fileruglytest',
-    )
-    filer_image_ugly = UglyFilerImageField(
-        null=True,
-        default=None,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='image_ugly_fileruglytest',
-    )
-
-    def __str__(self):
-        return '{}'.format(self.name)
-
-
-@python_2_unicode_compatible
 class FilerUglyImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
         FilerTest

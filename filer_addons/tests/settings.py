@@ -77,8 +77,8 @@ INSTALLED_APPS = (
     'polymorphic',
     'filer_addons',
     'filer_addons.filer_gui',
-    # 'filer_addons.filer_signals',
-    # 'filer_addons.filer_utils',
+    'filer_addons.filer_signals',
+    'filer_addons.filer_utils',
     'filer_addons.tests.testapp',
 )
 
