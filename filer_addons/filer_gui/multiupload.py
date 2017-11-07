@@ -7,6 +7,7 @@ from filer.models import File
 
 
 class FilerMultiUploadInlineMixin(object):
+    # TODO create admin folder this belongs there
     # TODO: select one or multiple existing files with the file picker!
     # TODO: add at first or last position?
     # TODO: check file_field correctness!
@@ -29,7 +30,10 @@ class FilerMultiUploadInlineMixin(object):
             settings.STATIC_URL + 'admin/filer_gui/js/multiupload_inline.js',
         )
         css = {
-            'all': (settings.STATIC_URL + 'admin/filer_gui/css/multiupload_base.css',)  # noqa
+            'all': (
+                settings.STATIC_URL
+                + 'admin/filer_gui/css/multiupload_base.css',
+            )
         }
         new_media = widgets.Media(js=js, css=css)
         return original_media + new_media
@@ -40,10 +44,12 @@ class FilerMultiUploadInlineMixin(object):
             return 'admin/filer_gui/inlines/multiupload_stacked.html'
         if isinstance(self, admin.TabularInline):
             return 'admin/filer_gui/inlines/multiupload_tabular.html'
-        raise ImproperlyConfigured('Class {0}.{1} must also derive from'
-                                   ' admin.TabularInline or'
-                                   ' admin.StackedInline'
-                                   .format(self.__module__, self.__class__))
+        raise ImproperlyConfigured(
+            'Class {0}.{1} must also derive from'
+            ' admin.TabularInline or'
+            ' admin.StackedInline'
+            .format(self.__module__, self.__class__)
+        )
 
 
 """

@@ -3,7 +3,10 @@ from __future__ import unicode_literals
 from django import forms
 from django.conf.urls import url
 from django.contrib import admin
+from django.core.urlresolvers import reverse
 from django.http.response import JsonResponse
+
+from filer import settings as filer_settings
 
 from .models import File, Image, FilerGuiFile
 from .utils import file_is_image_by_name
@@ -85,14 +88,17 @@ class FilerGuiAdmin(admin.ModelAdmin):
             th = obj.easy_thumbnails_thumbnailer
             thumb = th.get_thumbnail({'size': THUMBNAIL_SIZE})
             thumb_url = thumb.url
+            edit_url = reverse('admin:filer_image_change', args=[obj.id])
         else:
             thumb_url = obj.icons['48']
+            edit_url = reverse('admin:filer_file_change', args=[obj.id])
         data = {
             'label': obj.label,
             'file_id': obj.id,
             'file_url': obj.url,
             'icon_url': obj.icons['48'],
             'thumb_url': thumb_url,
+            'edit_url': edit_url,
         }
         return data
 
@@ -125,6 +131,7 @@ class FilerGuiAdmin(admin.ModelAdmin):
                 upload = request.FILES.values()[0]
                 # TODO get rid of this distinction and find a proper way
                 # to get the correct model form
+                form_class = None
                 if file_is_image_by_name(upload.name):
                     form_class = FilerImageForm
                 else:
@@ -133,13 +140,15 @@ class FilerGuiAdmin(admin.ModelAdmin):
                     {
                         'owner': request.user.pk,
                         'original_filename': upload.name,
-                        'is_public': True,
+                        'is_public': filer_settings.FILER_IS_PUBLIC_DEFAULT,
                     },
                     {
                         'file': upload
                     }
                 )
                 if filer_form.is_valid():
+                    # TODO check why settings.FILER_IS_PUBLIC_DEFAULT
+                    # needs to be set to True for the following to work
                     obj = filer_form.save()  # commit=False
                     data = {
                         'message': 'ok',
