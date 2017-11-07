@@ -45,7 +45,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
                 ]
             }
         js = [
-            # 'admin/filer_gui/js/dropzone.js',
+            'admin/filer_gui/js/dropzone.js',
             'admin/filer_gui/js/widgets.js',
         ]
 
