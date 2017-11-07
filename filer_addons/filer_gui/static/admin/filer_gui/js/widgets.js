@@ -46,7 +46,8 @@ var FilerGuiWidgets = (function($){
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
         widget._text = {
-            no_file: widget.$.data('text-no-file')
+            no_file: widget.$.data('text-no-file'),
+            wrong_file_type: widget.$.data('wrong-file-type')
         }
         widget._urls = {
             file_detail: widget.$.data('file-detail-url'),
@@ -61,6 +62,7 @@ var FilerGuiWidgets = (function($){
         widget.$lookup = $('.related-lookup-filer', widget.$);
         widget.$preview = $('.preview', widget.$);
         widget.$dz = $('.uploader', widget.$);
+        widget._nofile_template = '<span class="no-file">__TXT__</span>';
 
         widget_map[widget.$rawid.attr('id')] = widget;
 
@@ -235,24 +237,30 @@ var FilerGuiWidgets = (function($){
         var html;
         var url;
         var edit_url = undefined;
-        if(widget._file_type === 'image') {
-            css = 'thumbnail-img'
-            url = data.thumb_url;
+
+        if(data.file_type != widget._file_type) {
+            // FIXME add message!!!
         } else {
-            css = 'icon-img'
-            url = data.icon_url;
+            if(widget._file_type === 'image') {
+                css = 'thumbnail-img'
+                url = data.thumb_url;
+            } else {
+                css = 'icon-img'
+                url = data.icon_url;
+            }
+            if(data.edit_url) {
+                widget._edit_url = data.edit_url + '?_to_field=id&_popup=1';
+            } else {
+                widget._edit_url = undefined;
+            }
+            widget.$preview.html(
+                '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
+              + '<span class="label">' + data.label + '</span>'
+            );
+            update_links(widget);
         }
-        if(data.edit_url) {
-            widget._edit_url = data.edit_url + '?_to_field=id&_popup=1';
-        } else {
-            widget._edit_url = undefined;
-        }
-        widget.$preview.html(
-            '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
-          + '<span class="label">' + data.label + '</span>'
-        );
-        update_links(widget);
     };
+
 
     function update_links(widget) {
         var value = widget.$rawid.val();
@@ -268,7 +276,12 @@ var FilerGuiWidgets = (function($){
         } else {
             widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');
-            widget.$preview.html('<span class="no-file">' + widget._text.no_file + '</span>');
+            widget.$preview.html(
+                widget._nofile_template.replace(
+                    '__TXT__',
+                    widget._text.no_file
+                )
+            );
         }
     };
 

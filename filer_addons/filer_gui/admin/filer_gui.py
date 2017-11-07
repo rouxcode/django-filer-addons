@@ -99,6 +99,7 @@ class FilerGuiAdmin(admin.ModelAdmin):
             'icon_url': obj.icons['48'],
             'thumb_url': thumb_url,
             'edit_url': edit_url,
+            'file_type': obj.file_type.lower(),
         }
         return data
 

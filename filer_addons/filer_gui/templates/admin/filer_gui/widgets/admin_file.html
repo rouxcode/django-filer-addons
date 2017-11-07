@@ -4,7 +4,8 @@
             data-file-type="{{ file_type }}"
             data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}"
             data-file-upload-url="{% url 'admin:file_upload' %}"
-            data-text-no-file="{% trans 'No file' %}">
+            data-text-no-file="{% trans 'No file' %}"
+            data-text-wrong-file-type="{% trans 'No file' %}">
         <div class="widget-column rawid-field">{{ rawid_input }}</div>
         <div class="widget-column preview">
             {% block preview %}
