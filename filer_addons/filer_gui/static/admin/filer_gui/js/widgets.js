@@ -48,11 +48,11 @@ var FilerGuiWidgets = (function($){
         widget._text = {
             no_file: widget.$.data('text-no-file'),
             wrong_file_type: widget.$.data('wrong-file-type')
-        }
+        };
         widget._urls = {
             file_detail: widget.$.data('file-detail-url'),
             file_upload: widget.$.data('file-upload-url')
-        }
+        };
         widget.$parent = widget.$.parent();
         widget.$rawid = $('.rawid-input', widget.$);
         widget.$add = $('.add-related-filer', widget.$);
@@ -62,7 +62,7 @@ var FilerGuiWidgets = (function($){
         widget.$lookup = $('.related-lookup-filer', widget.$);
         widget.$preview = $('.preview', widget.$);
         widget.$dz = $('.uploader', widget.$);
-        widget._nofile_template = '<span class="no-file">__TXT__</span>';
+        widget._nofile_template = '<span class="no-file">__txt__</span>';
 
         widget_map[widget.$rawid.attr('id')] = widget;
 
@@ -277,19 +277,20 @@ var FilerGuiWidgets = (function($){
                 edit_url = tmpl.replace('__fk__', value);
             }
             widget.$edit.attr('href', edit_url);
+            widget.$preview.addClass('clickable');
             widget.$preview.on(
                 'click',
                 function(e) {
                     e.preventDefault();
                     widget.$edit.trigger('click');
                 }
-            ).addClass('clickable');;
+            );
         } else {
             widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');
             widget.$preview.html(
                 widget._nofile_template.replace(
-                    '__TXT__',
+                    '__txt__',
                     widget._text.no_file
                 )
             );
