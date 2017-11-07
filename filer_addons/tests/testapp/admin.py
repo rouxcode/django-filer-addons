@@ -56,7 +56,7 @@ class FilerTestAdmin(admin.ModelAdmin):
         ('Settings', {
             'classes': ['section'],
             'fields': [
-                'name',
+
             ],
         }),
         ('Filer default widgets', {
@@ -69,6 +69,7 @@ class FilerTestAdmin(admin.ModelAdmin):
         ('Widget Test', {
             'classes': ['section'],
             'fields': [
+                'name',
                 'filer_file_raw',
                 'filer_file',
                 'filer_image',

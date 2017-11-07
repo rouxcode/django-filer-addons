@@ -45,9 +45,13 @@ var FilerGuiWidgets = (function($){
         var widget = this;
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
+        widget._messages = {
+            $all: $('.fg-message', widget.$),
+            $upload_error: $('.fg-message.upload_error', widget.$),
+            $wrong_file_type: $('.fg-message.wrong-file-type', widget.$)
+        };
         widget._text = {
-            no_file: widget.$.data('text-no-file'),
-            wrong_file_type: widget.$.data('wrong-file-type')
+            no_file: widget.$.data('text-no-file')
         };
         widget._urls = {
             file_detail: widget.$.data('file-detail-url'),
@@ -63,6 +67,12 @@ var FilerGuiWidgets = (function($){
         widget.$preview = $('.preview', widget.$);
         widget.$dz = $('.uploader', widget.$);
         widget._nofile_template = '<span class="no-file">__txt__</span>';
+        widget.hide_all_messages = function() {
+            widget._messages.$all.removeClass( 'visible' );
+        };
+        widget.show_message = function( key ) {
+            widget._messages[ key ].addClass( 'visible' );
+        };
 
         widget_map[widget.$rawid.attr('id')] = widget;
 
@@ -83,6 +93,8 @@ var FilerGuiWidgets = (function($){
         } else {
             widget.$add.remove();
         }
+
+
 
         return widget;
     };
@@ -118,8 +130,8 @@ var FilerGuiWidgets = (function($){
         };
 
         function on_drop(e) {
-            widget.$dz.removeClass('file-type-error');
-        }
+            widget.hide_all_messages();
+        };
 
         function on_accept(file, done) {
             widget.$dz.addClass('dz-accepted');
@@ -127,11 +139,13 @@ var FilerGuiWidgets = (function($){
         };
 
         function on_error(file, msg) {
-            widget.$dz.addClass('file-type-error');
+            widget.hide_all_messages();
+            widget.show_message('$wrong_file_type');
             widget._dz.removeFile(file);
         };
 
         function on_success(file, data) {
+            widget.hide_all_messages();
             widget.$dz.removeClass('dz-accepted');
             widget._dz.removeAllFiles();
             widget.$rawid.val(data.file.file_id);
@@ -158,6 +172,7 @@ var FilerGuiWidgets = (function($){
     // TODO get html from template
     function remove(e) {
         e.preventDefault();
+        this._widget.hide_all_messages();
         this._widget.$rawid.val('');
         this._widget.$preview.html(
             '<span class="no-file">' + this._widget._text.no_file + '</span>'
@@ -223,6 +238,8 @@ var FilerGuiWidgets = (function($){
         }
         var request = $.ajax(conf);
 
+        widget.hide_all_messages();
+
         function on_success(data, status, xhr) {
             if(data.message === 'ok') {
                 update_widget_elements(widget, data.file)
@@ -239,8 +256,9 @@ var FilerGuiWidgets = (function($){
         var edit_url = undefined;
 
         if(widget._file_type === 'image' && widget._file_type != data.file_type) {
-            // FIXME add message!!!
+            widget.show_message('$wrong_file_type')
         } else {
+
             if(widget._file_type === 'image') {
                 css = 'thumbnail-img'
                 url = data.thumb_url;

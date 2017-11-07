@@ -3,11 +3,28 @@
     display: inline-block;
     vertical-align: middle;
     box-sizing: border-box;
-    min-height: 35px;
-    padding: 0 200px 0 0;
+
 
     .clickable {
         cursor: pointer;
+    }
+
+    .fg-message {
+        display: none;
+        margin-bottom: 1em;
+        color: #ba2121;
+    }
+
+    .visible {
+        display: block;
+    }
+
+    .fg-widget {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        min-height: 35px;
+        padding: 0 200px 0 0;
     }
 
     .widget-column {
@@ -43,7 +60,7 @@
         padding: 0 20px;
     }
 
-    .tools {
+    .fg-tools {
         margin: 0;
         padding: 0 10px;
 
@@ -61,7 +78,8 @@
         min-height: 35px;
         margin: 0;
         padding: 0 0;
-        background-color: #ccc;
+        background-color: #fdfdfd;
+        border: 1px solid #ccc;
         transition: width 0.5s;
 
         &:before {
@@ -90,7 +108,7 @@
         display: inline-block;
         width: 100%;
         vertical-align: middle;
-        color: #fff;
+        color: #999;
         font-weight: bold;
         text-align: center;
     }

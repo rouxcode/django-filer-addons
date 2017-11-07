@@ -11,6 +11,7 @@
         {% else %}
             <span class="missing-file">{% trans 'File is missing' %}</span>
         {% endif %}
+    {% else %}
+        <span class="no-file">{% trans 'No file' %}</span>
     {% endif %}
-    <span class="no-file">{% trans 'No file' %}</span>
 {% endblock %}

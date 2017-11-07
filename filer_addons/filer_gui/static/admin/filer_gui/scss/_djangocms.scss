@@ -1,23 +1,69 @@
-.fg-button,
-a.fg-button,
-a.button.fg-button {
-    padding: 8px !important;
-    width: 42px;
-    height: 42px;
+$tools-height: 42px;
 
-    .svg-icon {
-        display: block;
-        width: 100%;
-        height: 100%;
+.djangocms-admin-style {
 
-        path {
-            fill: #555;
+    .fg-button,
+    a.fg-button,
+    a.button.fg-button {
+        padding: 8px !important;
+        width: $tools-height;
+        height: $tools-height;
+
+        .svg-icon {
+            display: block;
+            width: 100%;
+            height: 100%;
+
+            path {
+                fill: #555;
+            }
         }
     }
-}
 
-.filer-gui-file-widget {
-    .uploader {
-        border-radius: 3px;
+    .filer-gui-file-widget {
+        width: 100%;
+
+        .fg-message {
+            color: red;
+            padding: 10px;
+            background: #fff3f3;
+        }
+
+        .fg-widget {
+            padding-right: 480px;
+        }
+
+        .fg-tools {
+            padding: 0;
+            position: absolute;
+            right: 220px;
+            top: 50%;
+            height: $tools-height;
+            margin-top: -($tools-height/2);
+        }
+
+        .uploader {
+            top: 50%;
+            transform: translateY(-50%);
+            min-height: $tools-height;
+            border-radius: 3px;
+        }
+
+        .no-file {
+            display: inline-block;
+            box-sizing: border-box;
+            min-width: $tools-height;
+            height: $tools-height;
+            padding: 10px;
+            border: 1px solid #eee;
+
+            &:before {
+                content: '';
+                display: inline-block;
+                vertical-align: middle;
+                width: 1px;
+                height: 100%;
+            }
+        }
     }
 }
