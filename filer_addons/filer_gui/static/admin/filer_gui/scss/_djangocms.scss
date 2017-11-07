@@ -49,6 +49,13 @@ $tools-height: 42px;
             border-radius: 3px;
         }
 
+        .preview {
+            .label {
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+
         .no-file {
             display: inline-block;
             box-sizing: border-box;
