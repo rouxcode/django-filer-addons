@@ -65,7 +65,7 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = (
-    'djangocms_admin_style',
+    # 'djangocms_admin_style',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -75,7 +75,7 @@ INSTALLED_APPS = (
     'filer',
     'mptt',
     'polymorphic',
-    # 'filer_addons',
+    'filer_addons',
     'filer_addons.filer_gui',
     # 'filer_addons.filer_signals',
     # 'filer_addons.filer_utils',
