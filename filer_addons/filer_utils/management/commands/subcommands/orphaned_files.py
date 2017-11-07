@@ -39,10 +39,14 @@ class OrphanedFilesCommand(SubcommandsCommand):
                     if options['delete']:
                         storage.delete(absfilename)
                     self.stdout.write(absfilename)
+                except File.MultipleObjectsReturned:
+                    pass
             for child in child_dirs:
                 walk(os.path.join(absdir, child), os.path.join(reldir, child), public=public)
 
         public_path = os.path.join(self.storage_public.location, self.prefix_public)
         walk(public_path, self.prefix_public, public=True)
         private_path = os.path.join(self.storage_private.location, self.prefix_private)
-        walk(private_path, self.prefix_private, public=False)
+        if os.path.isdir(private_path):
+            walk(private_path, self.prefix_private, public=False)
+
