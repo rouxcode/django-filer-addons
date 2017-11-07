@@ -40,12 +40,43 @@ class FilerTest(models.Model):
         on_delete=models.SET_NULL,
         related_name='file_ugly_filertest',
     )
+    filer_file_ugly_2 = UglyFilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        related_name='file_ugly_2_filertest',
+    )
     filer_image_ugly = UglyFilerImageField(
         null=True,
         default=None,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='image_ugly_filertest',
+    )
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+@python_2_unicode_compatible
+class FilerUglyTest(models.Model):
+    name = models.CharField(
+        max_length=150,
+    )
+    filer_file_ugly = UglyFilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        related_name='file_ugly_fileruglytest',
+    )
+    filer_image_ugly = UglyFilerImageField(
+        null=True,
+        default=None,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='image_ugly_fileruglytest',
     )
 
     def __str__(self):

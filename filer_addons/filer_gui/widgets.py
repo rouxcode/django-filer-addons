@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import logging
 
 import django
+from django.conf import settings
 from django.contrib.admin.widgets import ForeignKeyRawIdWidget
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
@@ -11,6 +12,7 @@ from django.utils.safestring import mark_safe
 
 logger = logging.getLogger(__name__)
 DJANGO_LEGACY = django.VERSION < (1, 9)
+DJANGOCMS_ADMIN_SYTLE = 'djangocms_admin_style' in settings.INSTALLED_APPS
 THUMBNAIL_SIZE = (300, 100)
 
 # TODO get rid of coded file types
@@ -36,6 +38,12 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             css = {
                 'all': [
                     'admin/filer_gui/css/filer_gui_legacy.css',
+                ]
+            }
+        elif DJANGOCMS_ADMIN_SYTLE:
+            css = {
+                'all': [
+                    'admin/filer_gui/css/filer_gui_djangocms.css',
                 ]
             }
         else:

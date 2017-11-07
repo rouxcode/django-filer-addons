@@ -1,11 +1,17 @@
 /* global django */
 
+/*
+TODO:
+- cleanup edit url code
+- add click action on image
+*/
 var FilerGuiWidgets = (function($){
     'use strict';
 
     var csrf;
     var $body;
     var $doc = $(document);
+
     var widget_map = {};
     var events = {
         edit_end: $.Event('filer-gui:edit-end'),
@@ -17,7 +23,13 @@ var FilerGuiWidgets = (function($){
     $.fn.filer_gui_file_widget = plugin;
 
     $doc.on('ready', init);
+
+    // Ugly hack to be sure to have a filer-gui lookup dismiss
+    var is_lookup_original = true;
+    var dismiss_lookup_original = window.dismissRelatedImageLookupPopup;
+
     window.dismissRelatedImageLookupPopup = dissmiss_lookup_window;
+
 
     function init() {
         $body = $('body');
@@ -133,6 +145,10 @@ var FilerGuiWidgets = (function($){
 
     function lookup(e) {
         e.preventDefault();
+
+        // Ugly hack to be sure to have a filer-gui lookup dismiss
+        is_lookup_original = false;
+
         $(this).trigger(events.lookup_start);
         showRelatedObjectLookupPopup(this);
     };
@@ -173,16 +189,24 @@ var FilerGuiWidgets = (function($){
     };
 
     function dissmiss_lookup_window(win, obj_id, thumb_url, file_name) {
-        var id = window.windowname_to_id(win.name);
-        var widget = widget_map[id];
 
-        win.close();
+        // Ugly hack to be sure to have a filer-gui lookup dismiss
+        if( is_lookup_original === true ) {
+            dismiss_lookup_original(win, obj_id, thumb_url, file_name);
+        } else {
+            var id = window.windowname_to_id(win.name);
+            var widget = widget_map[id];
 
-        if(widget) {
-            widget.$.trigger(events.lookup_end);
-            widget.$rawid.val(obj_id);
-            update_widget(widget);
+            win.close();
+            is_lookup_original = false;
+
+            if(widget) {
+                widget.$.trigger(events.lookup_end);
+                widget.$rawid.val(obj_id);
+                update_widget(widget);
+            }
         }
+
     };
 
     function update_widget(widget) {

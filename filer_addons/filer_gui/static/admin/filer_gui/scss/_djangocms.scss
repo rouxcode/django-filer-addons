@@ -1,0 +1,23 @@
+.fg-button,
+a.fg-button,
+a.button.fg-button {
+    padding: 8px !important;
+    width: 42px;
+    height: 42px;
+
+    .svg-icon {
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        path {
+            fill: #555;
+        }
+    }
+}
+
+.filer-gui-file-widget {
+    .uploader {
+        border-radius: 3px;
+    }
+}

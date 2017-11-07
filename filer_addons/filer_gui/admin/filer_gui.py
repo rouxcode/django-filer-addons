@@ -8,10 +8,10 @@ from django.http.response import JsonResponse
 
 from filer import settings as filer_settings
 
-from .models import File, Image, FilerGuiFile
-from .utils import file_is_image_by_name
+from ..models import File, Image
+from ..utils import file_is_image_by_name
 # TODO get it from settings
-from .widgets import FILE_TYPE_CHOICES, THUMBNAIL_SIZE
+from ..widgets import FILE_TYPE_CHOICES, THUMBNAIL_SIZE
 
 
 class FilerGuiFileSelectForm(forms.Form):
@@ -64,7 +64,6 @@ class FilerImageForm(forms.ModelForm):
         ]
 
 
-@admin.register(FilerGuiFile)
 class FilerGuiAdmin(admin.ModelAdmin):
     original_model = File
 

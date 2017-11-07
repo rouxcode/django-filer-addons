@@ -17,8 +17,17 @@ ROOT_URLCONF = 'filer_addons.tests.testapp.urls'
 
 SECRET_KEY = 'secret'
 
-APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", '..'))  # noqa
+APP_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(__file__),
+    "..")
+)
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        '..'
+    )
+)
 
 sys.path.insert(0, APP_ROOT + "/../")
 
@@ -56,6 +65,7 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = (
+    'djangocms_admin_style',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -65,10 +75,10 @@ INSTALLED_APPS = (
     'filer',
     'mptt',
     'polymorphic',
-    'filer_addons',
+    # 'filer_addons',
     'filer_addons.filer_gui',
     # 'filer_addons.filer_signals',
-    'filer_addons.filer_utils',
+    # 'filer_addons.filer_utils',
     'filer_addons.tests.testapp',
 )
 
@@ -83,8 +93,9 @@ MIDDLEWARE_CLASSES = (
 # DJANGO FILER settings
 # =============================================================================
 
+"""
 FILER_IS_PUBLIC_DEFAULT = True
-FILER_ENABLE_PERMISSIONS = True
+FILER_ENABLE_PERMISSIONS = False
 FILER_PAGINATE_BY = 200
 FILER_ALLOW_REGULAR_USERS_TO_ADD_ROOT_FOLDERS = True
 FILER_STORAGES = {
@@ -105,3 +116,4 @@ FILER_STORAGES = {
         },
     },
 }
+"""
