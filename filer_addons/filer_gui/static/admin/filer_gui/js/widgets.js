@@ -238,7 +238,7 @@ var FilerGuiWidgets = (function($){
         var url;
         var edit_url = undefined;
 
-        if(data.file_type != widget._file_type) {
+        if(widget._file_type === 'image' && widget._file_type != data.file_type) {
             // FIXME add message!!!
         } else {
             if(widget._file_type === 'image') {
@@ -261,18 +261,29 @@ var FilerGuiWidgets = (function($){
         }
     };
 
-
     function update_links(widget) {
+        var edit_url;
         var value = widget.$rawid.val();
         var tmpl = widget.$edit.data('href-template');
+
+        widget.$preview.off().removeClass('clickable');
+
         if(value) {
             widget.$remove.removeClass('inactive');
             widget.$edit.removeClass('inactive');
             if(widget._edit_url) {
-                widget.$edit.attr('href', widget._edit_url);
+                edit_url = widget._edit_url;
             } else {
-                widget.$edit.attr('href', tmpl.replace('__fk__', value));
+                edit_url = tmpl.replace('__fk__', value);
             }
+            widget.$edit.attr('href', edit_url);
+            widget.$preview.on(
+                'click',
+                function(e) {
+                    e.preventDefault();
+                    widget.$edit.trigger('click');
+                }
+            ).addClass('clickable');;
         } else {
             widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');

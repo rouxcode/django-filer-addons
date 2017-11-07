@@ -6,6 +6,10 @@
     min-height: 35px;
     padding: 0 200px 0 0;
 
+    .clickable {
+        cursor: pointer;
+    }
+
     .widget-column {
         display: inline-block;
         box-sizing: border-box;
