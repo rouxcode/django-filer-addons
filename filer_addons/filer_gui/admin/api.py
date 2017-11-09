@@ -66,7 +66,6 @@ class FilerImageForm(forms.ModelForm):
 
 
 class FilerGuiAdmin(admin.ModelAdmin):
-    original_model = File
 
     def get_urls(self):
         urls = [
