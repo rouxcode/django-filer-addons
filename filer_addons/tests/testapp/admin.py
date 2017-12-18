@@ -41,6 +41,9 @@ class FilerTestAdminForm(forms.ModelForm):
 @admin.register(FilerTest)
 class FilerTestAdmin(admin.ModelAdmin):
     form = FilerTestAdminForm
+    list_filter = [
+        'name',
+    ]
     inlines = [
         # MultiUploadStackedInline,
         # MultiUploadTabularInline,

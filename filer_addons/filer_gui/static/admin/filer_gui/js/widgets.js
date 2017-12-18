@@ -43,6 +43,7 @@ var FilerGuiWidgets = (function($){
 
     function plugin_widget(i) {
         var widget = this;
+        widget._timer;
         widget.$ = $(this);
         widget._file_type = widget.$.data('file-type');
         widget._messages = {
@@ -57,20 +58,26 @@ var FilerGuiWidgets = (function($){
             file_detail: widget.$.data('file-detail-url'),
             file_upload: widget.$.data('file-upload-url')
         };
-        widget.$parent = widget.$.parent();
+        widget.$parent = widget.$.parent().addClass('fg-related-widget-wrapper');
         widget.$rawid = $('.rawid-input', widget.$);
         widget.$add = $('.add-related-filer', widget.$);
+        widget.$add[0]._widget = widget;
         widget.$edit = $('.edit-related-filer', widget.$);
+        widget.$edit[0]._widget = widget;
         widget.$remove = $('.remove-related-filer', widget.$);
         widget.$remove[0]._widget = widget;
         widget.$lookup = $('.related-lookup-filer', widget.$);
+        widget.$lookup[0]._widget = widget;
         widget.$preview = $('.preview', widget.$);
         widget.$dz = $('.uploader', widget.$);
         widget._nofile_template = '<span class="no-file">__txt__</span>';
         widget.hide_all_messages = function() {
+            window.clearTimeout(widget._timer);
             widget._messages.$all.removeClass( 'visible' );
         };
         widget.show_message = function( key ) {
+            window.clearTimeout(widget._timer);
+            widget._timer = window.setTimeout(widget.hide_all_messages, 8000);
             widget._messages[ key ].addClass( 'visible' );
         };
 
@@ -93,8 +100,6 @@ var FilerGuiWidgets = (function($){
         } else {
             widget.$add.remove();
         }
-
-
 
         return widget;
     };
@@ -126,6 +131,7 @@ var FilerGuiWidgets = (function($){
 
         function add(e) {
             e.preventDefault();
+            widget.hide_all_messages();
             widget.$dz.trigger('click');
         };
 
@@ -148,13 +154,13 @@ var FilerGuiWidgets = (function($){
             widget.hide_all_messages();
             widget.$dz.removeClass('dz-accepted');
             widget._dz.removeAllFiles();
-            widget.$rawid.val(data.file.file_id);
             update_widget_elements(widget, data.file);
         };
     };
 
     function edit(e) {
         e.preventDefault();
+        this._widget.hide_all_messages();
         $(this).trigger(events.edit_start);
         show_edit_popup(this);
     };
@@ -165,6 +171,7 @@ var FilerGuiWidgets = (function($){
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         is_lookup_original = false;
 
+        this._widget.hide_all_messages();
         $(this).trigger(events.lookup_start);
         showRelatedObjectLookupPopup(this);
     };
@@ -219,20 +226,20 @@ var FilerGuiWidgets = (function($){
 
             if(widget) {
                 widget.$.trigger(events.lookup_end);
-                widget.$rawid.val(obj_id);
-                update_widget(widget);
+                update_widget(widget, obj_id);
             }
         }
 
     };
 
-    function update_widget(widget) {
+    function update_widget(widget, file_id) {
+        var file_id = file_id ? file_id : widget.$rawid.val();
         var conf = {
             url: widget._urls.file_detail,
             method: 'POST',
             success: on_success,
             data: {
-                filer_file: widget.$rawid.val(),
+                filer_file: file_id,
                 csrfmiddlewaretoken: csrf,
             }
         }
@@ -258,7 +265,7 @@ var FilerGuiWidgets = (function($){
         if(widget._file_type === 'image' && widget._file_type != data.file_type) {
             widget.show_message('$wrong_file_type')
         } else {
-
+            widget.$rawid.val(data.file_id)
             if(widget._file_type === 'image') {
                 css = 'thumbnail-img'
                 url = data.thumb_url;

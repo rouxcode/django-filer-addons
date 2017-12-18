@@ -1,9 +1,0 @@
-<div id="fg-folder-list" class="fg-folder-list">{% load admin_urls %}
-    {% for folder in folder_list %}
-        <div id="fg-folder-{{ folder.id }}" class="fg-folder">
-            <div class="fg-column fg-column-name">
-                <a href="{% url 'admin:filer_gui_filerguifolder_list' folder.id %}">{{ folder }}</a>
-            </div>
-        </div>
-    {% endfor %}
-</div>

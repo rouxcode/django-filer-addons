@@ -20,8 +20,18 @@ $tools-height: 42px;
         }
     }
 
-    .filer-gui-file-widget {
+    .fg-related-widget-wrapper {
+        position: relative;
+        display: block;
+        float: none !important;
+        box-sizing: border-box;
         width: 100%;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .filer-gui-file-widget {
+        display: block;
         min-height: $tools-height;
 
         .fg-message {
@@ -40,7 +50,6 @@ $tools-height: 42px;
             right: 220px;
             top: 50%;
             height: $tools-height;
-            margin-top: -($tools-height/2);
         }
 
         .uploader {
@@ -51,11 +60,13 @@ $tools-height: 42px;
         }
 
         .preview {
+            display: block;
             padding: 0;
             white-space: nowrap;
 
             .label {
                 display: inline-block;
+                max-width: 50%;
                 vertical-align: middle;
                 word-break: break-all;
             }
@@ -102,6 +113,7 @@ $tools-height: 42px;
                 right: auto;
                 margin-top: 1em;
                 display: block;
+                transform: none;
 
                 a:first-child {
                     margin-left: 0;
