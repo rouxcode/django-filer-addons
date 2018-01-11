@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-from django.test import TestCase
+from django.test import TestCase, modify_settings
 from filer.tests import create_superuser
 from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
 
 
+@modify_settings(INSTALLED_APPS={
+    'append': 'filer_addons.filer_signals',
+})
 class ConsistentFilenamesTests(TestCase):
+
     def setUp(self):
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')

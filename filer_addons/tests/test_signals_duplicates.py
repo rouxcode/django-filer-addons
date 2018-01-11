@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, modify_settings
 from filer.tests import create_superuser
 from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
+from filer_addons.filer_signals import conf as signals_conf
 
 
 DUPLICATE_HANDLING_DISABLED = {
@@ -25,6 +26,9 @@ DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING = {
 }
 
 
+@modify_settings(INSTALLED_APPS={
+    'append': 'filer_addons.filer_signals',
+})
 class DuplicatesTests(TestCase):
     def setUp(self):
         self.superuser = create_superuser()
@@ -127,6 +131,7 @@ class DuplicatesTests(TestCase):
         FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_DISABLED
     )
     def test_duplicate_detection_disabled(self):
+        reload(signals_conf)
         self.create_two_files(duplicates=True, )
         self.assertEquals(File.objects.all().count(), 2)
         # same again, dups!
@@ -137,6 +142,7 @@ class DuplicatesTests(TestCase):
         FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES
     )
     def test_duplicates_anywhere(self):
+        reload(signals_conf)
         self.create_two_files(
             duplicates=True,
             different_name=True,
@@ -160,6 +166,7 @@ class DuplicatesTests(TestCase):
         test greedy mode: already existing duplicates will also be merged
         :return:
         """
+        reload(signals_conf)
         self.create_two_files(duplicates=True, different_name=True)
         self.assertEquals(File.objects.all().count(), 2)
         with self.settings(
@@ -177,6 +184,7 @@ class DuplicatesTests(TestCase):
         already existing duplicates will not be merged
         :return:
         """
+        reload(signals_conf)
         self.create_two_files(duplicates=True, different_name=True)
         self.assertEquals(File.objects.all().count(), 2)
         with self.settings(

@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     'filer',
     'mptt',
     'polymorphic',
-    'filer_addons',
+    # 'filer_addons',
     'filer_addons.filer_gui',
     'filer_addons.filer_utils',
     'filer_addons.tests.testapp',

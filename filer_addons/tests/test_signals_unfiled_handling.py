@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, modify_settings
 from filer.tests import create_superuser
 from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
-
+from filer_addons.filer_signals import conf as signals_conf
 
 UNFILED_HANDLING_DISABLED = {
     'move_unfiled': False,
 }
 
 
+@modify_settings(INSTALLED_APPS={
+    'append': 'filer_addons.filer_signals',
+})
 class UnfiledHandlingTests(TestCase):
+
     def setUp(self):
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')
@@ -70,5 +74,6 @@ class UnfiledHandlingTests(TestCase):
         checks if it respects to be disabled
         :return:
         """
+        reload(signals_conf)
         file_obj = self.create_file()
         self.assertEquals(file_obj.folder, None)
