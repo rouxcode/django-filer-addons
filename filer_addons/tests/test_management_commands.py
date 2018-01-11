@@ -45,4 +45,8 @@ class ManagementCommandsTests(TestCase):
         file_obj.save()
         return file_obj
 
-    # TODO: write tests!
+    # TODO: write more management command tests
+    def test_delete_thumbnails(self):
+        from django.core.management import call_command
+        call_command('filer_addons', 'delete_thumbnails', )
+        # check for thumb dir not existing
