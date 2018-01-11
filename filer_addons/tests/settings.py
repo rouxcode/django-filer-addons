@@ -110,7 +110,7 @@ FILER_STORAGES = {
             # 'ENGINE': 'filer.storage.PublicFileSystemStorage',
             # 'OPTIONS': {},
             'THUMBNAIL_OPTIONS': {
-                'base_dir': 'thumbs',
+                'base_dir': 'filer_thumbnails',
             },
         },
     },

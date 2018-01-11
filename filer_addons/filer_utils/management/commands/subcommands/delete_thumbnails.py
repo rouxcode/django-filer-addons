@@ -21,14 +21,19 @@ class DeleteThumbnailsCommand(SubcommandsCommand):
     storage_private = filer_settings.FILER_PRIVATEMEDIA_STORAGE
 
     def handle(self, *args, **options):
+        self._remove_thumbs(self.storage, 'public')
+        self.stdout.write("Only removing public thumbnails for now. Bye.")
+        # self._remove_thumbs(self.storage_private, 'private')
+
+    def _remove_thumbs(self, storage, public_private):
         try:
-            thumb_prefix = filer_settings.FILER_STORAGES['public']['thumbnails']['THUMBNAIL_OPTIONS']['base_dir']
+            thumb_prefix = filer_settings.FILER_STORAGES[public_private]['thumbnails']['THUMBNAIL_OPTIONS']['base_dir']
         except KeyError:
-            self.stdout.write("No valid settings found! Aborting.")
+            self.stdout.write("No valid settings found ({} storage)! Aborting.".format(public_private))
             return
-        path = os.path.join(self.storage.location, thumb_prefix)
+        path = os.path.join(storage.location, thumb_prefix)
         if os.path.isdir(path):
             self.stdout.write("Removing: %s" % path)
             shutil.rmtree(path)
         else:
-            self.stdout.write("Not a directory, exiting: %s" % path)
+            self.stdout.write("Not a directory: %s" % path)

@@ -12,7 +12,8 @@ from filer.utils.files import get_valid_filename
 
 def check_rename(instance, old_name=None):
     """
-    do the rename
+    do the rename, needed
+    if old_name is provided, use it, otherwise fetch old file from db.
     :param instance: filer file instance
     :return:
     """
