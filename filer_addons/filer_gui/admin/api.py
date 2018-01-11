@@ -128,8 +128,10 @@ class FilerGuiAdmin(admin.ModelAdmin):
         else:
             form = FilerGuiUploadForm(request.POST, request.FILES)
             if form.is_valid():
-                upload = request.FILES.values()[0]
-                # TODO get rid of this distinction and find a proper way
+                # TODO: .values()[0] was for python2, is this correct?
+                # upload = request.FILES.values()[0]
+                upload = request.FILES.get('file')
+                # TODO: get rid of this distinction and find a proper way
                 # to get the correct model form
                 form_class = None
                 if file_is_image_by_name(upload.name):
