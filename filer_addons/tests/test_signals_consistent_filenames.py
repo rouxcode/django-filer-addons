@@ -6,6 +6,11 @@ from filer.models import File, Folder
 
 from filer_addons.tests.utils import create_django_file
 
+try:
+    reload
+except NameError:
+    from importlib import reload
+
 
 @modify_settings(INSTALLED_APPS={
     'append': 'filer_addons.filer_signals',

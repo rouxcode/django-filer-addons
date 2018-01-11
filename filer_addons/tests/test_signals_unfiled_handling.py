@@ -6,6 +6,12 @@ from filer.models import File, Folder
 from filer_addons.tests.utils import create_django_file
 from filer_addons.filer_signals import conf as signals_conf
 
+try:
+    reload
+except NameError:
+    from importlib import reload
+
+
 UNFILED_HANDLING_DISABLED = {
     'move_unfiled': False,
 }
