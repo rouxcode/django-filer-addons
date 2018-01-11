@@ -23,6 +23,7 @@ UNFILED_HANDLING_DISABLED = {
 class UnfiledHandlingTests(TestCase):
 
     def setUp(self):
+        reload(signals_conf)
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')
         self.folder = Folder.objects.create(name='test')

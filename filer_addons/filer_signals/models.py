@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 import os
 
-from .conf import *  # noqa need the settings
-from django.conf import settings
+from . import conf  # noqa need the settings
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.files.base import File as DjangoFile
@@ -16,7 +16,7 @@ def check_rename(instance, old_name=None):
     :param instance: filer file instance
     :return:
     """
-    if not settings.FILER_ADDONS_CONSISTENT_FILENAMES:
+    if not conf.FILER_ADDONS_CONSISTENT_FILENAMES:
         return
     if instance.id and instance.file:
         if old_name is None:
@@ -58,7 +58,7 @@ def filer_unfiled_to_folder(sender, instance, **kwargs):
     signal => for when only duplicates in the same folder need to be detected!
     (put in folder first, then detect duplicate)
     """
-    UNFILED_HANDLING = settings.FILER_ADDONS_UNFILED_HANDLING
+    UNFILED_HANDLING = conf.FILER_ADDONS_UNFILED_HANDLING
     if not UNFILED_HANDLING.get('move_unfiled', None):
         return
     created_only = UNFILED_HANDLING.get('created_only', False)
@@ -95,7 +95,7 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
     as this is post save, it will ELIMINATE ALL DUPLICATES of a file,
     if there are...this can be quite dangerous, but also be wonderfull ;-)
     """
-    DUPLICATE_HANDLING = settings.FILER_ADDONS_DUPLICATE_HANDLING
+    DUPLICATE_HANDLING = conf.FILER_ADDONS_DUPLICATE_HANDLING
     if not DUPLICATE_HANDLING.get('prevent'):
         check_rename(instance)
         return

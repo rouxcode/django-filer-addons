@@ -13,23 +13,11 @@ FILER_ADDONS_DUPLICATE_HANDLING = getattr(
         'same_filename_required': False,
     }
 )
-setattr(
-    settings,
-    'FILER_ADDONS_DUPLICATE_HANDLING',
-    FILER_ADDONS_DUPLICATE_HANDLING,
-)
-
 
 # yep, do it
 FILER_ADDONS_CONSISTENT_FILENAMES = getattr(
     settings, 'FILER_ADDONS_CONSISTENT_FILENAMES', True
 )
-setattr(
-    settings,
-    'FILER_ADDONS_CONSISTENT_FILENAMES',
-    FILER_ADDONS_CONSISTENT_FILENAMES,
-)
-
 
 # also move already existing, that are modified
 FILER_ADDONS_UNFILED_HANDLING = getattr(
@@ -38,9 +26,4 @@ FILER_ADDONS_UNFILED_HANDLING = getattr(
         'created_only': False,
         'default_folder_name': '0 - Direct Upload',
     }
-)
-setattr(
-    settings,
-    'FILER_ADDONS_UNFILED_HANDLING',
-    FILER_ADDONS_UNFILED_HANDLING,
 )

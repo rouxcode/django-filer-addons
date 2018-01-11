@@ -35,7 +35,9 @@ DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING = {
     'append': 'filer_addons.filer_signals',
 })
 class DuplicatesTests(TestCase):
+
     def setUp(self):
+        reload(signals_conf)
         self.superuser = create_superuser()
         self.client.login(username='admin', password='secret')
         self.folder = Folder.objects.create(name='test')
@@ -177,6 +179,7 @@ class DuplicatesTests(TestCase):
         with self.settings(
             FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES_WITH_EXISTING  # noqa
         ):
+            reload(signals_conf)
             self.create_two_files(duplicates=True, different_name=True)
             self.assertEquals(File.objects.all().count(), 1)
 
@@ -195,5 +198,6 @@ class DuplicatesTests(TestCase):
         with self.settings(
                 FILER_ADDONS_DUPLICATE_HANDLING=DUPLICATE_HANDLING_ALL_FOLDERS_ALL_FILES  # noqa
         ):
+            reload(signals_conf)
             self.create_two_files(duplicates=True, different_name=True)
             self.assertEquals(File.objects.all().count(), 2)
