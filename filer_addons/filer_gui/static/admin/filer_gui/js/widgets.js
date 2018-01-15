@@ -171,6 +171,13 @@ var FilerGuiWidgets = (function($){
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         is_lookup_original = false;
 
+        // if no _widget init the widget
+        if(!this._widget) {
+            // Ugly hack, we need a better way to init an inline add
+            $(this).parent().parent().parent().each(plugin_widget)
+            console.log( this )
+        }
+
         this._widget.hide_all_messages();
         $(this).trigger(events.lookup_start);
         showRelatedObjectLookupPopup(this);
