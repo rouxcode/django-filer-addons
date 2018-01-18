@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-18 10:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: filer_gui/apps.py:9
+msgid "File management"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:7
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:24
+#: filer_gui/templates/admin/filer_gui/widgets/admin_image.html:15
+msgid "No file"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:9
+msgid "Bummer, your file didn't find its ways to the server"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:10
+msgid "Wrong file type, upload/choose another file"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:21
+#: filer_gui/templates/admin/filer_gui/widgets/admin_image.html:12
+msgid "File is missing"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:31
+msgid "Remove File"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:35
+msgid "Edit File"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:39
+msgid "Choose File"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:43
+msgid "Upload File"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:48
+msgid "Drop file here"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:49
+msgid "Wrong file type, drop another file"
+msgstr ""
+
+#: filer_utils/management/commands/subcommands/delete_thumbnails.py:18
+msgid "Delete all generated thumbnails."
+msgstr ""
+
+#: filer_utils/management/commands/subcommands/orphaned_files.py:17
+msgid "List files that have no representation in the database."
+msgstr ""
