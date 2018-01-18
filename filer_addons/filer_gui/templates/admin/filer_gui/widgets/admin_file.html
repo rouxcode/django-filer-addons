@@ -26,24 +26,24 @@
             {% endblock %}
         </div>
         <div class="widget-column fg-tools">
-            <a id="clear_id_{{ widget.name }}" class="button fg-button remove-related-filer inactive">
+            <a title="{% trans 'Remove File' %}" id="clear_id_{{ widget.name }}" class="button fg-button remove-related-filer inactive">
                 {% include 'admin/filer_gui/svg/icon-remove.svg' %}
                 <span class="label">{% trans 'Remove File' %}</span>
             </a>
-            <a id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
+            <a title="{% trans 'Edit File' %}" id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
                 {% include 'admin/filer_gui/svg/icon-edit.svg' %}
                 <span class="label">{% trans 'Edit File' %}</span>
             </a>
-            <a id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}" title="{{ link_title }}">
+            <a title="{% trans 'Choose File' %}" id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}">
                 {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
                 <span class="label">{% trans 'Choose File' %}</span>
             </a>
-            <a class="button fg-button add-related-filer">
+            <a title="{% trans 'Upload File' %}" class="button fg-button add-related-filer">
                 {% include 'admin/filer_gui/svg/icon-upload.svg' %}
                 <span class="label">{% trans 'Upload File' %}</span>
             </a>
         </div>
-        <div id="upload_id_{{ widget.name }}" class="widget-column uploader widget-uploader{{ dropzone_css_class }}">
+        <div title="{% trans 'Drop file, or click to select from your computer' %}" id="upload_id_{{ widget.name }}" class="widget-column uploader widget-uploader{{ dropzone_css_class }}">
             <div class="dz-messages">
                 <div class="dz-message">{% trans 'Drop file here' %}</div>
                 <div class="dz-file-type-error">{% trans 'Wrong file type, drop another file' %}</div>

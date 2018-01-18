@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-18 10:35+0100\n"
+"POT-Creation-Date: 2018-01-18 10:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,20 +41,28 @@ msgstr ""
 msgid "File is missing"
 msgstr ""
 
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:29
 #: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:31
 msgid "Remove File"
 msgstr ""
 
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:33
 #: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:35
 msgid "Edit File"
 msgstr ""
 
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:37
 #: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:39
 msgid "Choose File"
 msgstr ""
 
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:41
 #: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:43
 msgid "Upload File"
+msgstr ""
+
+#: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:46
+msgid "Drop file, or click to select from your computer"
 msgstr ""
 
 #: filer_gui/templates/admin/filer_gui/widgets/admin_file.html:48
