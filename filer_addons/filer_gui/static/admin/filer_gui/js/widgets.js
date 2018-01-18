@@ -158,11 +158,17 @@ var FilerGuiWidgets = (function($){
         };
     };
 
+    function no_action( e ) {
+        e.preventDefault()
+    }
+
     function edit(e) {
         e.preventDefault();
-        this._widget.hide_all_messages();
-        $(this).trigger(events.edit_start);
-        show_edit_popup(this);
+        if(this._widget.$edit.attr('href')) {
+            this._widget.hide_all_messages();
+            $(this).trigger(events.edit_start);
+            show_edit_popup(this);
+        }
     };
 
     function lookup(e) {
@@ -175,7 +181,6 @@ var FilerGuiWidgets = (function($){
         if(!this._widget) {
             // Ugly hack, we need a better way to init an inline add
             $(this).parent().parent().parent().each(plugin_widget)
-            console.log( this )
         }
 
         this._widget.hide_all_messages();
@@ -191,6 +196,8 @@ var FilerGuiWidgets = (function($){
         this._widget.$preview.html(
             '<span class="no-file">' + this._widget._text.no_file + '</span>'
         );
+        update_links(this._widget);
+
     };
 
     function show_edit_popup(link) {
