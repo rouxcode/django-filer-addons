@@ -5,9 +5,10 @@ from django.forms import widgets
 from django import forms
 from filer.models import File
 
+from filer_addons.filer_gui.fields import FilerImageField, FilerFileField
+
 
 class FilerMultiUploadInlineMixin(object):
-    # TODO create admin folder this belongs there
     # TODO: select one or multiple existing files with the file picker!
     # TODO: add at first or last position?
     # TODO: check file_field correctness!
@@ -50,6 +51,19 @@ class FilerMultiUploadInlineMixin(object):
             ' admin.StackedInline'
             .format(self.__module__, self.__class__)
         )
+
+    @property
+    def is_filer_gui_field(self):
+        field = getattr(self.model, self.file_field, None)
+        if field:
+            if isinstance(field.field, (FilerImageField, FilerFileField, ),):
+                print "is!"
+            print field.field.__class__
+        else:
+            raise ImproperlyConfigured(
+                'file_field must be set on inline, pointing to the target file field'
+            )
+
 
 
 """
