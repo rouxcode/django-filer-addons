@@ -60,8 +60,8 @@ var FilerMultiUploadInline = (function ($) {
             $(file.previewElement).delay(2000).fadeOut(1000);
             // trigger inline add-row click
             plugin.$.find('.add-row a:first').trigger('click');
-            // filer_gui field or filer original?
             var $row = plugin.$.find('div.inline-related:visible:last:not(.tabular), tr.form-row:visible:last');
+            // filer_gui field or filer original?
             if (plugin.$.attr('data-is-filer-gui-field')) {
                 var $widget = $row.find('.filer-gui-file-widget').filer_gui_file_widget();
                 window.FilerGuiWidgets.update_widget_elements($widget, response.file);
