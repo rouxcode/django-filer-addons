@@ -6,6 +6,7 @@ from django import forms
 from filer.models import File
 
 from filer_addons.filer_gui.fields import FilerImageField, FilerFileField
+from filer.fields.image import FilerImageField as OriginalFilerImageField
 
 
 class FilerMultiUploadInlineMixin(object):
@@ -57,8 +58,18 @@ class FilerMultiUploadInlineMixin(object):
         field = getattr(self.model, self.file_field, None)
         if field:
             if isinstance(field.field, (FilerImageField, FilerFileField, ),):
-                print "is!"
-            print field.field.__class__
+                return True
+        else:
+            raise ImproperlyConfigured(
+                'file_field must be set on inline, pointing to the target file field'
+            )
+
+    @property
+    def is_image_field(self):
+        field = getattr(self.model, self.file_field, None)
+        if field:
+            if isinstance(field.field, (FilerImageField, OriginalFilerImageField, ),):
+                return True
         else:
             raise ImproperlyConfigured(
                 'file_field must be set on inline, pointing to the target file field'

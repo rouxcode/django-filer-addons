@@ -3,9 +3,14 @@
     {{ inline_admin_formset.opts.dropzone_html_attrs }}
     data-file-field="{{ inline_admin_formset.opts.file_field }}"
     {% if inline_admin_formset.opts.is_filer_gui_field %}data-is-filer-gui-field="true"{% endif %}
+    {% if inline_admin_formset.opts.is_image_field %}data-is-image-field="true"{% endif %}
     data-csrf="{{ csrf_token }}"
     data-prefix="{{ inline_admin_formset.formset.prefix }}"
-    data-upload-url="{% url 'admin:filer-ajax_upload' %}"
+    {% if inline_admin_formset.opts.is_filer_gui_field %}
+        data-upload-url="{% url 'admin:file_upload' %}"
+    {% else %}
+        data-upload-url="{% url 'admin:filer-ajax_upload' %}"
+    {% endif %}
 {#    data-upload-url="/admin/filer/clipboard/operations/upload/no_folder/"#}
 >
     <div class="filer-gui-multiupload-dropzone">

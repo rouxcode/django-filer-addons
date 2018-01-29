@@ -336,4 +336,10 @@ var FilerGuiWidgets = (function($){
         }
     };
 
+    var api = {
+        'update_widget_elements': update_widget_elements,
+    }
+
+    return api;
+
 })(django.jQuery);
