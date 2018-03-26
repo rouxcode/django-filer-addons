@@ -23,6 +23,7 @@ var FilerGuiWidgets = (function($){
     $.fn.filer_gui_file_widget = plugin;
 
     $doc.on('ready', init);
+    $doc.on('formset:added', inline_add);
 
     // Ugly hack to be sure to have a filer-gui lookup dismiss
     var is_lookup_original = true;
@@ -43,8 +44,15 @@ var FilerGuiWidgets = (function($){
 
     function plugin_widget(i) {
         var widget = this;
-        widget._timer;
         widget.$ = $(this);
+
+        init_widget(widget);
+
+        return widget;
+    };
+
+    function init_widget(widget) {
+        widget._timer;
         widget._file_type = widget.$.data('file-type');
         widget._messages = {
             $all: $('.fg-message', widget.$),
@@ -100,12 +108,10 @@ var FilerGuiWidgets = (function($){
         } else {
             widget.$add.remove();
         }
-
-        return widget;
     };
 
     function setup_uploader(widget) {
-        widget._dz_template = $('.dz-preview-template', widget.$).remove().html();
+        widget._dz_template = $('.dz-preview-template', widget.$).html();
         widget._dz_conf = {
             url: widget._urls.file_upload,
             paramName: 'file',
@@ -334,6 +340,10 @@ var FilerGuiWidgets = (function($){
                 )
             );
         }
+    };
+
+    function inline_add(event, $row, formset_ame) {
+        $('.filer-gui-file-widget', $row).filer_gui_file_widget();
     };
 
     var api = {

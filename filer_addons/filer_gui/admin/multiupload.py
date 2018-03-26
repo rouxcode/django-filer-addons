@@ -61,7 +61,8 @@ class FilerMultiUploadInlineMixin(object):
                 return True
         else:
             raise ImproperlyConfigured(
-                'file_field must be set on inline, pointing to the target file field'
+                'file_field must be set on inline, pointing to the target'
+                'file field'
             )
 
     @property
@@ -72,9 +73,9 @@ class FilerMultiUploadInlineMixin(object):
                 return True
         else:
             raise ImproperlyConfigured(
-                'file_field must be set on inline, pointing to the target file field'
+                'file_field must be set on inline, pointing to the target'
+                'file field'
             )
-
 
 
 """
