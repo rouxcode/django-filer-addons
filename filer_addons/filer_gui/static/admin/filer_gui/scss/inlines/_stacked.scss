@@ -1,0 +1,83 @@
+.uploadinline-wrap {
+
+    .filer-gui-upload-inline-dropzone {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        height: auto;
+        margin: 1em 0 0;
+        border: 1px solid #eee;
+        background-color: #eee;
+    }
+
+    .dz-info {
+        text-align: center;
+        padding: 2em;
+        cursor: pointer;
+    }
+
+    .dz-preview {
+        display: none;
+        vertical-align: middle;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0;
+
+        &.dz-processing {
+            display: block;
+        }
+    }
+
+    .dz-file-preview,
+    .dz-image-preview {
+        position: relative;
+    }
+
+    .dz-progress {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background-color: rgba(#000, 0.25);
+    }
+
+    .dz-upload {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 100%;
+        background-color: rgba(#00a8e6, 1);
+    }
+
+    .dz-thumbnail,
+    .dz-preview-message,
+    .dz-name {
+        position: relative;
+    }
+
+    .dz-preview-message,
+    .dz-name {
+        display: inline-block;
+        vertical-align: middle;
+        box-sizing: border-box;
+        padding: 0.5em;
+        color: #fff;
+    }
+
+    .dz-error {
+        background-color: rgba(#ff0000, 0.25);
+
+        .dz-upload,
+        .dz-progress {
+            background-color: rgba(#ff0000, 1);
+        }
+
+        .dz-preview-message {
+            font-weight: bold;
+        }
+    }
+}

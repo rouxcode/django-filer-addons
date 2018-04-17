@@ -69,7 +69,7 @@ class FilerMultiUploadInlineMixin(object):
     def is_image_field(self):
         field = getattr(self.model, self.file_field, None)
         if field:
-            if isinstance(field.field, (FilerImageField, OriginalFilerImageField, ),):
+            if isinstance(field.field, (FilerImageField, OriginalFilerImageField, ),): # NOQA
                 return True
         else:
             raise ImproperlyConfigured(

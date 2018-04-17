@@ -20,6 +20,10 @@ var FilerGuiWidgets = (function($){
         lookup_start: $.Event('filer-gui:lookup-start')
     };
 
+    var api = {
+        'update_widget_elements': update_widget_elements,
+    }
+
     $.fn.filer_gui_file_widget = plugin;
 
     $doc.on('ready', init);
@@ -87,6 +91,9 @@ var FilerGuiWidgets = (function($){
             window.clearTimeout(widget._timer);
             widget._timer = window.setTimeout(widget.hide_all_messages, 8000);
             widget._messages[ key ].addClass( 'visible' );
+        };
+        widget._update_widget = function(data) {
+            update_widget(widget, data);
         };
 
         widget_map[widget.$rawid.attr('id')] = widget;
@@ -345,10 +352,6 @@ var FilerGuiWidgets = (function($){
     function inline_add(event, $row, formset_ame) {
         $('.filer-gui-file-widget', $row).filer_gui_file_widget();
     };
-
-    var api = {
-        'update_widget_elements': update_widget_elements,
-    }
 
     return api;
 
