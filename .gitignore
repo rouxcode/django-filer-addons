@@ -32,6 +32,7 @@ share/
 /env
 /envs
 .tox
+/package-lock.json
 testenv1
 node_modules/
 .python-version
