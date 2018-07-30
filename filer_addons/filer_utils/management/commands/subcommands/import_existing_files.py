@@ -16,9 +16,23 @@ exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col
 
 
 class Command(BaseCommand):
-    help = "Import existing files not currently in filer db, but on filesystem."
+    help = "Import existing files not currently in filer db, but on " \
+           "filesystem. Must use --force, if you have existing files" \
+           "in your database"
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            dest='force',
+            default=False,
+            help='Force import, with existing content in database.',
+        )
 
     def handle(self, *args, **options):
+        if not options.get('force', False) and File.objects.count():
+            raise Exception('Must use --force, you have existing files in db!')
+
         from filer import settings as filer_settings
         self.storage_public = filer_settings.FILER_PUBLICMEDIA_STORAGE
         self.prefix_public = filer_settings.FILER_STORAGES['public']['main']['UPLOAD_TO_PREFIX']
