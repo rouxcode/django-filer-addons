@@ -4,10 +4,8 @@ from django import forms
 from django.contrib import admin
 
 from .models import (
-    FilerTest,
-    FilerUglyFileInlineModel,
-    FilerUglyImageInlineModel,
-    FilerNewImageInlineModel, FilerNewFileInlineModel)
+    FilerNewImageInlineModel, FilerNewFileInlineModel, FilerNewFieldTest, FilerOriginalFieldTest,
+    FilerOriginalFileInlineModel, FilerOriginalImageInlineModel)
 from filer_addons.filer_gui.admin.multiupload import (
     FilerMultiUploadInlineMixin,
 )
@@ -17,18 +15,18 @@ class MultiUploadStackedInline(
     FilerMultiUploadInlineMixin,
     admin.StackedInline
 ):
-    model = FilerUglyFileInlineModel
-    file_field = 'filer_file_ugly'
-    fields = ['name', 'filer_file_ugly', ]
+    model = FilerOriginalFileInlineModel
+    file_field = 'filer_file_original'
+    fields = ['name', 'filer_file_original', ]
 
 
 class MultiUploadTabularInline(
     FilerMultiUploadInlineMixin,
     admin.TabularInline
 ):
-    model = FilerUglyImageInlineModel
-    file_field = 'filer_image_ugly'
-    fields = ['name', 'filer_image_ugly', ]
+    model = FilerOriginalImageInlineModel
+    file_field = 'filer_image_original'
+    fields = ['name', 'filer_image_original', ]
 
 
 class NewMultiUploadStackedInline(
@@ -49,53 +47,48 @@ class NewMultiUploadTabularInline(
     fields = ['name', 'filer_image', ]
 
 
-class FilerTestAdminForm(forms.ModelForm):
-
-    class Meta:
-        model = FilerTest
-        fields = '__all__'
-
-
-@admin.register(FilerTest)
+@admin.register(FilerOriginalFieldTest)
 class FilerTestAdmin(admin.ModelAdmin):
-    form = FilerTestAdminForm
-    list_filter = [
-        'name',
-    ]
     inlines = [
         MultiUploadStackedInline,
         MultiUploadTabularInline,
+    ]
+
+@admin.register(FilerNewFieldTest)
+class FilerTestAdmin(admin.ModelAdmin):
+    inlines = [
         NewMultiUploadStackedInline,
         NewMultiUploadTabularInline,
     ]
-    readonly_fields = [
-        # 'parent',
-    ]
-    raw_id_fields = [
-        'filer_file_raw',
-    ]
 
-    fieldsets = [
-        ('Settings', {
-            'classes': ['section'],
-            'fields': [
-
-            ],
-        }),
-        ('Filer default widgets', {
-            'classes': ['section'],
-            'fields': [
-                'filer_file_ugly',
-                'filer_image_ugly',
-            ],
-        }),
-        ('Widget Test', {
-            'classes': ['section'],
-            'fields': [
-                'name',
-                'filer_file_raw',
-                'filer_file',
-                'filer_image',
-            ]
-        })
-    ]
+    # readonly_fields = [
+    #     # 'parent',
+    # ]
+    # raw_id_fields = [
+    #     'filer_file_raw',
+    # ]
+    #
+    # fieldsets = [
+    #     ('Settings', {
+    #         'classes': ['section'],
+    #         'fields': [
+    #
+    #         ],
+    #     }),
+    #     ('Filer default widgets', {
+    #         'classes': ['section'],
+    #         'fields': [
+    #             'filer_file_original',
+    #             'filer_image_original',
+    #         ],
+    #     }),
+    #     ('Widget Test', {
+    #         'classes': ['section'],
+    #         'fields': [
+    #             'name',
+    #             'filer_file_raw',
+    #             'filer_file',
+    #             'filer_image',
+    #         ]
+    #     })
+    # ]

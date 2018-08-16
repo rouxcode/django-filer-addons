@@ -3,14 +3,43 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from filer.fields.file import FilerFileField as UglyFilerFileField
-from filer.fields.image import FilerImageField as UglyFilerImageField
+from filer.fields.file import FilerFileField as OriginalFilerFileField
+from filer.fields.image import FilerImageField as OriginalFilerImageField
 from filer.models import File
 from filer_addons.filer_gui.fields import FilerFileField, FilerImageField
 
 
 @python_2_unicode_compatible
-class FilerTest(models.Model):
+class FilerOriginalFieldTest(models.Model):
+    name = models.CharField(
+        max_length=150,
+    )
+    filer_file_raw = models.ForeignKey(
+        File,
+        null=True,
+        blank=True,
+    )
+    filer_file_original = OriginalFilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        related_name='file_original_filertest',
+    )
+    filer_image_original = OriginalFilerImageField(
+        null=True,
+        default=None,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='image_original_filertest',
+    )
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+@python_2_unicode_compatible
+class FilerNewFieldTest(models.Model):
     name = models.CharField(
         max_length=150,
     )
@@ -33,36 +62,22 @@ class FilerTest(models.Model):
         on_delete=models.SET_NULL,
         related_name='image_filertest',
     )
-    filer_file_ugly = UglyFilerFileField(
-        null=True,
-        blank=True,
-        default=None,
-        on_delete=models.SET_NULL,
-        related_name='file_ugly_filertest',
-    )
-    filer_image_ugly = UglyFilerImageField(
-        null=True,
-        default=None,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='image_ugly_filertest',
-    )
 
     def __str__(self):
         return '{}'.format(self.name)
 
 
 @python_2_unicode_compatible
-class FilerUglyImageInlineModel(models.Model):
+class FilerOriginalImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerTest
+        FilerOriginalFieldTest
     )
     name = models.CharField(
         max_length=150,
         default='',
         blank=True,
     )
-    filer_image_ugly = UglyFilerImageField(
+    filer_image_original = OriginalFilerImageField(
         null=True,
         default=None,
         blank=True,
@@ -74,16 +89,16 @@ class FilerUglyImageInlineModel(models.Model):
 
 
 @python_2_unicode_compatible
-class FilerUglyFileInlineModel(models.Model):
+class FilerOriginalFileInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerTest
+        FilerOriginalFieldTest
     )
     name = models.CharField(
         max_length=150,
         default='',
         blank=True,
     )
-    filer_file_ugly = UglyFilerFileField(
+    filer_file_original = OriginalFilerFileField(
         null=True,
         blank=True,
         default=None,
@@ -97,7 +112,7 @@ class FilerUglyFileInlineModel(models.Model):
 @python_2_unicode_compatible
 class FilerNewImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerTest
+        FilerNewFieldTest
     )
     name = models.CharField(
         max_length=150,
@@ -118,7 +133,7 @@ class FilerNewImageInlineModel(models.Model):
 @python_2_unicode_compatible
 class FilerNewFileInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerTest
+        FilerNewFieldTest
     )
     name = models.CharField(
         max_length=150,
