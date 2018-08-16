@@ -92,3 +92,45 @@ class FilerUglyFileInlineModel(models.Model):
 
     def __str__(self):
         return '{}'.format(self.name)
+
+
+@python_2_unicode_compatible
+class FilerNewImageInlineModel(models.Model):
+    filer_test = models.ForeignKey(
+        FilerTest
+    )
+    name = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+    )
+    filer_image = FilerImageField(
+        null=True,
+        default=None,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+@python_2_unicode_compatible
+class FilerNewFileInlineModel(models.Model):
+    filer_test = models.ForeignKey(
+        FilerTest
+    )
+    name = models.CharField(
+        max_length=150,
+        default='',
+        blank=True,
+    )
+    filer_file = FilerFileField(
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+    )
+
+    def __str__(self):
+        return '{}'.format(self.name)

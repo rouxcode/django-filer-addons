@@ -72,6 +72,7 @@ var FilerGuiWidgets = (function($){
         };
         widget.$parent = widget.$.parent().addClass('fg-related-widget-wrapper');
         widget.$rawid = $('.rawid-input', widget.$);
+        console.log(widget.$rawid);
         widget.$add = $('.add-related-filer', widget.$);
         widget.$add[0]._widget = widget;
         widget.$edit = $('.edit-related-filer', widget.$);
@@ -139,6 +140,10 @@ var FilerGuiWidgets = (function($){
             widget._dz_conf.acceptedFiles = 'image/*';
         }
 
+        var dz_control =  widget.$dz[0].dropzone;
+        if (dz_control) {
+            dz_control.destroy();
+        }
         widget._dz = new Dropzone(widget.$dz[0], widget._dz_conf);
         widget.$add.on('click', add);
 

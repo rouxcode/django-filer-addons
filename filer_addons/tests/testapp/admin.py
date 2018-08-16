@@ -7,7 +7,7 @@ from .models import (
     FilerTest,
     FilerUglyFileInlineModel,
     FilerUglyImageInlineModel,
-)
+    FilerNewImageInlineModel, FilerNewFileInlineModel)
 from filer_addons.filer_gui.admin.multiupload import (
     FilerMultiUploadInlineMixin,
 )
@@ -31,6 +31,24 @@ class MultiUploadTabularInline(
     fields = ['name', 'filer_image_ugly', ]
 
 
+class NewMultiUploadStackedInline(
+    FilerMultiUploadInlineMixin,
+    admin.StackedInline
+):
+    model = FilerNewFileInlineModel
+    file_field = 'filer_file'
+    fields = ['name', 'filer_file', ]
+
+
+class NewMultiUploadTabularInline(
+    FilerMultiUploadInlineMixin,
+    admin.TabularInline
+):
+    model = FilerNewImageInlineModel
+    file_field = 'filer_image'
+    fields = ['name', 'filer_image', ]
+
+
 class FilerTestAdminForm(forms.ModelForm):
 
     class Meta:
@@ -45,8 +63,10 @@ class FilerTestAdmin(admin.ModelAdmin):
         'name',
     ]
     inlines = [
-        # MultiUploadStackedInline,
-        # MultiUploadTabularInline,
+        MultiUploadStackedInline,
+        MultiUploadTabularInline,
+        NewMultiUploadStackedInline,
+        NewMultiUploadTabularInline,
     ]
     readonly_fields = [
         # 'parent',
