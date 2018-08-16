@@ -1,3 +1,4 @@
-<div class="sortable-inline sortable-tabular {% if inline_admin_formset.opts.extra > 0 %}has-extra{% endif %}">
+{% comment %}<div class="sortable-inline sortable-tabular {% if inline_admin_formset.opts.extra > 0 %}has-extra{% endif %}">{% endcomment %}
+<div class="admin-sort-tabular {{ inline_admin_formset.opts.css_classes }}" {{ inline_admin_formset.opts.html_data_fields }}>
     {% block django_inline %}{% include 'admin/edit_inline/tabular.html' %}{% endblock %}
 </div>
