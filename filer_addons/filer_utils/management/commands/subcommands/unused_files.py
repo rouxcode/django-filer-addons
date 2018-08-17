@@ -22,6 +22,13 @@ class UnusedFilesCommand(SubcommandsCommand):
             help='Delete them!'
         )
         parser.add_argument(
+            '--verbose',
+            action='store_true',
+            dest='verbose',
+            default=False,
+            help='Show them all'
+        )
+        parser.add_argument(
             '--folder-id',
             action='store',
             dest='folder_id',
@@ -58,9 +65,8 @@ class UnusedFilesCommand(SubcommandsCommand):
         unused = model_cls.objects.filter(**filter_kwargs)
         amount = unused.count()
         for file in unused:
-            self.stdout.write(force_text(file))
+            if options['verbose']:
+                self.stdout.write(force_text(file))
             if options['delete']:
                 file.delete()
-        self.stdout.write("-")
         self.stdout.write("%s unused %s found." % (str(amount), model_cls.__name__))
-        self.stdout.write("-")
