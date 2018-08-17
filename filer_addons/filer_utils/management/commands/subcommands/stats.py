@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+import subprocess
+
 from django.utils.translation import ugettext_lazy as _
 
 from filer.models import File, Image, Folder
@@ -32,4 +34,3 @@ class StatsCommand(SubcommandsCommand):
                     for dup in file.duplicates:
                         duplicates.append(dup)
         self.stdout.write("Duplicates: %s" % len(duplicates))
-        # self._remove_thumbs(self.storage_private, 'private')
