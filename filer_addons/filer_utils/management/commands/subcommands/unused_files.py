@@ -63,3 +63,4 @@ class UnusedFilesCommand(SubcommandsCommand):
                 file.delete()
         self.stdout.write("-")
         self.stdout.write("%s unused %s found." % (str(amount), model_cls.__name__))
+        self.stdout.write("-")
