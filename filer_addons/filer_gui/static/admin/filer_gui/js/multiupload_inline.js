@@ -64,7 +64,7 @@ var FilerMultiUploadInline = (function ($) {
             // filer_gui field or filer original?
             if (plugin.$.attr('data-is-filer-gui-field')) {
                 var $widget = $row.find('.filer-gui-file-widget').filer_gui_file_widget();
-                window.FilerGuiWidgets.update_widget_elements($widget, response.file);
+                window.FilerGuiWidgets.update_widget_elements($widget[0], response.file);
             } else {
                 var $field_wrap = $row.find('.field-' + options.file_field);
                 $field_wrap.find('.vForeignKeyRawIdAdminField').val(response.file_id);

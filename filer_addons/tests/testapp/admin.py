@@ -6,13 +6,13 @@ from django.contrib import admin
 from .models import (
     FilerNewImageInlineModel, FilerNewFileInlineModel, FilerNewFieldTest, FilerOriginalFieldTest,
     FilerOriginalFileInlineModel, FilerOriginalImageInlineModel)
-from filer_addons.filer_gui.admin.multiupload import (
-    FilerMultiUploadInlineMixin,
+from filer_addons.filer_gui.admin.upload_inline import (
+    UploadInlineMixin,
 )
 
 
 class MultiUploadStackedInline(
-    FilerMultiUploadInlineMixin,
+    UploadInlineMixin,
     admin.StackedInline
 ):
     model = FilerOriginalFileInlineModel
@@ -21,7 +21,7 @@ class MultiUploadStackedInline(
 
 
 class MultiUploadTabularInline(
-    FilerMultiUploadInlineMixin,
+    UploadInlineMixin,
     admin.TabularInline
 ):
     model = FilerOriginalImageInlineModel
@@ -30,7 +30,7 @@ class MultiUploadTabularInline(
 
 
 class NewMultiUploadStackedInline(
-    FilerMultiUploadInlineMixin,
+    UploadInlineMixin,
     admin.StackedInline
 ):
     model = FilerNewFileInlineModel
@@ -39,7 +39,7 @@ class NewMultiUploadStackedInline(
 
 
 class NewMultiUploadTabularInline(
-    FilerMultiUploadInlineMixin,
+    UploadInlineMixin,
     admin.TabularInline
 ):
     model = FilerNewImageInlineModel

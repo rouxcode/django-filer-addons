@@ -118,7 +118,14 @@ var FilerGuiWidgets = (function($){
     };
 
     function setup_uploader(widget) {
+        // initialize once more when already existing
+        var dz_control =  widget.$dz[0].dropzone;
+        if (dz_control) {
+            dz_control.destroy();
+        }
         widget._dz_template = $('.dz-preview-template', widget.$).html();
+        // TODO: what exactly is this template for? let's hide it!
+        $('.dz-preview-template', widget.$).hide(0);
         widget._dz_conf = {
             url: widget._urls.file_upload,
             paramName: 'file',
@@ -139,10 +146,6 @@ var FilerGuiWidgets = (function($){
             widget._dz_conf.acceptedFiles = 'image/*';
         }
 
-        var dz_control =  widget.$dz[0].dropzone;
-        if (dz_control) {
-            dz_control.destroy();
-        }
         widget._dz = new Dropzone(widget.$dz[0], widget._dz_conf);
         widget.$add.on('click', add);
 

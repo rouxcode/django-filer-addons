@@ -7,3 +7,4 @@ from ..models import FilerGuiFile
 
 
 admin.site.register(FilerGuiFile, FilerGuiAdmin)
+
