@@ -29,8 +29,8 @@ class StatsCommand(SubcommandsCommand):
         self.stdout.write("Computing duplicates...pls wait...")
         duplicates = []
         for file in File.objects.all():
-            if not file in duplicates:
+            if not file.id in duplicates:
                 if file.duplicates:
                     for dup in file.duplicates:
-                        duplicates.append(dup)
+                        duplicates.append(file.id)
         self.stdout.write("Duplicates: %s" % len(duplicates))
