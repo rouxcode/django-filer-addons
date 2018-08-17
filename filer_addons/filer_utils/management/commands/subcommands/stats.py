@@ -32,5 +32,5 @@ class StatsCommand(SubcommandsCommand):
             if not file.id in duplicates:
                 if file.duplicates:
                     for dup in file.duplicates:
-                        duplicates.append(file.id)
+                        duplicates.append(dup.id)
         self.stdout.write("Duplicates: %s" % len(duplicates))
