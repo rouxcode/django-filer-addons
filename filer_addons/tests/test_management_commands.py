@@ -50,3 +50,12 @@ class ManagementCommandsTests(TestCase):
         from django.core.management import call_command
         call_command('filer_addons', 'delete_thumbnails', )
         # check for thumb dir not existing
+
+    def test_unused_files_command(selfs):
+        pass
+
+    def test_orphaned_files_command(selfs):
+        pass
+
+    def test_import_existing_files_command(selfs):
+        pass
