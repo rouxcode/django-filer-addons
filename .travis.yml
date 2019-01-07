@@ -8,17 +8,17 @@ python:
 
 env:
   matrix:
-    - REQ='django>=1.11,<2.0 FILER="django-filer==1.4.2'
-    - REQ='django>=2.0,<2.1 FILER="django-filer==1.4.2'
+    - REQ='django>=1.11,<2.0 django-filer==1.4.2'
+    - REQ='django>=2.0,<2.1 django-filer==1.4.2'
     # - REQ='django>=2.1,<2.2 FILER="django-filer==1.4.2'
 
 matrix:
   allow-failures:
   exclude:
     - python: '2.7'
-      env: REQ='django>=2.0,<2.1 FILER="django-filer==1.4.2'
+      env: REQ='django>=2.0,<2.1 django-filer==1.4.2'
     - python: '2.7'
-      env: REQ='django>=2.1,<2.2 FILER="django-filer==1.4.2'
+      env: REQ='django>=2.1,<2.2 django-filer==1.4.2'
 
 # command to install dependencies
 install:
