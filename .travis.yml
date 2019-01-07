@@ -1,21 +1,30 @@
 language: python
+cache: pip
 
 python:
-  - 2.7
-  - 3.4
-  - 3.5
-  - 3.6
+  - "2.7"
+  - "3.5"
+  - "3.6"
 
 env:
-  - DJANGO="django<1.9" FILER="django-filer==1.3.0"
-  - DJANGO="django<1.10" FILER="django-filer==1.3.0"
-  - DJANGO="django<1.11" FILER="django-filer==1.3.0"
-  - DJANGO="django<2.0" FILER="django-filer==1.3.0"
+  matrix:
+    - REQ='django>=1.11,<2.0 FILER="django-filer==1.4.2'
+    - REQ='django>=2.0,<2.1 FILER="django-filer==1.4.2'
+    # - REQ='django>=2.1,<2.2 FILER="django-filer==1.4.2'
 
+matrix:
+  allow-failures:
+  exclude:
+    - python: '2.7'
+      env: REQ='django>=2.0,<2.1 FILER="django-filer==1.4.2'
+    - python: '2.7'
+      env: REQ='django>=2.1,<2.2 FILER="django-filer==1.4.2'
+
+# command to install dependencies
 install:
+  - pip install .
+  - pip install $REQ
   - pip install -r test_requirements.txt
-  - pip install -q $DJANGO $FILER
-  - python setup.py -q install
 
-script:
-  - ./manage.py test
+# command to run tests
+script: python manage.py test

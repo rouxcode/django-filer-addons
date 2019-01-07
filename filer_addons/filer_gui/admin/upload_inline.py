@@ -2,10 +2,10 @@ from __future__ import unicode_literals
 
 import json
 
+import django
 from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse
 from django.forms import widgets
 from django.utils.encoding import force_text
 from django.utils.html import mark_safe
@@ -17,6 +17,12 @@ from filer.fields.image import (
 )
 
 from filer_addons.filer_gui.fields import FilerImageField, FilerFileField
+
+# compat thing!
+if django.VERSION[:2] < (1, 10):
+    from django.core.urlresolvers import reverse
+else:
+    from django.urls import reverse
 
 
 class UploadInlineMixin(object):

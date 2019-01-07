@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
+import django
 from django import forms
 from django.conf.urls import url
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+# from django.core.urlresolvers import reverse
 from django.http.response import JsonResponse
 
 from filer import settings as filer_settings
@@ -13,6 +14,12 @@ from ..utils import file_is_image_by_name
 
 # FIXME get it from settings
 from ..widgets import FILE_TYPE_CHOICES, THUMBNAIL_SIZE
+
+# compat thing!
+if django.VERSION[:2] < (1, 10):
+    from django.core.urlresolvers import reverse
+else:
+    from django.urls import reverse
 
 
 class FilerGuiFileSelectForm(forms.Form):

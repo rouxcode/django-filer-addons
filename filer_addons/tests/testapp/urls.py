@@ -12,7 +12,7 @@ admin.autodiscover()
 urlpatterns = [
     url(
         r'^admin/',
-        include(admin.site.urls)
+        admin.site.urls
     ),
 ]
 

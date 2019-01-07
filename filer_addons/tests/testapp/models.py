@@ -18,19 +18,20 @@ class FilerOriginalFieldTest(models.Model):
         File,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
     )
     filer_file_original = OriginalFilerFileField(
         null=True,
         blank=True,
         default=None,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='file_original_filertest',
     )
     filer_image_original = OriginalFilerImageField(
         null=True,
         default=None,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='image_original_filertest',
     )
 
@@ -47,19 +48,20 @@ class FilerNewFieldTest(models.Model):
         File,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
     )
     filer_file = FilerFileField(
         null=True,
         blank=True,
         default=None,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='file_filertest',
     )
     filer_image = FilerImageField(
         null=True,
         default=None,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='image_filertest',
     )
 
@@ -70,7 +72,8 @@ class FilerNewFieldTest(models.Model):
 @python_2_unicode_compatible
 class FilerOriginalImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerOriginalFieldTest
+        FilerOriginalFieldTest,
+        on_delete=models.CASCADE,
     )
     name = models.CharField(
         max_length=150,
@@ -81,7 +84,7 @@ class FilerOriginalImageInlineModel(models.Model):
         null=True,
         default=None,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
@@ -91,7 +94,8 @@ class FilerOriginalImageInlineModel(models.Model):
 @python_2_unicode_compatible
 class FilerOriginalFileInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerOriginalFieldTest
+        FilerOriginalFieldTest,
+        on_delete=models.CASCADE,
     )
     name = models.CharField(
         max_length=150,
@@ -102,7 +106,7 @@ class FilerOriginalFileInlineModel(models.Model):
         null=True,
         blank=True,
         default=None,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
@@ -112,7 +116,8 @@ class FilerOriginalFileInlineModel(models.Model):
 @python_2_unicode_compatible
 class FilerNewImageInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerNewFieldTest
+        FilerNewFieldTest,
+        on_delete=models.CASCADE,
     )
     name = models.CharField(
         max_length=150,
@@ -123,7 +128,7 @@ class FilerNewImageInlineModel(models.Model):
         null=True,
         default=None,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
@@ -133,7 +138,8 @@ class FilerNewImageInlineModel(models.Model):
 @python_2_unicode_compatible
 class FilerNewFileInlineModel(models.Model):
     filer_test = models.ForeignKey(
-        FilerNewFieldTest
+        FilerNewFieldTest,
+        on_delete=models.CASCADE,
     )
     name = models.CharField(
         max_length=150,
@@ -144,7 +150,7 @@ class FilerNewFileInlineModel(models.Model):
         null=True,
         blank=True,
         default=None,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
