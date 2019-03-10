@@ -14,7 +14,7 @@ def is_image(filename):
 # TODO: via setting
 file_exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col_small\.)' \
                       r'|(_partner\.)|(_people\.)|(_small\.)|(_thumbnail\.)'
-file_exclude_pattern = None
+file_exclude_pattern = r'(_q85)'
 
 
 class ImportExistingFilesCommand(SubcommandsCommand):
