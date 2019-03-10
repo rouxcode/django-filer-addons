@@ -43,7 +43,7 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         self.prefix_public = filer_settings.FILER_STORAGES['public']['main']['UPLOAD_TO_PREFIX']
 
         def walk(absdir, reldir, db_folder):
-            print("walk %" % db_folder)
+            print("walk %s" % db_folder)
             storage = self.storage_public
             child_dirs, files = storage.listdir(absdir)
             for filename in files:
