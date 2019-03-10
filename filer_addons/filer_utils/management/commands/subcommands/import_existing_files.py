@@ -1,8 +1,8 @@
 import os
 import re
 
-from django.core.management.base import BaseCommand
 from filer.models import File, Image, Folder
+from filer_addons.filer_utils.management.commands.subcommands.base import SubcommandsCommand
 
 
 def is_image(filename):
@@ -11,14 +11,17 @@ def is_image(filename):
         return True
 
 
+# TODO: via setting
 exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col_small\.)' \
                       r'|(_partner\.)|(_people\.)|(_small\.)|(_thumbnail\.)'
+exclude_pattern = r''
 
 
-class ImportExistingFilesCommand(BaseCommand):
-    help = "Import existing files not currently in filer db, but on " \
+class ImportExistingFilesCommand(SubcommandsCommand):
+    help_string = "Import existing files not currently in filer db, but on " \
            "filesystem. Must use --force, if you have existing files" \
            "in your database"
+    command_name = 'import_existing_files'
 
     def add_arguments(self, parser):
         parser.add_argument(
