@@ -16,6 +16,8 @@ file_exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_lef
                       r'|(_partner\.)|(_people\.)|(_small\.)|(_thumbnail\.)'
 file_exclude_pattern = r'(_q85)'
 
+folder_exclude_pattern = r'(_big)|(_thumb)'
+
 
 class ImportExistingFilesCommand(SubcommandsCommand):
     help_string = "Import existing files not currently in filer db, but on " \
