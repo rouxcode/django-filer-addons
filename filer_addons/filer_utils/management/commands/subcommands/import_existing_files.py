@@ -12,9 +12,9 @@ def is_image(filename):
 
 
 # TODO: via setting
-exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col_small\.)' \
+file_exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col_small\.)' \
                       r'|(_partner\.)|(_people\.)|(_small\.)|(_thumbnail\.)'
-exclude_pattern = r''
+file_exclude_pattern = None
 
 
 class ImportExistingFilesCommand(SubcommandsCommand):
@@ -33,6 +33,8 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         )
 
     def handle(self, *args, **options):
+        print("what")
+        print(File.objects.count())
         if not options.get('force', False) and File.objects.count():
             raise Exception('Must use --force, you have existing files in db!')
 
@@ -41,11 +43,15 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         self.prefix_public = filer_settings.FILER_STORAGES['public']['main']['UPLOAD_TO_PREFIX']
 
         def walk(absdir, reldir, db_folder):
+            print("walk %" % db_folder)
             storage = self.storage_public
             child_dirs, files = storage.listdir(absdir)
             for filename in files:
-                matches = re.findall(exclude_pattern, filename)
+                matches = []
+                if file_exclude_pattern:
+                    matches = re.findall(file_exclude_pattern, filename)
                 if not len(matches):
+                    print(filename)
                     filename_with_relpath = os.path.join(reldir, filename)
                     # media_root = os.path.join(self.storage_public.location)
                     # filename_with_abspath = os.path.join(media_root, filename_with_relpath)
