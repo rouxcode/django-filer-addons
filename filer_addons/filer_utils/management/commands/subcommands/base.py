@@ -7,6 +7,8 @@ from collections import OrderedDict
 from django.core.management.base import BaseCommand, CommandParser
 from django.core.management.color import no_style
 
+from filer_addons.compat import DJANGO_2_0
+
 
 def add_builtin_arguments(parser):
     parser.add_argument(
@@ -46,10 +48,11 @@ class SubcommandsCommand(BaseCommand):
     subcommand_dest = 'subcmd'
 
     def create_parser(self, prog_name, subcommand):
+        kwargs = {'cmd': self} if DJANGO_2_0 else {}
         parser = CommandParser(
-            self,
             prog="%s %s" % (os.path.basename(prog_name), subcommand),
-            description=self.help or None
+            description=self.help or None,
+            **kwargs
         )
         self.add_arguments(parser)
         return parser
