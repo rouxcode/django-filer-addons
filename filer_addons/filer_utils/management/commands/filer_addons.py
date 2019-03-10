@@ -5,6 +5,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from collections import OrderedDict
 
 import filer_addons
+from filer_addons.filer_utils.management.commands.subcommands.import_existing_files import ImportExistingFilesCommand
 from filer_addons.filer_utils.management.commands.subcommands.resolve_duplicates import ResolveDuplicatesCommand
 from filer_addons.filer_utils.management.commands.subcommands.stats import StatsCommand
 from .subcommands.base import SubcommandsCommand
@@ -21,6 +22,7 @@ class Command(SubcommandsCommand):
         ('orphaned_files', OrphanedFilesCommand),
         ('delete_thumbnails', DeleteThumbnailsCommand),
         ('resolve_duplicates', ResolveDuplicatesCommand),
+        ('import_existing_files', ImportExistingFilesCommand),
     ))
     missing_args_message = 'one of the available sub commands must be provided'
 

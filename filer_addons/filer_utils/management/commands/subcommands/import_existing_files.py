@@ -15,7 +15,7 @@ exclude_pattern = r'(_fb_thumb\.)|(_fancybox_thumb\.)|(_home_image\.)|(_left_col
                       r'|(_partner\.)|(_people\.)|(_small\.)|(_thumbnail\.)'
 
 
-class Command(BaseCommand):
+class ImportExistingFilesCommand(BaseCommand):
     help = "Import existing files not currently in filer db, but on " \
            "filesystem. Must use --force, if you have existing files" \
            "in your database"
