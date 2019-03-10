@@ -67,7 +67,7 @@ class SubcommandsCommand(BaseCommand):
                 instance.style = self.style
                 kwargs = {'cmd': self} if DJANGO_2_0 else {}
                 parser_sub = subparsers.add_parser(
-                    cmd=self, name=instance.command_name, help=instance.help_string,
+                    name=instance.command_name, help=instance.help_string,
                     description=instance.help_string, **kwargs
                 )
                 add_builtin_arguments(parser=parser_sub)
