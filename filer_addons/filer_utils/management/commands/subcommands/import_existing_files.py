@@ -35,7 +35,6 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         )
 
     def handle(self, *args, **options):
-        print("what")
         print(File.objects.count())
         if not options.get('force', False) and File.objects.count():
             raise Exception('Must use --force, you have existing files in db!')
@@ -52,9 +51,7 @@ class ImportExistingFilesCommand(SubcommandsCommand):
                 matches = []
                 if file_exclude_pattern:
                     matches = re.findall(file_exclude_pattern, filename)
-                print(filename)
                 if not len(matches):
-                    print(filename)
                     filename_with_relpath = os.path.join(reldir, filename)
                     # media_root = os.path.join(self.storage_public.location)
                     # filename_with_abspath = os.path.join(media_root, filename_with_relpath)
