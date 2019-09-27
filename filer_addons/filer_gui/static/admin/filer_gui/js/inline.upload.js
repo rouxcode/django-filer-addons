@@ -23,7 +23,9 @@ var InlineUpload = (function($){
         var inline = this;
         inline.$ = $( this );
         inline.$title = $('h2:first', inline.$);
-        inline.$add_inline = $('.add-row a', inline.$);
+        // inline.$add_inline = $('.add-row a', inline.$);
+        // not available from the beginning!
+        inline.add_inline_selector = '.add-row a'
         inline._conf = inline.$.data('uploadinline');
 
         setup_uploader(inline);
@@ -79,8 +81,9 @@ var InlineUpload = (function($){
 
         function on_success(file, data) {
             if(data.message === 'ok') {
-                $doc.on('formset:added', row_added)
-                inline.$add_inline.trigger('click');
+                $doc.on('formset:added', row_added);
+                $(inline.add_inline_selector, inline.$).trigger('click');
+                // inline.$add_inline.trigger('click');
                 $doc.off('formset:added');
                 inline._dz.removeFile(file);
             } else {
