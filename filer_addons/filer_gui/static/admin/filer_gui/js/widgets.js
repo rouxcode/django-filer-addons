@@ -26,7 +26,7 @@ var FilerGuiWidgets = (function($){
 
     $.fn.filer_gui_file_widget = plugin;
 
-    $doc.on('ready', init);
+    $(init);
     $doc.on('formset:added', inline_add);
 
     // Ugly hack to be sure to have a filer-gui lookup dismiss

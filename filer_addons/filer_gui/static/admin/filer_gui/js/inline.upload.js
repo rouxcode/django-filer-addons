@@ -7,7 +7,7 @@ var InlineUpload = (function($){
     var inline_selector = '.uploadinline-wrap'
     var $doc = $(document);
 
-    $doc.ready(init);
+    $(init);
     $.fn.upload_inline = init_plugins;
 
     function init() {

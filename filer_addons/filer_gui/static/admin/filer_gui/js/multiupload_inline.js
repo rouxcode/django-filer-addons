@@ -10,8 +10,7 @@ var FilerMultiUploadInline = (function ($) {
     };
 
     $.fn.filer_multiupload_inline = filer_multiupload_inline;
-
-    $(document).ready(init);
+    $(init);
 
     function init() {
         $('.filer-gui-multiupload-inline').filer_multiupload_inline();

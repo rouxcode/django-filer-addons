@@ -10,8 +10,7 @@ var FilerMultiUploadPlugin = ( function ( $ ) {
     };
 
     $.fn.filer_multiupload_plugin = filer_multiupload_plugin;
-
-    $(document).ready( init );
+    $(init);
 
     function init() {
         $('#content .filer-gui-multiupload-plugin').filer_multiupload_plugin();
