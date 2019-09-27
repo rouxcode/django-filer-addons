@@ -5,6 +5,7 @@ import logging
 import django
 from django.contrib.admin.widgets import ForeignKeyRawIdWidget
 # from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -143,8 +144,12 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
     def file_object_for_value(self, value):
         try:
             key = self.rel.get_related_field().name
-            obj = self.rel.to._default_manager.get(**{key: value})
-        except: # NOQA
+            model_cls = getattr(self.rel, 'to', None)
+            if not model_cls:
+                model_cls = getattr(self.rel, 'model', None)
+            if model_cls:
+                obj = model_cls._default_manager.get(**{key: value})
+        except ObjectDoesNotExist:
             obj = None
         return obj
 
