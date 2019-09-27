@@ -142,6 +142,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
         return mark_safe(html)
 
     def file_object_for_value(self, value):
+        obj = None
         try:
             key = self.rel.get_related_field().name
             model_cls = getattr(self.rel, 'to', None)
@@ -150,7 +151,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
             if model_cls:
                 obj = model_cls._default_manager.get(**{key: value})
         except ObjectDoesNotExist:
-            obj = None
+            pass
         return obj
 
     def legacy_render(self, name, value, attrs=None):
