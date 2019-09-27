@@ -1,3 +1,3 @@
 
 # backwards!
-from .multiupload_inline import UploadInlineMixin  # noqa
+from .upload_inline import UploadInlineMixin  # noqa
