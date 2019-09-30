@@ -142,6 +142,9 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
         return mark_safe(html)
 
     def file_object_for_value(self, value):
+        if not value:
+            # empty string causes error, otherwise
+            return
         obj = None
         try:
             key = self.rel.get_related_field().name
