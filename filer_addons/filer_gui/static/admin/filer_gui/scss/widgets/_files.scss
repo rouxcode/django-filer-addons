@@ -64,6 +64,12 @@ tr.form-row {
         display: block;
     }
 
+    .no-file {
+        white-space: nowrap;
+        margin-bottom: 10px;
+        display: block;
+    }
+
     .fg-tools {
         margin-left: -4px;
         margin-bottom: 10px;
@@ -80,7 +86,7 @@ tr.form-row {
         background-color: #fdfdfd;
         border: 1px solid #ccc;
         transition: width 0.5s;
-
+        min-height: 40px;
         &:before {
             content: '';
             display: inline-block;

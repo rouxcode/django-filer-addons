@@ -348,6 +348,7 @@ var FilerGuiWidgets = (function($){
         } else {
             widget.$remove.addClass('inactive');
             widget.$edit.removeAttr('href').addClass('inactive');
+            widget.$label.empty();
             widget.$preview.html(
                 widget._nofile_template.replace(
                     '__txt__',
