@@ -16,7 +16,6 @@
                 {% if file_object %}
                     {% if file_object.icons.32 %}
                         <img class="icon-img" src="{{ file_object.icons.48 }}" alt="{{ file_object.label }}">
-                        <span class="label">{{ file_object.label }}</span>
                     {% else %}
                         <span class="missing-file">{% trans 'File is missing' %}</span>
                     {% endif %}
@@ -25,23 +24,26 @@
                 {% endif %}
             {% endblock %}
         </div>
-        <div class="widget-column fg-tools">
-            <a title="{% trans 'Remove File' %}" id="clear_id_{{ widget.name }}" class="button fg-button remove-related-filer inactive">
-                {% include 'admin/filer_gui/svg/icon-remove.svg' %}
-                <span class="label">{% trans 'Remove File' %}</span>
-            </a>
-            <a title="{% trans 'Edit File' %}" id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
-                {% include 'admin/filer_gui/svg/icon-edit.svg' %}
-                <span class="label">{% trans 'Edit File' %}</span>
-            </a>
-            <a title="{% trans 'Choose File' %}" id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}">
-                {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
-                <span class="label">{% trans 'Choose File' %}</span>
-            </a>
-            <a title="{% trans 'Upload File' %}" class="button fg-button add-related-filer">
-                {% include 'admin/filer_gui/svg/icon-upload.svg' %}
-                <span class="label">{% trans 'Upload File' %}</span>
-            </a>
+        <div class="widget-column fg-label-tools">
+            <span class="label">{{ file_object.label }}</span>
+            <div class="fg-tools">
+                <a title="{% trans 'Remove File' %}" id="clear_id_{{ widget.name }}" class="button fg-button remove-related-filer inactive">
+                    {% include 'admin/filer_gui/svg/icon-remove.svg' %}
+                    <span class="label">{% trans 'Remove File' %}</span>
+                </a>
+                <a title="{% trans 'Edit File' %}" id="edit_id_{{ widget.name }}" class="button fg-button edit-related-filer inactive" data-href-template="{{ edit_url_template }}">
+                    {% include 'admin/filer_gui/svg/icon-edit.svg' %}
+                    <span class="label">{% trans 'Edit File' %}</span>
+                </a>
+                <a title="{% trans 'Choose File' %}" id="lookup_id_{{ widget.name }}" class="button fg-button related-lookup-filer" href="{{ lookup_url }}">
+                    {% include 'admin/filer_gui/svg/icon-lookup.svg' %}
+                    <span class="label">{% trans 'Choose File' %}</span>
+                </a>
+                <a title="{% trans 'Upload File' %}" class="button fg-button add-related-filer">
+                    {% include 'admin/filer_gui/svg/icon-upload.svg' %}
+                    <span class="label">{% trans 'Upload File' %}</span>
+                </a>
+            </div>
         </div>
         <div title="{% trans 'Drop file, or click to select from your computer' %}" id="upload_id_{{ widget.name }}" class="widget-column uploader widget-uploader{{ dropzone_css_class }}">
             <div class="dz-messages">

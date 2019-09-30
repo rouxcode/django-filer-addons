@@ -81,6 +81,7 @@ var FilerGuiWidgets = (function($){
         widget.$lookup = $('.related-lookup-filer', widget.$);
         widget.$lookup[0]._widget = widget;
         widget.$preview = $('.preview', widget.$);
+        widget.$label = $('.label', widget.$);
         widget.$dz = $('.uploader', widget.$);
         widget._nofile_template = '<span class="no-file">__txt__</span>';
         widget.hide_all_messages = function() {
@@ -226,7 +227,7 @@ var FilerGuiWidgets = (function($){
         var win = window.open(
             href,
             name,
-            'height=500,width=800,resizable=yes,scrollbars=yes'
+            'height=600,width=900,resizable=yes,scrollbars=yes'
         );
         win.focus();
 
@@ -314,8 +315,8 @@ var FilerGuiWidgets = (function($){
             }
             widget.$preview.html(
                 '<img class="' + css + '" src="' + url + '" alt="' + data.label + '">'
-              + '<span class="label">' + data.label + '</span>'
             );
+            widget.$label.html(data.label);
             update_links(widget);
         }
     };
