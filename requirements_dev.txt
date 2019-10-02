@@ -1,0 +1,5 @@
+
+
+django==1.11.25
+djangocms-admin-styles==1.4.0
+-e git+https://github.com/rouxcode/django-admin-styles.git@master#egg=django-admin-styles

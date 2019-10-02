@@ -3,7 +3,9 @@
 @import "icons";
 @import "buttons";
 
-@import "inlines/stacked";
+// too much code? let's check
+@import "inlines/upload_inline";
 @import "widgets/files";
 
-@import "djangocms";
+@import "admin_styles";
+@import "djangocms_admin_style";
