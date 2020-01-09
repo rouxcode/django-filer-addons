@@ -52,6 +52,7 @@ class FilerGuiFileWidget(ForeignKeyRawIdWidget):
                 ]
             }
         js = [
+            'admin/js/jquery.init.js',  # deps: django jquery needed!
             'admin/filer_gui/js/dropzone.js',
             'admin/filer_gui/js/widgets.js',
         ]
