@@ -3,7 +3,7 @@ import os
 
 from . import conf  # noqa need the settings
 
-from django.db.models.signals import post_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.core.files.base import File as DjangoFile
 from filer.models import File, Folder
@@ -147,3 +147,29 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
         (and original_filename) programmatically.
         """
         check_rename(instance)
+
+
+@receiver(
+    pre_save,
+    sender='filer.File',
+    dispatch_uid="filer_addons_prevent_duplicates_file",
+)
+@receiver(
+    pre_save,
+    sender='filer.Image',
+    dispatch_uid="filer_addons_prevent_duplicates_image",
+)
+def filer_prevent_rename_orphans(sender, instance, **kwargs):
+    """
+    https://github.com/divio/django-filer/pull/958
+    """
+    if not conf.FILER_ADDONS_REPLACE_FIX:
+        return
+    # Delete old file(s) when updating the file via: admin > advanced > replace file
+    try:
+        from_db = File.objects.get(id=instance.id)
+        if from_db.file != instance.file:
+            from_db.file.delete(save=False)
+    except FileNotFoundError:
+        pass
+    return

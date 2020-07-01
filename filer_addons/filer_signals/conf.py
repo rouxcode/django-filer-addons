@@ -23,6 +23,14 @@ FILER_ADDONS_CONSISTENT_FILENAMES = getattr(
     True
 )
 
+# fix orphaned files when replacing a file
+# https://github.com/divio/django-filer/pull/958
+FILER_ADDONS_REPLACE_FIX = getattr(
+    settings,
+    'FILER_ADDONS_REPLACE_FIX',
+    True
+)
+
 # also move already existing, that are modified
 FILER_ADDONS_UNFILED_HANDLING = getattr(
     settings,
