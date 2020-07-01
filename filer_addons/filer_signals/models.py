@@ -152,12 +152,12 @@ def filer_duplicates_and_rename(sender, instance, **kwargs):
 @receiver(
     pre_save,
     sender='filer.File',
-    dispatch_uid="filer_addons_prevent_duplicates_file",
+    dispatch_uid="filer_addons_prevent_replace_orphans",
 )
 @receiver(
     pre_save,
     sender='filer.Image',
-    dispatch_uid="filer_addons_prevent_duplicates_image",
+    dispatch_uid="filer_addons_prevent_replace_orphans",
 )
 def filer_prevent_rename_orphans(sender, instance, **kwargs):
     """
@@ -170,6 +170,6 @@ def filer_prevent_rename_orphans(sender, instance, **kwargs):
         from_db = File.objects.get(id=instance.id)
         if from_db.file != instance.file:
             from_db.file.delete(save=False)
-    except FileNotFoundError:
+    except:
         pass
     return

@@ -16,7 +16,7 @@ FILER_ADDONS_DUPLICATE_HANDLING = getattr(
     }
 )
 
-# yep, do it
+# yep, do it. nice when replacing files! no need for orphaned files fix!
 FILER_ADDONS_CONSISTENT_FILENAMES = getattr(
     settings,
     'FILER_ADDONS_CONSISTENT_FILENAMES',
@@ -28,7 +28,7 @@ FILER_ADDONS_CONSISTENT_FILENAMES = getattr(
 FILER_ADDONS_REPLACE_FIX = getattr(
     settings,
     'FILER_ADDONS_REPLACE_FIX',
-    True
+    False
 )
 
 # also move already existing, that are modified
