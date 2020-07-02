@@ -26,24 +26,52 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
         duplicates = cls.objects.filter(sha1__in=temp).order_by('uploaded_at')
         duplicates_count = duplicates.distinct().count()
         print("resolving {} duplicates in {}!".format(duplicates_count, cls.__name__))
+        # relation business
+        model_links = [
+            rel.get_accessor_name()
+            for rel in model_get_all_related_objects(file.__class__)
+        ]
+        # state
         done = {}
         for file in duplicates:
             # do we have an original!?
             if file.sha1 in done:
-                # we have an original. go through all related objects for this file.
-                for related in file._meta._related_objects:
-                    # get all of the same model that use this file
-                    kwargs = {
-                        related.field.name: file.id,
-                    }
-                    affected = related.model.objects.filter(**kwargs)
-                    # update them to use the original
-                    kwargs = {
-                        related.field.name: done[file.sha1],
-                    }
-                    affected.update(**kwargs)
-                # DELETE
-                file.delete()
+                objs = []
+                for link in model_links:
+                    relation = getattr(file, link, None)
+                    print(relation)
+                    if getattr(relation, 'all', None):
+                        for usage_obj in relation.all():
+                            print(usage_obj)
+                            # kwargs = {
+                            #     related.field.name: file.id,
+                            # }
+                            # affected = related.model.objects.filter(**kwargs)
+                            # # update them to use the original
+                            # kwargs = {
+                            #     related.field.name: done[file.sha1],
+                            # }
+                            # affected.update(**kwargs)
+                    # DELETE
+                    file.delete()
             else:
                 # first time, keep this file
                 done[file.sha1] = file.id
+
+
+
+
+def model_get_all_related_objects(model):
+    """
+    https://docs.djangoproject.com/en/2.0/ref/models/meta/
+    """
+    if getattr(model._meta, 'get_all_related_objects', None):
+        return model._meta.get_all_related_objects()
+    else:
+        return [
+            f for f in model._meta.get_fields()
+            if (f.one_to_many or f.one_to_one) and
+            f.auto_created and not f.concrete
+        ]
+
+
