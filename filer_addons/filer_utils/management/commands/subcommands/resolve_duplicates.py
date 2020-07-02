@@ -22,7 +22,8 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
         # exit("untested code! exiting!")
         # file dups
         temp = cls.objects.values('sha1').annotate(Count('id')).values('sha1').order_by().filter(id__count__gt=1)
-        duplicates = cls.objects.filter(sha1__in=temp).order_by('-created')
+        # keep the oldes, that is probably longest in search indexes...
+        duplicates = cls.objects.filter(sha1__in=temp).order_by('uploaded_at')
         duplicates_count = duplicates.distinct().count()
         print("resolving {} duplicates in {}!".format(duplicates_count, cls.__name__))
         done = {}
