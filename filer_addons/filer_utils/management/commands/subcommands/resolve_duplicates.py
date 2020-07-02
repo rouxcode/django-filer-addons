@@ -14,8 +14,8 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
     command_name = 'resolve_duplicates'
 
     def handle(self, *args, **options):
-        resolve_for_class(File)
-        resolve_for_class(Image)
+        self.resolve_for_class(File)
+        self.resolve_for_class(Image)
 
     def resolve_for_class(self, cls):
         # exit("untested code! exiting!")
