@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
 from filer.models import File
