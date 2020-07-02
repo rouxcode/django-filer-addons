@@ -30,6 +30,7 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
             rel.get_accessor_name()
             for rel in model_get_all_related_objects(cls)
         ]
+        print(model_links)
         # state
         done = {}
         count = 0
@@ -41,7 +42,11 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
                     relation = getattr(file, link, None)
                     if getattr(relation, 'all', None):
                         for usage_obj in relation.all():
-                            setattr(usage_obj, '%s_id' % relation.field.name, done[file.sha1])
+                            # print(relation.field.name)
+                            # print(usage_obj)
+                            # print(usage_obj.__class__)
+                            # print(usage_obj.id)
+                            setattr(usage_obj, relation.field.name, cls.objects.get(id=done[file.sha1]))
                             usage_obj.save()
                 # DELETE
                 print("delete {}".format(file.path))
