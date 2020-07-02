@@ -16,14 +16,14 @@ FILER_ADDONS_DUPLICATE_HANDLING = getattr(
     }
 )
 
-# yep, do it. nice when replacing files! no need for orphaned files fix!
+# this will keep the original name!
 FILER_ADDONS_CONSISTENT_FILENAMES = getattr(
     settings,
     'FILER_ADDONS_CONSISTENT_FILENAMES',
     True
 )
 
-# fix orphaned files when replacing a file
+# fix orphaned files when replacing a file, eg delete them
 # https://github.com/divio/django-filer/pull/958
 FILER_ADDONS_REPLACE_FIX = getattr(
     settings,

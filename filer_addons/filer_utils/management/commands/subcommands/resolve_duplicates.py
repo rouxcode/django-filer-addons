@@ -24,41 +24,33 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
         temp = cls.objects.values('sha1').annotate(Count('id')).values('sha1').order_by().filter(id__count__gt=1)
         # keep the oldes, that is probably longest in search indexes...
         duplicates = cls.objects.filter(sha1__in=temp).order_by('uploaded_at')
-        duplicates_count = duplicates.distinct().count()
-        print("resolving {} duplicates in {}!".format(duplicates_count, cls.__name__))
+        print("resolving duplicates in {}!".format(cls.__name__))
         # relation business
         model_links = [
             rel.get_accessor_name()
-            for rel in model_get_all_related_objects(file.__class__)
+            for rel in model_get_all_related_objects(cls)
         ]
         # state
         done = {}
+        count = 0
         for file in duplicates:
             # do we have an original!?
             if file.sha1 in done:
                 objs = []
                 for link in model_links:
                     relation = getattr(file, link, None)
-                    print(relation)
                     if getattr(relation, 'all', None):
                         for usage_obj in relation.all():
-                            print(usage_obj)
-                            # kwargs = {
-                            #     related.field.name: file.id,
-                            # }
-                            # affected = related.model.objects.filter(**kwargs)
-                            # # update them to use the original
-                            # kwargs = {
-                            #     related.field.name: done[file.sha1],
-                            # }
-                            # affected.update(**kwargs)
-                    # DELETE
-                    file.delete()
+                            setattr(usage_obj, '%s_id' % relation.field.name, done[file.sha1])
+                            usage_obj.save()
+                # DELETE
+                print("delete {}".format(file.path))
+                file.delete()
+                count += 1
             else:
                 # first time, keep this file
                 done[file.sha1] = file.id
-
-
+        print("resolved {} duplicates in {}!".format(count, cls.__name__))
 
 
 def model_get_all_related_objects(model):
