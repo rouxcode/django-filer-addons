@@ -31,11 +31,7 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
             # do we have an original!?
             if file.sha1 in done:
                 # we have an original. go through all related objects for this file.
-                try:
-                    file._meta._related_objects_cache
-                except AttributeError:
-                    file._meta._fill_related_objects_cache()
-                for related in file._meta._related_objects_cache:
+                for related in file._meta._related_objects:
                     # get all of the same model that use this file
                     kwargs = {
                         related.field.name: file.id,
