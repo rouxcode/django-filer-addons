@@ -72,14 +72,16 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'django.contrib.messages',
+    # 'filer_addons',
+    'filer_addons.filer_gui',
+    'filer_addons.filer_gui.change_list',
+    'filer_addons.filer_utils',
+    'filer_addons.tests.testapp',
+    # those
     'easy_thumbnails',
     'filer',
     'mptt',
     'polymorphic',
-    # 'filer_addons',
-    'filer_addons.filer_gui',
-    'filer_addons.filer_utils',
-    'filer_addons.tests.testapp',
 ]
 
 MIDDLEWARE = (
