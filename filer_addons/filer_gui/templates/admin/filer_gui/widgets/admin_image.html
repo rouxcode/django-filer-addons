@@ -1,5 +1,5 @@
 {% extends 'admin/filer_gui/widgets/admin_file.html' %}
-{% load i18n filer_admin_tags staticfiles thumbnail %}
+{% load i18n filer_admin_tags static thumbnail %}
 {% block preview %}
     {% if file_object %}
         {% if file_object.file_type == 'Image' and file_object.icons.32 %}
