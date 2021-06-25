@@ -194,7 +194,7 @@ var FilerGuiWidgets = (function($){
 
     function lookup(e) {
         e.preventDefault();
-
+        alert();
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         is_lookup_original = false;
 
@@ -227,7 +227,7 @@ var FilerGuiWidgets = (function($){
         var win = window.open(
             href,
             name,
-            'height=600,width=900,resizable=yes,scrollbars=yes'
+            'height=800,width=1100,resizable=yes,scrollbars=yes'
         );
         win.focus();
 
@@ -237,7 +237,11 @@ var FilerGuiWidgets = (function($){
         function dissmiss_related_window(e) {
             if(e.target.URL !== 'about:blank') {
                 win.close();
-                var id = window.windowname_to_id(win.name);
+                // window.windowname_to_id was removed in django 3.1 (IE support removed)
+                // https://code.djangoproject.com/ticket/32063
+                // works without, hopefully!
+                // var id = window.windowname_to_id(win.name);
+                var id = win.name;
                 var widget = widget_map[id];
                 if(widget) {
                     widget.$.trigger(events.edit_end);
@@ -248,12 +252,13 @@ var FilerGuiWidgets = (function($){
     };
 
     function dissmiss_lookup_window(win, obj_id, thumb_url, file_name) {
-
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         if( is_lookup_original === true ) {
             dismiss_lookup_original(win, obj_id, thumb_url, file_name);
         } else {
-            var id = window.windowname_to_id(win.name);
+            // window.windowname_to_id was removed in django 3.1
+            // see some lines above for more infos
+            var id = win.name;
             var widget = widget_map[id];
 
             win.close();
@@ -264,7 +269,6 @@ var FilerGuiWidgets = (function($){
                 update_widget(widget, obj_id);
             }
         }
-
     };
 
     function update_widget(widget, file_id) {
