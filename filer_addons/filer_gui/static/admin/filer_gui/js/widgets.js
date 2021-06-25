@@ -194,7 +194,7 @@ var FilerGuiWidgets = (function($){
 
     function lookup(e) {
         e.preventDefault();
-        alert();
+        
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         is_lookup_original = false;
 
