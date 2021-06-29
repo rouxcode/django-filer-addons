@@ -37,12 +37,13 @@ def add_builtin_arguments(parser):
         help='Raise on CommandError exceptions')
     parser.add_argument('--no-color', action='store_true', dest='no_color', default=False,
         help="Don't colorize the command output.")
-    if DJANGO_2_2 or DJANGO_3_0:
-        parser.add_argument('--force-color', action='store_true', dest='force_color', default=False,
-            help="Colorize the command output.")
-    if DJANGO_3_0:
+    # if DJANGO_2_2 or DJANGO_3_0:
+    parser.add_argument('--force-color', action='store_true', dest='force_color', default=False,
+        help="Colorize the command output.")
+    if not DJANGO_2_2:
         parser.add_argument('--skip-checks', action='store_true', dest='skip_checks', default=False,
             help="Skip the checks.")
+
 
 
 class SubcommandsCommand(BaseCommand):
