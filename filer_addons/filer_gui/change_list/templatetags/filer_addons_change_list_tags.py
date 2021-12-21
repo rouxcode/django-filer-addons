@@ -17,4 +17,4 @@ def filer_addons_change_list_thumb(obj, ):
             return thumbnailer.get_thumbnail(thumbnail_options).url
         except (InvalidImageFormatError, FileNotFoundError) as e:
             pass
-    return obj.icons.get('48', '')
+    return '/static/filer/icons/file-unknown.svg'
