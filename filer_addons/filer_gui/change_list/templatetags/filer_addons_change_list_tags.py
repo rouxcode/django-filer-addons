@@ -1,4 +1,5 @@
 from django import template
+from easy_thumbnails.exceptions import InvalidImageFormatError
 from easy_thumbnails.files import get_thumbnailer
 from filer.models import Image
 
