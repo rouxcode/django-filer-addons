@@ -1,5 +1,7 @@
 {% spaceless %}
-{% load i18n filer_admin_tags static thumbnail %}
+{% load i18n filer_admin_tags static thumbnail filer_gui_tags %}
+
+
 <div class="filer-gui-file-widget"
         data-file-type="{{ file_type }}"
         data-file-detail-url="{% url 'admin:file_detail_json_for_id' %}"
@@ -15,7 +17,7 @@
             {% block preview %}
                 {% if file_object %}
                     {% if file_object.icons.32 %}
-                        <img class="icon-img" src="{{ file_object.icons.48 }}" alt="{{ file_object.label }}">
+                        <img class="icon-img" src="{{ file_object.icons.32 }}" onerror="this.src=''" alt="{{ file_object.label }}">
                     {% else %}
                         <span class="missing-file">{% trans 'File is missing' %}</span>
                     {% endif %}

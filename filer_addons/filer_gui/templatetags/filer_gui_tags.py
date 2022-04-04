@@ -14,7 +14,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=False)
-def filer_addons_change_list_thumb(obj, ):
+def filer_addons_file_thumb(obj, context='change_list'):
     if isinstance(obj, Image):
         thumbnailer = get_thumbnailer(obj.file)
         thumbnail_options = {'size': conf.CHANGE_LIST_THUMB_SIZE}
@@ -22,4 +22,6 @@ def filer_addons_change_list_thumb(obj, ):
             return thumbnailer.get_thumbnail(thumbnail_options).url
         except (InvalidImageFormatError, FileNotFoundError) as e:
             pass
+    if obj.file.path.endswith('.pdf'):
+        return '/static/filer/icons/file-pdf.svg'
     return '/static/filer/icons/file-unknown.svg'

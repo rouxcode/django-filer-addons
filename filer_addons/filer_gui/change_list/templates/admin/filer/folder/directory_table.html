@@ -1,5 +1,7 @@
 {% load i18n l10n admin_list filer_tags filer_admin_tags static %}
-{% load filer_addons_change_list_tags %}
+{% load filer_gui_tags %}
+
+
 <div class="drag-hover-border"></div>
 <section class="navigator{% if is_popup %} navigator-popup{% endif %}">
     <table class="js-filer-dropzone js-filer-dropzone-base navigator-table" id="result_list" data-url="{% if folder.id %}{% url 'admin:filer-ajax_upload' folder_id=folder.id %}{% else %}{% url 'admin:filer-ajax_upload' %}{% endif %}" data-folder-name="{% if folder.is_root %}{% trans 'Unsorted Uploads' %}{% else %}{{ folder.name }}{% endif %}" data-max-uploader-connections="{{ uploader_connections }}" data-max-file-size="20">
@@ -87,7 +89,7 @@
                 {% else %}
                     {% with item as file %}
                         {% filer_has_permission item 'edit' as has_change_permission %}
-                        {% filer_addons_change_list_thumb file as icon %}
+                        {% filer_gui_file_thumb file as icon %}
                         <tr>
                             <td class="column-checkbox">
                                 {% if is_popup and filer_admin_context.pick_file %}
