@@ -13,7 +13,7 @@ DATABASES = {
 
 SITE_ID = 1
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 ROOT_URLCONF = 'filer_addons.tests.testapp.urls'
 
 SECRET_KEY = 'secret'
