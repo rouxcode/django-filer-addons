@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 import os
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from . import conf  # noqa need the settings
 
 from django.db.models.signals import pre_save, post_save
@@ -165,11 +167,12 @@ def filer_prevent_rename_orphans(sender, instance, **kwargs):
     """
     if not conf.FILER_ADDONS_REPLACE_FIX:
         return
-    # Delete old file(s) when updating the file via: admin > advanced > replace file
+    # Delete old file(s) when updating the file via:
+    # admin > advanced > replace file
     try:
         from_db = File.objects.get(id=instance.id)
         if from_db.file != instance.file:
             from_db.file.delete(save=False)
-    except:
+    except ObjectDoesNotExist:
         pass
     return

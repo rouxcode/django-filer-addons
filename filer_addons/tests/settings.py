@@ -13,6 +13,7 @@ DATABASES = {
 
 SITE_ID = 1
 
+
 ROOT_URLCONF = 'filer_addons.tests.testapp.urls'
 
 SECRET_KEY = 'secret'

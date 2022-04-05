@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase, override_settings, modify_settings
-from filer.tests import create_superuser
 from filer.models import File, Folder
 
-from filer_addons.tests.utils import create_django_file
+from filer_addons.tests.utils import create_django_file, create_superuser
 from filer_addons.filer_signals import conf as signals_conf
 
 try:

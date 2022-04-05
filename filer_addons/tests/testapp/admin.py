@@ -1,14 +1,12 @@
-from __future__ import unicode_literals
-
-from django import forms
 from django.contrib import admin
 
-from .models import (
-    FilerNewImageInlineModel, FilerNewFileInlineModel, FilerNewFieldTest, FilerOriginalFieldTest,
-    FilerOriginalFileInlineModel, FilerOriginalImageInlineModel)
 from filer_addons.filer_gui.admin.upload_inline import (
     UploadInlineMixin,
 )
+from .models import (
+    FilerNewImageInlineModel, FilerNewFileInlineModel, FilerNewFieldTest,
+    FilerOriginalFieldTest,
+    FilerOriginalFileInlineModel, FilerOriginalImageInlineModel)
 
 
 class MultiUploadStackedInline(
@@ -48,14 +46,15 @@ class NewMultiUploadTabularInline(
 
 
 @admin.register(FilerOriginalFieldTest)
-class FilerTestAdmin(admin.ModelAdmin):
+class FilerOriginalFieldTestAdmin(admin.ModelAdmin):
     inlines = [
         MultiUploadStackedInline,
         MultiUploadTabularInline,
     ]
 
+
 @admin.register(FilerNewFieldTest)
-class FilerTestAdmin(admin.ModelAdmin):
+class FilerNewFieldTestAdmin(admin.ModelAdmin):
     inlines = [
         NewMultiUploadStackedInline,
         NewMultiUploadTabularInline,

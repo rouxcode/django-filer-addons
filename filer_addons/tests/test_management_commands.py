@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 from django.test import TestCase
-from filer.tests import create_superuser
 from filer.models import File, Folder
 
-from filer_addons.tests.utils import create_django_file
+from filer_addons.tests.utils import create_django_file, create_superuser
 
 
 class ManagementCommandsTests(TestCase):
@@ -55,8 +53,8 @@ class ManagementCommandsTests(TestCase):
         #     call_command('filer_addons', 'delete_thumbnails', )
         # else:
         #     call_command('filer_addons' )
-            # from filer_addons.filer_utils.management.commands import delete_thumbnails
-            # call_command(delete_thumbnails.Command(), )
+        #     from filer_addons.filer_utils.management.commands import delete_thumbnails  # noqa
+        #     call_command(delete_thumbnails.Command(), )
         # check for thumb dir not existing
 
     def test_unused_files_command(selfs):

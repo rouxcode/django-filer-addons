@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import django
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
@@ -8,7 +7,6 @@ if django.VERSION[:2] < (1, 10):
     from django.core.urlresolvers import reverse
 else:
     from django.urls import reverse
-
 
 
 class MultiuploadTests(TestCase):

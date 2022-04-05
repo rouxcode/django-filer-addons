@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
-import subprocess
-
 from django.utils.translation import ugettext_lazy as _
-
 from filer.models import File, Image, Folder
 
 from .base import SubcommandsCommand
@@ -29,7 +23,7 @@ class StatsCommand(SubcommandsCommand):
         self.stdout.write("Computing duplicates...pls wait...")
         duplicates = []
         for file in File.objects.all():
-            if not file.id in duplicates:
+            if file.id not in duplicates:
                 if file.duplicates:
                     for dup in file.duplicates:
                         duplicates.append(dup.id)
