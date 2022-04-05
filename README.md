@@ -1,7 +1,7 @@
 # django-filer-addons
 
 
-[![CI](https://github.com/bnzk/django-filer-aaddons/actions/workflows/ci.yml/badge.svg)](https://github.com/bnzk/django-filer-addons/actions/workflows/ci.yml)
+[![CI](https://github.com/rouxcode/django-filer-aaddons/actions/workflows/ci.yml/badge.svg)](https://github.com/rouxcode/django-filer-addons/actions/workflows/ci.yml)
 
 [//]: # ([![PyPi Version]&#40;https://img.shields.io/pypi/v/django-filer-addons.svg "PyPi Version"&#41;]&#40;https://pypi.python.org/pypi/django-filer-addons/&#41;)
 
