@@ -16,8 +16,9 @@
         <div class="widget-column preview">
             {% block preview %}
                 {% if file_object %}
+                    {% filer_gui_file_thumb file as icon %}
                     {% if file_object.icons.32 %}
-                        <img class="icon-img" src="{{ file_object.icons.32 }}" onerror="this.src=''" alt="{{ file_object.label }}">
+                        <img class="icon-img" src="{{ icon }}" onerror="if (!this.src=='{{ file_object.icons.48 }}') { this.src='{{ file_object.icons.48 }}' }}" alt="{{ file_object.label }}">
                     {% else %}
                         <span class="missing-file">{% trans 'File is missing' %}</span>
                     {% endif %}

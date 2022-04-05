@@ -1,12 +1,16 @@
 {% extends 'admin/filer_gui/widgets/admin_file.html' %}
 {% load i18n filer_admin_tags static thumbnail %}
+{% load filer_gui_tags %}
+
+
 {% block preview %}
     {% if file_object %}
         {% if file_object.file_type == 'Image' and file_object.icons.32 %}
             {% thumbnail file_object 192x144 as thumb %}
             <img class="thumbnail-img" src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
         {% elif file_object.icons.32 %}
-            <img class="icon-img" src="{{ file_object.icons.48 }}" alt="{{ file_object.label }}">
+            {% filer_gui_file_thumb file as icon %}
+            <img class="icon-img" src="{{ icon }}" onerror="if (!this.src=='{{ file_object.icons.48 }}') { this.src='{{ file_object.icons.48 }}' }}" alt="{{ file_object.label }}">
         {% else %}
             <span class="missing-file">{% trans 'File is missing' %}</span>
         {% endif %}

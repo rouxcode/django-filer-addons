@@ -223,7 +223,11 @@ var FilerGuiWidgets = (function($){
 
     function show_edit_popup(link) {
         var href = link.href;
-        var name = id_to_windowname(link.id.replace(/^edit_/, ''));
+        // window.id_to_windowname was removed in django 3.1 (IE support removed)
+        // https://code.djangoproject.com/ticket/32063
+        // works without, hopefully!
+        // var name = id_to_windowname(link.id.replace(/^edit_/, ''));
+        var name = link.id.replace(/^edit_/, '');
         var win = window.open(
             href,
             name,
