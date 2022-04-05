@@ -18,10 +18,12 @@ def filer_gui_file_thumb(obj, context='change_list'):
     if isinstance(obj, Image):
         thumbnailer = get_thumbnailer(obj.file)
         thumbnail_options = {'size': conf.CHANGE_LIST_THUMB_SIZE}
+        if context == 'field':
+            thumbnail_options = {'size': conf.FIELD_THUMB_SIZE}
         try:
             return thumbnailer.get_thumbnail(thumbnail_options).url
         except (InvalidImageFormatError, FileNotFoundError) as e:
             pass
-    if obj.file and obj.file.path.endswith('.pdf'):
-        return '/static/filer/icons/file-pdf.svg'
+        if obj.file and obj.file.path.endswith('.pdf'):
+            return '/static/filer/icons/file-pdf.svg'
     return '/static/filer/icons/file-unknown.svg'
