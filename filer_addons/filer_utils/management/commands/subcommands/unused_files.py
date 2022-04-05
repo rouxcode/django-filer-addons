@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
-from django.core.management.base import CommandError
 from django.utils.encoding import force_text
 from filer.models import File, Folder, Image
 
@@ -9,8 +5,10 @@ from .base import SubcommandsCommand
 
 
 class UnusedFilesCommand(SubcommandsCommand):
-    help_string = 'Delete files that have are not used in any filer field. WARNING: Specifying' \
-                  '\'+\' as related name disables reverse lookup, and will not catch up here!'
+    help_string = 'Delete files that have are not used in any filer field.' \
+                  'WARNING: Specifying' \
+                  '\'+\' as related name disables reverse lookup,' \
+                  'and will not catch up here!'
     command_name = 'unused_files'
 
     def add_arguments(self, parser):
@@ -46,7 +44,9 @@ class UnusedFilesCommand(SubcommandsCommand):
     def unused_for_file_type(self, model_cls, **options):
         filter_kwargs = {}
         for f in model_cls._meta.get_fields():
-            if (f.one_to_many or f.one_to_one) and f.auto_created and not f.concrete:
+            if (
+                f.one_to_many or f.one_to_one
+            ) and f.auto_created and not f.concrete:
                 if f.related_name:
                     filter_kwargs[f.related_name] = None
                 else:
@@ -59,7 +59,8 @@ class UnusedFilesCommand(SubcommandsCommand):
             try:
                 folder = Folder.objects.get(pk=folder_id)
             except Folder.DoesNotExist:
-                raise ValueError('Folder with id {} not found!'.format(folder_id))
+                raise ValueError(
+                    'Folder with id {} not found!'.format(folder_id))
             descendants = folder.get_descendants(include_self=True)
             filter_kwargs['folder__in'] = descendants
         unused = model_cls.objects.filter(**filter_kwargs)
@@ -69,4 +70,5 @@ class UnusedFilesCommand(SubcommandsCommand):
                 self.stdout.write(force_text(file))
             if options['delete']:
                 file.delete()
-        self.stdout.write("%s unused %s found." % (str(amount), model_cls.__name__))
+        self.stdout.write(
+            "%s unused %s found." % (str(amount), model_cls.__name__))

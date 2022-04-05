@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-import os, time
+import os
 
 from django.test import TestCase, override_settings, modify_settings
-from filer.tests import create_superuser
 from filer.models import File, Folder
 
-from filer_addons.tests.utils import create_django_file
+from filer_addons.tests.utils import create_django_file, create_superuser
 from filer_addons.filer_signals import conf as signals_conf
-from .test_signals_duplicates import DUPLICATE_HANDLING_DISABLED
+# from .test_signals_duplicates import DUPLICATE_HANDLING_DISABLED
 
 try:
     reload

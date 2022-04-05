@@ -1,9 +1,11 @@
-# django-filer-addons-addons
+# django-filer-addons
 
 
-[![Build Status](https://travis-ci.org/rouxcode/django-filer-addons.svg "Build Status")](https://travis-ci.org/rouxcode/django-filer-addons/)
-[![PyPi Version](https://img.shields.io/pypi/v/django-filer-addons.svg "PyPi Version")](https://pypi.python.org/pypi/django-filer-addons/)
-[![Licence](https://img.shields.io/pypi/l/django-filer-addons.svg "Licence")](https://pypi.python.org/pypi/django-filer-addons/)
+[![CI](https://github.com/rouxcode/django-filer-addons/actions/workflows/ci.yml/badge.svg)](https://github.com/rouxcode/django-filer-addons/actions/workflows/ci.yml)
+
+[//]: # ([![PyPi Version]&#40;https://img.shields.io/pypi/v/django-filer-addons.svg "PyPi Version"&#41;]&#40;https://pypi.python.org/pypi/django-filer-addons/&#41;)
+
+[//]: # ([![Licence]&#40;https://img.shields.io/pypi/l/django-filer-addons.svg "Licence"&#41;]&#40;https://pypi.python.org/pypi/django-filer-addons/&#41;)
 
 various django-filer enhancements / bugfixes. Fair warning: parts of this package might not be
 best practiced or very efficient (that said, can cause performance issues!), but are implemented

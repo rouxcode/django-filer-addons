@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
 import os
 
 from collections import OrderedDict
@@ -7,7 +5,7 @@ from collections import OrderedDict
 from django.core.management.base import BaseCommand, CommandParser
 from django.core.management.color import no_style
 
-from filer_addons.compat import DJANGO_2_0, DJANGO_2_2, DJANGO_3_0
+from filer_addons.compat import DJANGO_2_0, DJANGO_2_2
 
 
 def add_builtin_arguments(parser):
@@ -21,29 +19,34 @@ def add_builtin_arguments(parser):
 
     # These are taking "as-is" from Django's management base
     # management command.
-    parser.add_argument('-v', '--verbosity', action='store', dest='verbosity', default='1',
-        type=int, choices=[0, 1, 2, 3],
-        help='Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output')
+    parser.add_argument('-v', '--verbosity', action='store', dest='verbosity',
+                        default='1',
+                        type=int, choices=[0, 1, 2, 3],
+                        help='Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output')  # noqa
     parser.add_argument('--settings',
-        help=(
-            'The Python path to a settings module, e.g. '
-            '"myproject.settings.main". If this isn\'t provided, the '
-            'DJANGO_SETTINGS_MODULE environment variable will be used.'
-        ),
-    )
+                        help=(
+                            'The Python path to a settings module, e.g. '
+                            '"myproject.settings.main". '
+                            'If this isn\'t provided, the '
+                            'DJANGO_SETTINGS_MODULE environment variable'
+                            ' will be used.'
+                        ),
+                        )
     parser.add_argument('--pythonpath',
-        help='A directory to add to the Python path, e.g. "/home/djangoprojects/myproject".')
+                        help='A directory to add to the Python path, e.g. "/home/djangoprojects/myproject".')  # noqa
     parser.add_argument('--traceback', action='store_true',
-        help='Raise on CommandError exceptions')
-    parser.add_argument('--no-color', action='store_true', dest='no_color', default=False,
-        help="Don't colorize the command output.")
+                        help='Raise on CommandError exceptions')
+    parser.add_argument('--no-color', action='store_true', dest='no_color',
+                        default=False,
+                        help="Don't colorize the command output.")
     # if DJANGO_2_2 or DJANGO_3_0:
-    parser.add_argument('--force-color', action='store_true', dest='force_color', default=False,
-        help="Colorize the command output.")
+    parser.add_argument('--force-color', action='store_true',
+                        dest='force_color', default=False,
+                        help="Colorize the command output.")
     if not DJANGO_2_2:
-        parser.add_argument('--skip-checks', action='store_true', dest='skip_checks', default=False,
-            help="Skip the checks.")
-
+        parser.add_argument('--skip-checks', action='store_true',
+                            dest='skip_checks', default=False,
+                            help="Skip the checks.")
 
 
 class SubcommandsCommand(BaseCommand):

@@ -1,5 +1,6 @@
 
-
-django==1.11.29
-djangocms-admin-style==1.4.0
+# version we'll make migrations and stuff against
+django<3
+# djangocms-admin-style==1.4.0
+djangocms-admin-style
 -e git+https://github.com/rouxcode/django-admin-styles.git@release#egg=django-admin-styles
