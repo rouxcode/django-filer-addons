@@ -1,6 +1,8 @@
 from django import template
+from easy_thumbnails.engine import NoSourceGenerator
 from easy_thumbnails.exceptions import InvalidImageFormatError
 from easy_thumbnails.files import get_thumbnailer
+# TODO: remove this again, as the NoSourceGenerator exception is now handled?
 # support very big images
 # https://stackoverflow.com/questions/51152059/pillow-in-python-wont-let-me-open-image-exceeds-limit
 import PIL.Image
@@ -23,7 +25,7 @@ def filer_gui_file_thumb(obj, context='change_list'):
             thumbnail_options = {'size': conf.FIELD_THUMB_SIZE}
         try:
             return thumbnailer.get_thumbnail(thumbnail_options).url
-        except (InvalidImageFormatError, FileNotFoundError):
+        except (InvalidImageFormatError, NoSourceGenerator, FileNotFoundError):
             pass
         if obj.file and obj.file.path.endswith('.pdf'):
             return '/static/filer/icons/file-pdf.svg'
