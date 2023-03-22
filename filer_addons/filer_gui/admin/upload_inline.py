@@ -9,7 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.forms import widgets
 from django.utils.encoding import force_text
 from django.utils.html import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from filer.fields.image import (
     FilerFileField as OriginalFilerFileField,
