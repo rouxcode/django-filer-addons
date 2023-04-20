@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [3.7, 3.8, 3.9]
+        python: [3.8, 3.9, "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python ${{ matrix.python }}
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [3.9]
+        python: ["3.11"]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python ${{ matrix.python }}
@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install flake8
-        run: pip install flake8
+        run: pip install flake8 flake8-print
       - name: Run flake8
         # Run tox using the version of Python in `PATH`
         # run: tox -e py${{ matrix.python }}-${{ matrix.django }}

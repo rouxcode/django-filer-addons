@@ -28,13 +28,13 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
             'sha1').order_by().filter(id__count__gt=1)
         # keep the oldes, that is probably longest in search indexes...
         duplicates = cls.objects.filter(sha1__in=temp).order_by('uploaded_at')
-        print("resolving duplicates in {}!".format(cls.__name__))
+        self.stdout.write("resolving duplicates in {}!".format(cls.__name__))
         # relation business
         model_links = [
             rel.get_accessor_name()
             for rel in model_get_all_related_objects(cls)
         ]
-        print(model_links)
+        self.stdout.write(model_links)
         # state
         done = {}
         count = 0
@@ -45,21 +45,21 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
                     relation = getattr(file, link, None)
                     if getattr(relation, 'all', None):
                         for usage_obj in relation.all():
-                            # print(relation.field.name)
-                            # print(usage_obj)
-                            # print(usage_obj.__class__)
-                            # print(usage_obj.id)
+                            # self.stdout.write(relation.field.name)
+                            # self.stdout.write(usage_obj)
+                            # self.stdout.write(usage_obj.__class__)
+                            # self.stdout.write(usage_obj.id)
                             setattr(usage_obj, relation.field.name,
                                     cls.objects.get(id=done[file.sha1]))
                             usage_obj.save()
                 # DELETE
-                print("delete {}".format(file.path))
+                self.stdout.write("delete {}".format(file.path))
                 file.delete()
                 count += 1
             else:
                 # first time, keep this file
                 done[file.sha1] = file.id
-        print("resolved {} duplicates in {}!".format(count, cls.__name__))
+        self.stdout.write("resolved {} duplicates in {}!".format(count, cls.__name__))
 
 
 def model_get_all_related_objects(model):

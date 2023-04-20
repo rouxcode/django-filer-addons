@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from filer.models import File, Folder, Image
 
 from .base import SubcommandsCommand
@@ -67,7 +67,7 @@ class UnusedFilesCommand(SubcommandsCommand):
         amount = unused.count()
         for file in unused:
             if options['verbose']:
-                self.stdout.write(force_text(file))
+                self.stdout.write(force_str(file))
             if options['delete']:
                 file.delete()
         self.stdout.write(

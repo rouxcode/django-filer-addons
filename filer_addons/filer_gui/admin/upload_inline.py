@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ImproperlyConfigured
 from django.forms import widgets
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -81,7 +81,7 @@ class UploadInlineMixin(object):
             'file_field': self.get_file_field(),
             'file_type': self.get_file_type(),
             'messages': {
-                'generic_upload_error': force_text(_('Upload error')),
+                'generic_upload_error': force_str(_('Upload error')),
             },
         }
         data_fields = '{} data-uploadinline=\'{}\''.format(

@@ -1,6 +1,6 @@
 import django
 from django import forms
-from django.conf.urls import url
+from django.urls import re_path
 from django.contrib import admin
 # from django.core.urlresolvers import reverse
 from django.http.response import JsonResponse
@@ -74,12 +74,12 @@ class FilerGuiAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         urls = [
-            url(
+            re_path(
                 r'^file-detail-json/$',
                 self.admin_site.admin_view(self.file_detail_json_view),
                 name='file_detail_json_for_id'
             ),
-            url(
+            re_path(
                 r'^file-upload/$',
                 self.admin_site.admin_view(self.file_upload_view),
                 name='file_upload'

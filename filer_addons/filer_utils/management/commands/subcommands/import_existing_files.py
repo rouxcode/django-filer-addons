@@ -36,7 +36,7 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         )
 
     def handle(self, *args, **options):
-        print(File.objects.count())
+        self.stdout.write(File.objects.count())
         if not options.get('force', False) and File.objects.count():
             raise Exception('Must use --force, you have existing files in db!')
 
@@ -45,7 +45,7 @@ class ImportExistingFilesCommand(SubcommandsCommand):
         self.prefix_public = filer_settings.FILER_STORAGES['public']['main']['UPLOAD_TO_PREFIX']  # noqa
 
         def walk(absdir, reldir, db_folder):
-            print("walk %s" % db_folder)
+            self.stdout.write("walk %s" % db_folder)
             storage = self.storage_public
             child_dirs, files = storage.listdir(absdir)
             for filename in files:
