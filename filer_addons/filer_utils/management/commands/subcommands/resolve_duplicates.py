@@ -59,7 +59,9 @@ class ResolveDuplicatesCommand(SubcommandsCommand):
             else:
                 # first time, keep this file
                 done[file.sha1] = file.id
-        self.stdout.write("resolved {} duplicates in {}!".format(count, cls.__name__))
+        self.stdout.write(
+            "resolved {} duplicates in {}!".format(count, cls.__name__)
+        )
 
 
 def model_get_all_related_objects(model):
