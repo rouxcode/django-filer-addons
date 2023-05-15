@@ -31,6 +31,7 @@ var FilerGuiWidgets = (function($){
 
     // Ugly hack to be sure to have a filer-gui lookup dismiss
     var is_lookup_original = true;
+    // var dismiss_lookup_original = window.dismissRelatedImageLookupPopup;
     var dismiss_lookup_original = window.dismissRelatedImageLookupPopup;
 
     window.dismissRelatedImageLookupPopup = dissmiss_lookup_window;
@@ -197,7 +198,6 @@ var FilerGuiWidgets = (function($){
         
         // Ugly hack to be sure to have a filer-gui lookup dismiss
         is_lookup_original = false;
-
         // if no _widget init the widget
         if(!this._widget) {
             // Ugly hack, we need a better way to init an inline add
@@ -239,6 +239,7 @@ var FilerGuiWidgets = (function($){
         win.onunload = dissmiss_related_window;
 
         function dissmiss_related_window(e) {
+            console.log("dissmisssss");
             if(e.target.URL !== 'about:blank') {
                 win.close();
                 // window.windowname_to_id was removed in django 3.1 (IE support removed)
@@ -263,6 +264,7 @@ var FilerGuiWidgets = (function($){
             // window.windowname_to_id was removed in django 3.1
             // see some lines above for more infos
             var id = win.name;
+            id = id.split('__')[0];  // django 4 introduces multiple lookup windows, id__number, we need the id.
             var widget = widget_map[id];
 
             win.close();
