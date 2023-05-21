@@ -91,6 +91,11 @@ var InlineUpload = (function($){
             }
 
             function row_added(event, $row, name) {
+                if (!$row) {
+                    // how django 4+ structures the formset:added event/callback (no more $row!?)
+                    // we need the row to get the correct widget
+                    $row = $(event.target);
+                }
                 var $widget = $('.filer-gui-file-widget', $row)
                 var widget = $widget[0];
                 if(!widget.$) {
