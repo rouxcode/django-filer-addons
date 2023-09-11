@@ -8,6 +8,7 @@ IMAGE_EXT = [
     '.jpeg',
     '.png',
     '.gif',
+    '.svg',
 ]
 
 

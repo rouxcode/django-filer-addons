@@ -1,7 +1,13 @@
 
 ==== (ongoing) ===
 
-- ...
+- motivate django-filer team to incoroporate some of our ideas ;-)
+
+
+==== 0.1.0 ===
+
+- support django-filer with svg support (create uploaded images as Image)
+- many things since 0.0.1
 
 
 ==== 0.0.1 ===
