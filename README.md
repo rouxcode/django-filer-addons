@@ -19,11 +19,23 @@ Features
 This package provides sub applications, that can be installed individually, to only selecte the
 needed features.
 
-- `filer_addons.filer_gui` - an improved filer file and filer image field, a multiupload inline.
-- `filer_addons.filer_signals` - can help avoid duplicates, will rename files on the filesystem if
-  said to do so, and can put unfiled files in a default folder, to prevent permission issues.
-- `filer_addons.filer_utils` - various helpers: for now, generate folder/filenames for uploaded
-  files (without folder/8-char simple uuid4/use db folder/year/year-month)
+## `filer_addons.filer_gui`
+an improved/oppiniated filer file and filer image field, a multiupload inline.
+
+![filer fields](docs/img/filer_field.png)
+
+## `filer_addons.filer_gui.change_list`
+an improved/oppiniated filer change list, that contains uncropped, bigger thumbnails
+
+![filer fields](docs/img/filer_change_list.png)
+
+## `filer_addons.filer_signals`
+can help avoid duplicates, will rename files on the filesystem if
+said to do so, and can put unfiled files in a default folder, to prevent permission issues.
+
+## `filer_addons.filer_utils`
+various helpers: for now, generate folder/filenames for uploaded
+files (without folder/8-char simple uuid4/use db folder/year/year-month)
 
 Install
 -------
